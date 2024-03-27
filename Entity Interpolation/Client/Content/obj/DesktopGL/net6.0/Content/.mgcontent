@@ -4,10 +4,42 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/mhank/Downloads/Multiplayer/Multiplayer/Entity Interpolation/Client/Content/Textures/playerShip1_blue.png</File>
-    <File>C:/Users/mhank/Downloads/Multiplayer/Multiplayer/Entity Interpolation/Client/Content/Textures/playerShip1_red.png</File>
+    <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/../../../../LunarLander/LunarLander/Content/Fonts/mainmenuTitle.spritefont</File>
+    <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/../../../../LunarLander/LunarLander/Content/Fonts/menu-selected.spritefont</File>
+    <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/../../../../LunarLander/LunarLander/Content/Fonts/menu.spritefont</File>
+    <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/../../../../LunarLander/LunarLander/Content/Fonts/selectedVoiceActivatedFont.spritefont</File>
+    <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/../../../../LunarLander/LunarLander/Content/Fonts/voicActivatedFont.spritefont</File>
+    <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/fire.png</File>
+    <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/flbb_3udr_220615.jpg</File>
+    <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/levelClearEffect.mp3</File>
+    <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/little_robot_sound_factory_multimedia_Click_Electronic_14.mp3</File>
+    <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/mixkit-arcade-game-explosion-2759.mp3</File>
+    <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/rocketShip.png</File>
+    <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/saturnCool.jpg</File>
+    <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/smartsound_TRANSPORTATION_SPACE_Spaceshuttle_Rocket_Full_Power_Steady_01.mp3</File>
+    <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/smoke-2.png</File>
+    <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/smoke.jpg</File>
+    <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/Textures/playerShip1_blue.png</File>
+    <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/Textures/playerShip1_red.png</File>
+    <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/whiteImage.png</File>
   </SourceFiles>
   <DestFiles>
+    <File>Fonts/mainmenuTitle.spritefont</File>
+    <File>Fonts/menu-selected.spritefont</File>
+    <File>Fonts/menu.spritefont</File>
+    <File>Fonts/selectedVoiceActivatedFont.spritefont</File>
+    <File>Fonts/voicActivatedFont.spritefont</File>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
   </DestFiles>

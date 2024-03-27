@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>C:/Users/mhank/Downloads/Multiplayer/Multiplayer/Entity Interpolation/Client/Content/Textures/playerShip1_red.png</SourceFile>
+  <SourceFile>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/Textures/playerShip1_red.png</SourceFile>
   <SourceTime>2024-03-24T14:10:59.1061566-06:00</SourceTime>
-  <DestFile>C:/Users/mhank/Downloads/Multiplayer/Multiplayer/Entity Interpolation/Client/Content/bin/DesktopGL/Content/Textures/playerShip1_red.xnb</DestFile>
-  <DestTime>2024-03-26T23:39:56.2572031-06:00</DestTime>
+  <DestFile>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/bin/DesktopGL/Content/Textures/playerShip1_red.xnb</DestFile>
+  <DestTime>2024-03-27T00:27:04.4997988-06:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2022-07-26T05:44:56-06:00</ImporterTime>
   <Processor>TextureProcessor</Processor>
