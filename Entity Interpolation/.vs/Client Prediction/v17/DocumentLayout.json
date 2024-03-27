@@ -1,0 +1,253 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Dean Mathias\\Desktop\\Work-USU\\CS5410\\DemosMonogame\\Multiplayer\\Client Prediction\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{673E09F2-AA28-46B4-AD5B-8EC2574E4125}|Server\\Server.csproj|c:\\users\\dean mathias\\desktop\\work-usu\\cs5410\\demosmonogame\\multiplayer\\client prediction\\server\\servermain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{673E09F2-AA28-46B4-AD5B-8EC2574E4125}|Server\\Server.csproj|solutionrelative:server\\servermain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{673E09F2-AA28-46B4-AD5B-8EC2574E4125}|Server\\Server.csproj|c:\\users\\dean mathias\\desktop\\work-usu\\cs5410\\demosmonogame\\multiplayer\\client prediction\\server\\messagequeueserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{673E09F2-AA28-46B4-AD5B-8EC2574E4125}|Server\\Server.csproj|solutionrelative:server\\messagequeueserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CE9BC38-D22E-4829-B5AB-677E6F319AA5}|Shared\\Shared.csproj|c:\\users\\dean mathias\\desktop\\work-usu\\cs5410\\demosmonogame\\multiplayer\\client prediction\\shared\\messages\\updateentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4CE9BC38-D22E-4829-B5AB-677E6F319AA5}|Shared\\Shared.csproj|solutionrelative:shared\\messages\\updateentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{87B8E448-C703-4893-9E2F-376D995223BD}|Client\\Client.csproj|c:\\users\\dean mathias\\desktop\\work-usu\\cs5410\\demosmonogame\\multiplayer\\client prediction\\client\\messagequeueclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{87B8E448-C703-4893-9E2F-376D995223BD}|Client\\Client.csproj|solutionrelative:client\\messagequeueclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{87B8E448-C703-4893-9E2F-376D995223BD}|Client\\Client.csproj|c:\\users\\dean mathias\\desktop\\work-usu\\cs5410\\demosmonogame\\multiplayer\\client prediction\\client\\systems\\keyboardinput.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{87B8E448-C703-4893-9E2F-376D995223BD}|Client\\Client.csproj|solutionrelative:client\\systems\\keyboardinput.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CE9BC38-D22E-4829-B5AB-677E6F319AA5}|Shared\\Shared.csproj|c:\\users\\dean mathias\\desktop\\work-usu\\cs5410\\demosmonogame\\multiplayer\\client prediction\\shared\\messages\\input.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4CE9BC38-D22E-4829-B5AB-677E6F319AA5}|Shared\\Shared.csproj|solutionrelative:shared\\messages\\input.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CE9BC38-D22E-4829-B5AB-677E6F319AA5}|Shared\\Shared.csproj|c:\\users\\dean mathias\\desktop\\work-usu\\cs5410\\demosmonogame\\multiplayer\\client prediction\\shared\\messages\\message.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4CE9BC38-D22E-4829-B5AB-677E6F319AA5}|Shared\\Shared.csproj|solutionrelative:shared\\messages\\message.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{673E09F2-AA28-46B4-AD5B-8EC2574E4125}|Server\\Server.csproj|c:\\users\\dean mathias\\desktop\\work-usu\\cs5410\\demosmonogame\\multiplayer\\client prediction\\server\\systems\\network.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{673E09F2-AA28-46B4-AD5B-8EC2574E4125}|Server\\Server.csproj|solutionrelative:server\\systems\\network.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{673E09F2-AA28-46B4-AD5B-8EC2574E4125}|Server\\Server.csproj|c:\\users\\dean mathias\\desktop\\work-usu\\cs5410\\demosmonogame\\multiplayer\\client prediction\\server\\gamemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{673E09F2-AA28-46B4-AD5B-8EC2574E4125}|Server\\Server.csproj|solutionrelative:server\\gamemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{87B8E448-C703-4893-9E2F-376D995223BD}|Client\\Client.csproj|c:\\users\\dean mathias\\desktop\\work-usu\\cs5410\\demosmonogame\\multiplayer\\client prediction\\client\\systems\\network.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{87B8E448-C703-4893-9E2F-376D995223BD}|Client\\Client.csproj|solutionrelative:client\\systems\\network.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{87B8E448-C703-4893-9E2F-376D995223BD}|Client\\Client.csproj|c:\\users\\dean mathias\\desktop\\work-usu\\cs5410\\demosmonogame\\multiplayer\\client prediction\\client\\gamemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{87B8E448-C703-4893-9E2F-376D995223BD}|Client\\Client.csproj|solutionrelative:client\\gamemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CE9BC38-D22E-4829-B5AB-677E6F319AA5}|Shared\\Shared.csproj|c:\\users\\dean mathias\\desktop\\work-usu\\cs5410\\demosmonogame\\multiplayer\\client prediction\\shared\\entities\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4CE9BC38-D22E-4829-B5AB-677E6F319AA5}|Shared\\Shared.csproj|solutionrelative:shared\\entities\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CE9BC38-D22E-4829-B5AB-677E6F319AA5}|Shared\\Shared.csproj|c:\\users\\dean mathias\\desktop\\work-usu\\cs5410\\demosmonogame\\multiplayer\\client prediction\\shared\\messages\\connectack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4CE9BC38-D22E-4829-B5AB-677E6F319AA5}|Shared\\Shared.csproj|solutionrelative:shared\\messages\\connectack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MessageQueueClient.cs",
+              "DocumentMoniker": "C:\\Users\\Dean Mathias\\Desktop\\Work-USU\\CS5410\\DemosMonogame\\Multiplayer\\Client Prediction\\Client\\MessageQueueClient.cs",
+              "RelativeDocumentMoniker": "Client\\MessageQueueClient.cs",
+              "ToolTip": "C:\\Users\\Dean Mathias\\Desktop\\Work-USU\\CS5410\\DemosMonogame\\Multiplayer\\Client Prediction\\Client\\MessageQueueClient.cs",
+              "RelativeToolTip": "Client\\MessageQueueClient.cs",
+              "ViewState": "AQIAAIgAAAAAAAAAAAAnwJ4AAAARAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-16T16:45:20.026Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UpdateEntity.cs",
+              "DocumentMoniker": "C:\\Users\\Dean Mathias\\Desktop\\Work-USU\\CS5410\\DemosMonogame\\Multiplayer\\Client Prediction\\Shared\\Messages\\UpdateEntity.cs",
+              "RelativeDocumentMoniker": "Shared\\Messages\\UpdateEntity.cs",
+              "ToolTip": "C:\\Users\\Dean Mathias\\Desktop\\Work-USU\\CS5410\\DemosMonogame\\Multiplayer\\Client Prediction\\Shared\\Messages\\UpdateEntity.cs",
+              "RelativeToolTip": "Shared\\Messages\\UpdateEntity.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABkAAAAsAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-16T17:49:42.381Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "GameModel.cs",
+              "DocumentMoniker": "C:\\Users\\Dean Mathias\\Desktop\\Work-USU\\CS5410\\DemosMonogame\\Multiplayer\\Client Prediction\\Client\\GameModel.cs",
+              "RelativeDocumentMoniker": "Client\\GameModel.cs",
+              "ToolTip": "C:\\Users\\Dean Mathias\\Desktop\\Work-USU\\CS5410\\DemosMonogame\\Multiplayer\\Client Prediction\\Client\\GameModel.cs",
+              "RelativeToolTip": "Client\\GameModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-16T17:27:57Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "KeyboardInput.cs",
+              "DocumentMoniker": "C:\\Users\\Dean Mathias\\Desktop\\Work-USU\\CS5410\\DemosMonogame\\Multiplayer\\Client Prediction\\Client\\Systems\\KeyboardInput.cs",
+              "RelativeDocumentMoniker": "Client\\Systems\\KeyboardInput.cs",
+              "ToolTip": "C:\\Users\\Dean Mathias\\Desktop\\Work-USU\\CS5410\\DemosMonogame\\Multiplayer\\Client Prediction\\Client\\Systems\\KeyboardInput.cs",
+              "RelativeToolTip": "Client\\Systems\\KeyboardInput.cs",
+              "ViewState": "AQIAABAAAAAAAAAAAAAQwDIAAAAxAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-16T17:02:22.251Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Network.cs",
+              "DocumentMoniker": "C:\\Users\\Dean Mathias\\Desktop\\Work-USU\\CS5410\\DemosMonogame\\Multiplayer\\Client Prediction\\Client\\Systems\\Network.cs",
+              "RelativeDocumentMoniker": "Client\\Systems\\Network.cs",
+              "ToolTip": "C:\\Users\\Dean Mathias\\Desktop\\Work-USU\\CS5410\\DemosMonogame\\Multiplayer\\Client Prediction\\Client\\Systems\\Network.cs",
+              "RelativeToolTip": "Client\\Systems\\Network.cs",
+              "ViewState": "AQIAACkAAAAAAAAAAAAAAEAAAAAQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-16T16:54:49.235Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Player.cs",
+              "DocumentMoniker": "C:\\Users\\Dean Mathias\\Desktop\\Work-USU\\CS5410\\DemosMonogame\\Multiplayer\\Client Prediction\\Shared\\Entities\\Player.cs",
+              "RelativeDocumentMoniker": "Shared\\Entities\\Player.cs",
+              "ToolTip": "C:\\Users\\Dean Mathias\\Desktop\\Work-USU\\CS5410\\DemosMonogame\\Multiplayer\\Client Prediction\\Shared\\Entities\\Player.cs",
+              "RelativeToolTip": "Shared\\Entities\\Player.cs",
+              "ViewState": "AQIAAAoAAAAAAAAAAAAgwBgAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-16T15:57:09.863Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MessageQueueServer.cs",
+              "DocumentMoniker": "C:\\Users\\Dean Mathias\\Desktop\\Work-USU\\CS5410\\DemosMonogame\\Multiplayer\\Client Prediction\\Server\\MessageQueueServer.cs",
+              "RelativeDocumentMoniker": "Server\\MessageQueueServer.cs",
+              "ToolTip": "C:\\Users\\Dean Mathias\\Desktop\\Work-USU\\CS5410\\DemosMonogame\\Multiplayer\\Client Prediction\\Server\\MessageQueueServer.cs",
+              "RelativeToolTip": "Server\\MessageQueueServer.cs",
+              "ViewState": "AQIAACwBAAAAAAAAAAAAAD4BAAApAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-16T15:59:01.416Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ServerMain.cs",
+              "DocumentMoniker": "C:\\Users\\Dean Mathias\\Desktop\\Work-USU\\CS5410\\DemosMonogame\\Multiplayer\\Client Prediction\\Server\\ServerMain.cs",
+              "RelativeDocumentMoniker": "Server\\ServerMain.cs",
+              "ToolTip": "C:\\Users\\Dean Mathias\\Desktop\\Work-USU\\CS5410\\DemosMonogame\\Multiplayer\\Client Prediction\\Server\\ServerMain.cs",
+              "RelativeToolTip": "Server\\ServerMain.cs",
+              "ViewState": "AQIAADAAAAAAAAAAAAAYwD8AAABOAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-17T15:43:08.32Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Network.cs",
+              "DocumentMoniker": "C:\\Users\\Dean Mathias\\Desktop\\Work-USU\\CS5410\\DemosMonogame\\Multiplayer\\Client Prediction\\Server\\Systems\\Network.cs",
+              "RelativeDocumentMoniker": "Server\\Systems\\Network.cs",
+              "ToolTip": "C:\\Users\\Dean Mathias\\Desktop\\Work-USU\\CS5410\\DemosMonogame\\Multiplayer\\Client Prediction\\Server\\Systems\\Network.cs",
+              "RelativeToolTip": "Server\\Systems\\Network.cs",
+              "ViewState": "AQIAAE4AAAAAAAAAAIA8wHMAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-16T17:15:08.653Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Message.cs",
+              "DocumentMoniker": "C:\\Users\\Dean Mathias\\Desktop\\Work-USU\\CS5410\\DemosMonogame\\Multiplayer\\Client Prediction\\Shared\\Messages\\Message.cs",
+              "RelativeDocumentMoniker": "Shared\\Messages\\Message.cs",
+              "ToolTip": "C:\\Users\\Dean Mathias\\Desktop\\Work-USU\\CS5410\\DemosMonogame\\Multiplayer\\Client Prediction\\Shared\\Messages\\Message.cs",
+              "RelativeToolTip": "Shared\\Messages\\Message.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACkAAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-16T16:14:03.054Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "GameModel.cs",
+              "DocumentMoniker": "C:\\Users\\Dean Mathias\\Desktop\\Work-USU\\CS5410\\DemosMonogame\\Multiplayer\\Client Prediction\\Server\\GameModel.cs",
+              "RelativeDocumentMoniker": "Server\\GameModel.cs",
+              "ToolTip": "C:\\Users\\Dean Mathias\\Desktop\\Work-USU\\CS5410\\DemosMonogame\\Multiplayer\\Client Prediction\\Server\\GameModel.cs",
+              "RelativeToolTip": "Server\\GameModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-16T15:48:59.251Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "ConnectAck.cs",
+              "DocumentMoniker": "C:\\Users\\Dean Mathias\\Desktop\\Work-USU\\CS5410\\DemosMonogame\\Multiplayer\\Client Prediction\\Shared\\Messages\\ConnectAck.cs",
+              "RelativeDocumentMoniker": "Shared\\Messages\\ConnectAck.cs",
+              "ToolTip": "C:\\Users\\Dean Mathias\\Desktop\\Work-USU\\CS5410\\DemosMonogame\\Multiplayer\\Client Prediction\\Shared\\Messages\\ConnectAck.cs",
+              "RelativeToolTip": "Shared\\Messages\\ConnectAck.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-16T16:25:53.936Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Input.cs",
+              "DocumentMoniker": "C:\\Users\\Dean Mathias\\Desktop\\Work-USU\\CS5410\\DemosMonogame\\Multiplayer\\Client Prediction\\Shared\\Messages\\Input.cs",
+              "RelativeDocumentMoniker": "Shared\\Messages\\Input.cs",
+              "ToolTip": "C:\\Users\\Dean Mathias\\Desktop\\Work-USU\\CS5410\\DemosMonogame\\Multiplayer\\Client Prediction\\Shared\\Messages\\Input.cs",
+              "RelativeToolTip": "Shared\\Messages\\Input.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACsAAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-16T16:18:08.623Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

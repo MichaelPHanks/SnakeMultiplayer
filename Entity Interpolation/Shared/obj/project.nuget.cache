@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "9pGyXKKSbRsYDI5DpIoap/AhkNXlGAKwTVgpiAwCdJQSm0t5uHbjGeb/Zo06gmwWNeLlva7LWzMX6BpB7EgoGA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\mhank\\Downloads\\Multiplayer\\Multiplayer\\Entity Interpolation\\Shared\\Shared.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\mhank\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.1.303\\monogame.framework.desktopgl.3.8.1.303.nupkg.sha512"
+  ],
+  "logs": []
+}
