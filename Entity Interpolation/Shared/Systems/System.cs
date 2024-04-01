@@ -1,4 +1,5 @@
 ﻿using Shared.Entities;
+using System.Numerics;
 
 namespace Shared.Systems
 {

@@ -14,6 +14,7 @@ using System.Reflection.Metadata;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
 using System.Diagnostics;
+using Shared.Entities;
 
 namespace Client
 {
@@ -26,7 +27,8 @@ namespace Client
         private Texture2D backgroundImage;
         //LunarLanderLevel m_level;
         private HashSet<Keys> m_previouslyDown = new HashSet<Keys>();
-
+        private double playerAngle;
+        private Vector2 playerPosition = new Vector2(100, 100);
         private Texture2D playerTexture;
         private Rectangle playerRectangle;
         float playerX;
@@ -65,6 +67,7 @@ namespace Client
         private ParticleSystemRenderer m_renderSmoke;*/
         private bool isThrustUsed = false;
         GameModel m_gameModel = new GameModel();
+
 
      
 
@@ -283,6 +286,8 @@ namespace Client
             {
                 isESCDown = false;
             }
+
+
 
 
             
@@ -528,6 +533,10 @@ namespace Client
                     m_previouslyDown.Add(key);
                 }
             }
+
+            
+
+            //m_gameModel.signalKeyPressed(Keys.W);
 
             m_gameModel.update(gameTime.ElapsedGameTime);
             /* m_particleSystemFire.update(gameTime);

@@ -1,5 +1,6 @@
 ﻿using Shared.Entities;
 using Shared.Messages;
+using System.Numerics;
 
 namespace Server.Systems
 {
@@ -60,6 +61,8 @@ namespace Server.Systems
         /// </summary>
         public void update(TimeSpan elapsedTime, Queue<Tuple<int, Message>> messages)
         {
+            
+
             if (messages != null)
             {
                 while (messages.Count > 0)
@@ -71,6 +74,8 @@ namespace Server.Systems
                     }
                 }
             }
+
+            
 
             // Send updated game state updates back out to connected clients
             updateClients(elapsedTime);
@@ -103,8 +108,8 @@ namespace Server.Systems
             {
                 switch (input)
                 {
-                    case Shared.Components.Input.Type.Thrust:
-                        Shared.Entities.Utility.thrust(entity, message.elapsedTime);
+                    case Shared.Components.Input.Type.RotateUp:
+                        Shared.Entities.Utility.rotateUp(entity, message.elapsedTime);
                         m_reportThese.Add(message.entityId);
                         break;
                     case Shared.Components.Input.Type.RotateLeft:
@@ -115,6 +120,25 @@ namespace Server.Systems
                         Shared.Entities.Utility.rotateRight(entity, message.elapsedTime);
                         m_reportThese.Add(message.entityId);
                         break;
+                    case Shared.Components.Input.Type.RotateDown:
+                        Shared.Entities.Utility.rotateDown(entity, message.elapsedTime);
+                        m_reportThese.Add(message.entityId);
+                        break;
+                    case Shared.Components.Input.Type.RotateMouse:
+                        Shared.Entities.Utility.mouseRotation(entity, message.elapsedTime, message.mousePositionX, message.mousePositionY);
+                        m_reportThese.Add(message.entityId);
+                        break;
+                    case Shared.Components.Input.Type.Thrust:
+                        Shared.Entities.Utility.thrust(entity, message.elapsedTime);
+                        m_reportThese.Add(message.entityId);
+                        break;
+
+                        /*case Shared.Components.Input.Type.RotateMouse:
+                            Shared.Entities.Utility.mouseRotation(entity, message.elapsedTime);
+                            m_reportThese.Add(message.entityId);
+                            break;*/
+
+
                 }
             }
         }

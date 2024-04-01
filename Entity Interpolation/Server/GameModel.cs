@@ -21,6 +21,7 @@ namespace Server
         /// </summary>
         public void update(TimeSpan elapsedTime)
         {
+            
             m_systemNetwork.update(elapsedTime, MessageQueueServer.instance.getMessages());
         }
 

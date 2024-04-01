@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Shared.Entities;
@@ -15,7 +16,7 @@ namespace Client
         private Systems.KeyboardInput m_systemKeyboardInput;
         private Systems.Interpolation m_systemInterpolation = new Systems.Interpolation();
         private Systems.Renderer m_systemRenderer = new Systems.Renderer();
-
+        private bool isKeyBoard = true;
         /// <summary>
         /// This is where everything performs its update.
         /// </summary>
@@ -23,6 +24,7 @@ namespace Client
         {
             m_systemNetwork.update(elapsedTime, MessageQueueClient.instance.getMessages());
             m_systemKeyboardInput.update(elapsedTime);
+            
             m_systemInterpolation.update(elapsedTime);
         }
 
@@ -45,10 +47,12 @@ namespace Client
 
             m_systemKeyboardInput = new Systems.KeyboardInput(new List<Tuple<Shared.Components.Input.Type, Keys>>
             {
-                Tuple.Create(Shared.Components.Input.Type.Thrust, Keys.W),
+                Tuple.Create(Shared.Components.Input.Type.RotateUp, Keys.W),
                 Tuple.Create(Shared.Components.Input.Type.RotateLeft, Keys.A),
-                Tuple.Create(Shared.Components.Input.Type.RotateRight, Keys.D)
-            });
+                Tuple.Create(Shared.Components.Input.Type.RotateRight, Keys.D),
+                Tuple.Create(Shared.Components.Input.Type.RotateDown, Keys.S),
+
+            }, isKeyBoard);
 
             return true;
         }

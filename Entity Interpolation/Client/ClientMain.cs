@@ -31,18 +31,18 @@ namespace Client
 
         protected override void Initialize()
         {
-            m_graphics.PreferredBackBufferWidth = 1920;
+           /* m_graphics.PreferredBackBufferWidth = 1920;
             m_graphics.PreferredBackBufferHeight = 1080;
-            m_graphics.ApplyChanges();
+            m_graphics.ApplyChanges();*/
 
             m_gameModel.initialize(this.Content);
             //setUpFiles();
 
 
             //m_graphics.IsFullScreen = true;
-            m_graphics.PreferredBackBufferWidth = 1920;
+            /*m_graphics.PreferredBackBufferWidth = 1920;
             m_graphics.PreferredBackBufferHeight = 1080;
-            m_graphics.ApplyChanges();
+            m_graphics.ApplyChanges();*/
 
 
             // TODO: Add your initialization logic here
@@ -154,7 +154,7 @@ namespace Client
 
         protected override void Draw(GameTime gameTime)
         {
-            //GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.CornflowerBlue);
             m_currentState.render(gameTime);
 
 
