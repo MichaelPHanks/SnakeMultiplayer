@@ -16,7 +16,7 @@ namespace Client
         private Systems.KeyboardInput m_systemKeyboardInput;
         private Systems.Interpolation m_systemInterpolation = new Systems.Interpolation();
         private Systems.Renderer m_systemRenderer = new Systems.Renderer();
-        private bool isKeyBoard = true;
+        private bool isKeyBoard = false;
         /// <summary>
         /// This is where everything performs its update.
         /// </summary>

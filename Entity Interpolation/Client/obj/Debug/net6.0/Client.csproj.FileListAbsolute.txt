@@ -50,7 +50,6 @@ C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\obj\Deb
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\obj\Debug\net6.0\Client.AssemblyInfoInputs.cache
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\obj\Debug\net6.0\Client.AssemblyInfo.cs
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\obj\Debug\net6.0\Client.csproj.CoreCompileInputs.cache
-C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\obj\Debug\net6.0\Client.csproj.CopyComplete
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\obj\Debug\net6.0\Client.dll
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\obj\Debug\net6.0\refint\Client.dll
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\obj\Debug\net6.0\Client.pdb
@@ -58,15 +57,11 @@ C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\obj\Deb
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\obj\Debug\net6.0\ref\Client.dll
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\bin\Debug\net6.0\Content\fire.xnb
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\bin\Debug\net6.0\Content\flbb_3udr_220615.xnb
-C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\bin\Debug\net6.0\Content\levelClearEffect.ogg
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\bin\Debug\net6.0\Content\levelClearEffect.xnb
-C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\bin\Debug\net6.0\Content\little_robot_sound_factory_multimedia_Click_Electronic_14.ogg
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\bin\Debug\net6.0\Content\little_robot_sound_factory_multimedia_Click_Electronic_14.xnb
-C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\bin\Debug\net6.0\Content\mixkit-arcade-game-explosion-2759.ogg
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\bin\Debug\net6.0\Content\mixkit-arcade-game-explosion-2759.xnb
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\bin\Debug\net6.0\Content\rocketShip.xnb
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\bin\Debug\net6.0\Content\saturnCool.xnb
-C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\bin\Debug\net6.0\Content\smartsound_TRANSPORTATION_SPACE_Spaceshuttle_Rocket_Full_Power_Steady_01.ogg
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\bin\Debug\net6.0\Content\smartsound_TRANSPORTATION_SPACE_Spaceshuttle_Rocket_Full_Power_Steady_01.xnb
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\bin\Debug\net6.0\Content\smoke-2.xnb
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\bin\Debug\net6.0\Content\smoke.xnb
@@ -76,3 +71,5 @@ C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\bin\Deb
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\bin\Debug\net6.0\Content\Fonts\menu.xnb
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\bin\Debug\net6.0\Content\Fonts\selectedVoiceActivatedFont.xnb
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\bin\Debug\net6.0\Content\Fonts\voicActivatedFont.xnb
+C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\obj\Debug\net6.0\Client.sourcelink.json
+C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\obj\Debug\net6.0\Client.csproj.Up2Date

@@ -46,9 +46,10 @@ C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Server\obj\Deb
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Server\obj\Debug\net6.0\Server.AssemblyInfoInputs.cache
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Server\obj\Debug\net6.0\Server.AssemblyInfo.cs
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Server\obj\Debug\net6.0\Server.csproj.CoreCompileInputs.cache
-C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Server\obj\Debug\net6.0\Server.csproj.CopyComplete
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Server\obj\Debug\net6.0\Server.dll
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Server\obj\Debug\net6.0\refint\Server.dll
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Server\obj\Debug\net6.0\Server.pdb
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Server\obj\Debug\net6.0\Server.genruntimeconfig.cache
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Server\obj\Debug\net6.0\ref\Server.dll
+C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Server\obj\Debug\net6.0\Server.sourcelink.json
+C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Server\obj\Debug\net6.0\Server.csproj.Up2Date
