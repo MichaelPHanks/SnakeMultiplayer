@@ -30,6 +30,7 @@ namespace Client
         private Rectangle resume = new Rectangle();
         private Rectangle help = new Rectangle();
         private Rectangle menu = new Rectangle();
+        private Rectangle Continue = new Rectangle();
         private bool m_waitForKeyRelease = false;
         SoundEffectInstance soundInstance;
         private bool isEnterUp = false;
@@ -43,7 +44,9 @@ namespace Client
             Help,
             Resume,
             Menu,
+            Controls,
             None,
+            
         }
         private MenuState m_currentSelection = MenuState.Settings;
         private MenuState m_prevSelection = MenuState.Settings;
@@ -137,6 +140,13 @@ namespace Client
 
                     return GameStateEnum.GamePlay;
                 }
+                if (Keyboard.GetState().IsKeyDown(Keys.Enter) && m_currentSelection == MenuState.Controls)
+                {
+                    isESCDown = true;
+                    isEnterUp = false;
+                    canUseMouse = false;
+                    return GameStateEnum.Controls;
+                }
             }
             else if (Keyboard.GetState().IsKeyUp(Keys.Down) && Keyboard.GetState().IsKeyUp(Keys.Up))
             {
@@ -200,6 +210,19 @@ namespace Client
                     m_currentSelection = MenuState.Menu;
 
                 }
+                else if (Continue.Contains(Mouse.GetState().Position))
+                {
+                    if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                    {
+                        isESCDown = true;
+                        isEnterUp = false;
+                        canUseMouse = false;
+
+                        return GameStateEnum.Controls;
+                    }
+                    m_currentSelection = MenuState.Controls;
+
+                }
             }
 
 
@@ -228,7 +251,7 @@ namespace Client
                 canUseMouse = true;
             }
             m_prevSelection = m_currentSelection;
-            return GameStateEnum.Paused;
+            return GameStateEnum.EnterName;
         }
 
         public override void render(GameTime gameTime)
@@ -241,6 +264,7 @@ namespace Client
             bottom = drawMenuItem(m_currentSelection == MenuState.Help ? m_fontMenuSelect : m_fontMenu, "Help", bottom, m_currentSelection == MenuState.Help ? Color.White : Color.LightGray);
             bottom = drawMenuItem(m_currentSelection == MenuState.Resume ? m_fontMenuSelect : m_fontMenu, "Resume", bottom, m_currentSelection == MenuState.Resume ? Color.White : Color.LightGray);
             bottom = drawMenuItem(m_currentSelection == MenuState.Menu ? m_fontMenuSelect : m_fontMenu, "Main Menu", bottom, m_currentSelection == MenuState.Menu ? Color.White : Color.LightGray);
+            drawMenuItem(m_currentSelection == MenuState.Controls ? m_fontMenuSelect : m_fontMenu, "Continue", bottom, m_currentSelection == MenuState.Controls ? Color.White : Color.LightGray);
 
             m_spriteBatch.End();
         }
@@ -279,6 +303,12 @@ namespace Client
             if (text == "Main Menu")
             {
                 menu = new Rectangle((int)m_graphics.PreferredBackBufferWidth / 2 - (int)stringSize.X / 2, (int)y, (int)stringSize.X, (int)stringSize.Y);
+
+
+            }
+            if (text == "Continue")
+            {
+                Continue = new Rectangle((int)m_graphics.PreferredBackBufferWidth / 2 - (int)stringSize.X / 2, (int)y, (int)stringSize.X, (int)stringSize.Y);
 
 
             }

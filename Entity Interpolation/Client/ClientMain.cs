@@ -57,6 +57,10 @@ namespace Client
             m_gameStates.Add(GameStateEnum.Settings, m_settings);
             m_gameStates.Add(GameStateEnum.HighScores, new HighScoresView());
             m_gameStates.Add(GameStateEnum.Help, m_helpView);
+            m_gameStates.Add(GameStateEnum.EnterName, new InsertNameView());
+            m_gameStates.Add(GameStateEnum.Controls, new MouseOrKeyboardView());
+            m_gameStates.Add(GameStateEnum.Tutorial, new TutorialView());
+
 
             foreach (var item in m_gameStates)
             {

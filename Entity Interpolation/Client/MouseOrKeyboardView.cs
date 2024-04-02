@@ -33,6 +33,7 @@ namespace Client
         private Rectangle resume = new Rectangle();
         private Rectangle help = new Rectangle();
         private Rectangle menu = new Rectangle();
+        private Rectangle Tutorial = new Rectangle();
         private bool m_waitForKeyRelease = false;
         SoundEffectInstance soundInstance;
         private bool isEnterUp = false;
@@ -46,6 +47,7 @@ namespace Client
             Help,
             Resume,
             Menu,
+            Tutorial,
             None,
         }
         private MenuState m_currentSelection = MenuState.Settings;
@@ -140,6 +142,14 @@ namespace Client
 
                     return GameStateEnum.GamePlay;
                 }
+                if (Keyboard.GetState().IsKeyDown(Keys.Enter) && m_currentSelection == MenuState.Tutorial)
+                {
+                    isESCDown = true;
+                    isEnterUp = false;
+                    canUseMouse = false;
+
+                    return GameStateEnum.Tutorial;
+                }
             }
             else if (Keyboard.GetState().IsKeyUp(Keys.Down) && Keyboard.GetState().IsKeyUp(Keys.Up))
             {
@@ -203,6 +213,19 @@ namespace Client
                     m_currentSelection = MenuState.Menu;
 
                 }
+                else if (Tutorial.Contains(Mouse.GetState().Position))
+                {
+                    if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                    {
+                        isESCDown = true;
+                        isEnterUp = false;
+                        canUseMouse = false;
+
+                        return GameStateEnum.Tutorial;
+                    }
+                    m_currentSelection = MenuState.Tutorial;
+
+                }
             }
 
 
@@ -231,20 +254,20 @@ namespace Client
                 canUseMouse = true;
             }
             m_prevSelection = m_currentSelection;
-            return GameStateEnum.Paused;
+            return GameStateEnum.Controls;
         }
 
         public override void render(GameTime gameTime)
         {
             m_spriteBatch.Begin();
             m_spriteBatch.Draw(backgroundImage, new Rectangle(0, 0, m_graphics.PreferredBackBufferWidth, m_graphics.PreferredBackBufferHeight), Color.Gray);
-            float bottom = drawMenuItem(m_fontMenu, "PAUSED", 100, Color.OrangeRed);
-            bottom = drawMenuItem(m_currentSelection == MenuState.Settings ? m_fontMenuSelect : m_fontMenu, "Settings", bottom, m_currentSelection == MenuState.Settings ? Color.White : Color.LightGray);
+            float bottom = drawMenuItem(m_fontMenu, "Choose mouse or keyboard!", 100, Color.OrangeRed);
+            /*bottom = drawMenuItem(m_currentSelection == MenuState.Settings ? m_fontMenuSelect : m_fontMenu, "Settings", bottom, m_currentSelection == MenuState.Settings ? Color.White : Color.LightGray);
 
             bottom = drawMenuItem(m_currentSelection == MenuState.Help ? m_fontMenuSelect : m_fontMenu, "Help", bottom, m_currentSelection == MenuState.Help ? Color.White : Color.LightGray);
             bottom = drawMenuItem(m_currentSelection == MenuState.Resume ? m_fontMenuSelect : m_fontMenu, "Resume", bottom, m_currentSelection == MenuState.Resume ? Color.White : Color.LightGray);
-            bottom = drawMenuItem(m_currentSelection == MenuState.Menu ? m_fontMenuSelect : m_fontMenu, "Main Menu", bottom, m_currentSelection == MenuState.Menu ? Color.White : Color.LightGray);
-
+            bottom = drawMenuItem(m_currentSelection == MenuState.Menu ? m_fontMenuSelect : m_fontMenu, "Main Menu", bottom, m_currentSelection == MenuState.Menu ? Color.White : Color.LightGray);*/
+            drawMenuItem(m_currentSelection == MenuState.Tutorial ? m_fontMenuSelect : m_fontMenu, "Tutorial", bottom, m_currentSelection == MenuState.Tutorial ? Color.White : Color.LightGray);
             m_spriteBatch.End();
         }
 
@@ -282,6 +305,12 @@ namespace Client
             if (text == "Main Menu")
             {
                 menu = new Rectangle((int)m_graphics.PreferredBackBufferWidth / 2 - (int)stringSize.X / 2, (int)y, (int)stringSize.X, (int)stringSize.Y);
+
+
+            }
+            if (text == "Tutorial")
+            {
+                Tutorial = new Rectangle((int)m_graphics.PreferredBackBufferWidth / 2 - (int)stringSize.X / 2, (int)y, (int)stringSize.X, (int)stringSize.Y);
 
 
             }

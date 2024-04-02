@@ -16,6 +16,10 @@ namespace Client
         About,
         Exit,
         Paused,
+        EnterName,
+        Tutorial,
+        Controls,
+
 
         
     }

@@ -22,4 +22,3 @@ C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Shared\obj\Deb
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Shared\obj\Debug\net6.0\refint\Shared.dll
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Shared\obj\Debug\net6.0\Shared.pdb
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Shared\obj\Debug\net6.0\ref\Shared.dll
-C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Shared\obj\Debug\net6.0\Shared.sourcelink.json

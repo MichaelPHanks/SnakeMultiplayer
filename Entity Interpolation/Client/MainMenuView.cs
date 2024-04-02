@@ -104,7 +104,7 @@ namespace Client
                 {
                     canUseMouse = false;
                     isEnterUp = false;
-                    return GameStateEnum.GamePlay;
+                    return GameStateEnum.EnterName;
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.Enter) && m_currentSelection == MenuState.HighScores)
                 {
@@ -157,7 +157,7 @@ namespace Client
                         canUseMouse = false;
                         isEnterUp = false;
 
-                        return GameStateEnum.GamePlay;
+                        return GameStateEnum.EnterName;
                     }
                     m_currentSelection = MenuState.NewGame;
 
@@ -262,7 +262,7 @@ namespace Client
             m_spriteBatch.Draw(mainBackground, new Rectangle(0,0,m_graphics.PreferredBackBufferWidth, m_graphics.PreferredBackBufferHeight),Color.White);
 
             float bottom = drawMenuItem(m_fontTitle, "LUNAR LANDER", m_graphics.PreferredBackBufferHeight / 4, Color.OrangeRed);
-             bottom = drawMenuItem(m_currentSelection == MenuState.NewGame ? m_fontMenuSelect: m_fontMenu, "New Game", bottom, m_currentSelection == MenuState.NewGame ? Color.White:Color.LightGray);
+             bottom = drawMenuItem(m_currentSelection == MenuState.NewGame ? m_fontMenuSelect: m_fontMenu, "Join Game", bottom, m_currentSelection == MenuState.NewGame ? Color.White:Color.LightGray);
             
             bottom = drawMenuItem(m_currentSelection == MenuState.HighScores ? m_fontMenuSelect : m_fontMenu, "High Scores", bottom, m_currentSelection == MenuState.HighScores ? Color.White : Color.LightGray);
             
@@ -292,7 +292,7 @@ namespace Client
                            SpriteEffects.None,
                            0);
 
-            if (text == "New Game")
+            if (text == "Join Game")
             {
                 gameplay = new Rectangle((int)m_graphics.PreferredBackBufferWidth / 2 - (int)stringSize.X / 2, (int)y, (int)stringSize.X, (int)stringSize.Y);
             }
