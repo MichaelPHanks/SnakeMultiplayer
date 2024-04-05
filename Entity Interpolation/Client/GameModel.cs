@@ -16,7 +16,7 @@ namespace Client
         private Systems.KeyboardInput m_systemKeyboardInput;
         private Systems.Interpolation m_systemInterpolation = new Systems.Interpolation();
         private Systems.Renderer m_systemRenderer = new Systems.Renderer();
-        private bool isKeyBoard = false;
+        private bool isKeyBoard = true;
         /// <summary>
         /// This is where everything performs its update.
         /// </summary>
@@ -45,6 +45,7 @@ namespace Client
             m_systemNetwork.registerNewEntityHandler(handleNewEntity);
             m_systemNetwork.registerRemoveEntityHandler(handleRemoveEntity);
 
+            // Modify this to load in controls
             m_systemKeyboardInput = new Systems.KeyboardInput(new List<Tuple<Shared.Components.Input.Type, Keys>>
             {
                 Tuple.Create(Shared.Components.Input.Type.RotateUp, Keys.W),

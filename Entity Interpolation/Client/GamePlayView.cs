@@ -15,6 +15,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
 using System.Diagnostics;
 using Shared.Entities;
+using Shared;
 
 namespace Client
 {
@@ -67,7 +68,7 @@ namespace Client
         private ParticleSystemRenderer m_renderSmoke;*/
         private bool isThrustUsed = false;
         GameModel m_gameModel = new GameModel();
-
+        ContentManager contentManager1;
 
      
 
@@ -91,9 +92,16 @@ namespace Client
         private Stage currentStage = Stage.PLAYING;
 
         bool isPaused = false;
-
+        public void ConnectToServer()
+        {
+            MessageQueueClient.instance.initialize("localhost", 3000);
+            m_gameModel = new GameModel();
+            m_gameModel.initialize(contentManager1);
+        }
         public override void loadContent(ContentManager contentManager)
         {
+            contentManager1 = contentManager;
+            
             m_gameModel.initialize(contentManager);
 
             // create 1x1 texture for line drawing

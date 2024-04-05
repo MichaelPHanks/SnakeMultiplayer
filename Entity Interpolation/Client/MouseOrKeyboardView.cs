@@ -20,7 +20,7 @@ namespace Client
         //      - Maybe keep this as an internal file on the computer? 
         //         - Might be easy if we do this, considering the snake.io game keeps the information already.
         //      - Still need to think more on this. Worst case scenario, we shove everything into the game view.
-
+        public bool isMouse;
 
 
 
@@ -32,8 +32,8 @@ namespace Client
         private Rectangle settings = new Rectangle();
         private Rectangle resume = new Rectangle();
         private Rectangle help = new Rectangle();
-        private Rectangle menu = new Rectangle();
-        private Rectangle Tutorial = new Rectangle();
+        private Rectangle keyboard = new Rectangle();
+        private Rectangle mouse = new Rectangle();
         private bool m_waitForKeyRelease = false;
         SoundEffectInstance soundInstance;
         private bool isEnterUp = false;
@@ -43,15 +43,13 @@ namespace Client
 
         private enum MenuState
         {
-            Settings,
-            Help,
-            Resume,
-            Menu,
-            Tutorial,
+          
+            Mouse,
+            KeyBoard,
             None,
         }
-        private MenuState m_currentSelection = MenuState.Settings;
-        private MenuState m_prevSelection = MenuState.Settings;
+        private MenuState m_currentSelection = MenuState.Mouse;
+        private MenuState m_prevSelection = MenuState.Mouse;
 
 
         public override void loadContent(ContentManager contentManager)
@@ -87,9 +85,9 @@ namespace Client
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.Down))
                 {
-                    if (m_currentSelection == MenuState.Menu)
+                    if (m_currentSelection == MenuState.KeyBoard)
                     {
-                        m_currentSelection = MenuState.Settings;
+                        m_currentSelection = MenuState.Mouse;
                     }
                     else
                     {
@@ -99,9 +97,9 @@ namespace Client
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.Up))
                 {
-                    if (m_currentSelection == MenuState.Settings)
+                    if (m_currentSelection == MenuState.Mouse)
                     {
-                        m_currentSelection = MenuState.Menu;
+                        m_currentSelection = MenuState.KeyBoard;
                     }
                     else
                     {
@@ -110,43 +108,21 @@ namespace Client
                     m_waitForKeyRelease = true;
                 }
 
-                if (Keyboard.GetState().IsKeyDown(Keys.Enter) && m_currentSelection == MenuState.Menu)
+               
+                if (Keyboard.GetState().IsKeyDown(Keys.Enter) && m_currentSelection == MenuState.Mouse)
                 {
                     isESCDown = true;
                     isEnterUp = false;
                     canUseMouse = false;
-                    return GameStateEnum.MainMenu;
+                    isMouse = true;
+                    return GameStateEnum.Tutorial;
                 }
-
-                if (Keyboard.GetState().IsKeyDown(Keys.Enter) && m_currentSelection == MenuState.Help)
+                if (Keyboard.GetState().IsKeyDown(Keys.Enter) && m_currentSelection == MenuState.KeyBoard)
                 {
                     isESCDown = true;
                     isEnterUp = false;
                     canUseMouse = false;
-
-                    return GameStateEnum.Help;
-                }
-                if (Keyboard.GetState().IsKeyDown(Keys.Enter) && m_currentSelection == MenuState.Settings)
-                {
-                    isESCDown = true;
-                    isEnterUp = false;
-                    canUseMouse = false;
-
-                    return GameStateEnum.Settings;
-                }
-                if (Keyboard.GetState().IsKeyDown(Keys.Enter) && m_currentSelection == MenuState.Resume)
-                {
-                    isESCDown = true;
-                    isEnterUp = false;
-                    canUseMouse = false;
-
-                    return GameStateEnum.GamePlay;
-                }
-                if (Keyboard.GetState().IsKeyDown(Keys.Enter) && m_currentSelection == MenuState.Tutorial)
-                {
-                    isESCDown = true;
-                    isEnterUp = false;
-                    canUseMouse = false;
+                    isMouse = false;
 
                     return GameStateEnum.Tutorial;
                 }
@@ -159,71 +135,33 @@ namespace Client
 
             if (canUseMouse)
             {
-                if (settings.Contains(Mouse.GetState().Position))
+                
+                if (mouse.Contains(Mouse.GetState().Position))
                 {
                     if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                     {
                         isESCDown = true;
                         isEnterUp = false;
                         canUseMouse = false;
-
-                        return GameStateEnum.Settings;
-                    }
-                    m_currentSelection = MenuState.Settings;
-
-
-
-                }
-                else if (help.Contains(Mouse.GetState().Position))
-                {
-                    if (Mouse.GetState().LeftButton == ButtonState.Pressed)
-                    {
-                        isESCDown = true;
-                        isEnterUp = false;
-                        canUseMouse = false;
-
-                        return GameStateEnum.Help;
-                    }
-                    m_currentSelection = MenuState.Help;
-
-                }
-                else if (resume.Contains(Mouse.GetState().Position))
-                {
-                    if (Mouse.GetState().LeftButton == ButtonState.Pressed)
-                    {
-                        isESCDown = true;
-                        isEnterUp = false;
-                        canUseMouse = false;
-
-                        return GameStateEnum.GamePlay;
-                    }
-                    m_currentSelection = MenuState.Resume;
-
-                }
-                else if (menu.Contains(Mouse.GetState().Position))
-                {
-                    if (Mouse.GetState().LeftButton == ButtonState.Pressed)
-                    {
-                        isESCDown = true;
-                        isEnterUp = false;
-                        canUseMouse = false;
-
-                        return GameStateEnum.MainMenu;
-                    }
-                    m_currentSelection = MenuState.Menu;
-
-                }
-                else if (Tutorial.Contains(Mouse.GetState().Position))
-                {
-                    if (Mouse.GetState().LeftButton == ButtonState.Pressed)
-                    {
-                        isESCDown = true;
-                        isEnterUp = false;
-                        canUseMouse = false;
+                        isMouse = true;
 
                         return GameStateEnum.Tutorial;
                     }
-                    m_currentSelection = MenuState.Tutorial;
+                    m_currentSelection = MenuState.Mouse;
+
+                }
+                else if (keyboard.Contains(Mouse.GetState().Position))
+                {
+                    if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                    {
+                        isESCDown = true;
+                        isEnterUp = false;
+                        canUseMouse = false;
+                        isMouse = false;
+
+                        return GameStateEnum.Tutorial;
+                    }
+                    m_currentSelection = MenuState.KeyBoard;
 
                 }
             }
@@ -267,7 +205,10 @@ namespace Client
             bottom = drawMenuItem(m_currentSelection == MenuState.Help ? m_fontMenuSelect : m_fontMenu, "Help", bottom, m_currentSelection == MenuState.Help ? Color.White : Color.LightGray);
             bottom = drawMenuItem(m_currentSelection == MenuState.Resume ? m_fontMenuSelect : m_fontMenu, "Resume", bottom, m_currentSelection == MenuState.Resume ? Color.White : Color.LightGray);
             bottom = drawMenuItem(m_currentSelection == MenuState.Menu ? m_fontMenuSelect : m_fontMenu, "Main Menu", bottom, m_currentSelection == MenuState.Menu ? Color.White : Color.LightGray);*/
-            drawMenuItem(m_currentSelection == MenuState.Tutorial ? m_fontMenuSelect : m_fontMenu, "Tutorial", bottom, m_currentSelection == MenuState.Tutorial ? Color.White : Color.LightGray);
+            
+            //bottom = drawMenuItem(m_currentSelection == MenuState.Mouse ? m_fontMenuSelect : m_fontMenu, "Mouse", bottom, m_currentSelection == MenuState.Mouse ? Color.White : Color.LightGray);
+            drawMenuItem(m_currentSelection == MenuState.KeyBoard ? m_fontMenuSelect : m_fontMenu, "Keyboard", bottom, m_currentSelection == MenuState.KeyBoard ? Color.White : Color.LightGray);
+
             m_spriteBatch.End();
         }
 
@@ -288,29 +229,16 @@ namespace Client
                            SpriteEffects.None,
                            0);
 
-            if (text == "Settings")
+            
+            if (text == "Keyboard")
             {
-                settings = new Rectangle((int)m_graphics.PreferredBackBufferWidth / 2 - (int)stringSize.X / 2, (int)y, (int)stringSize.X, (int)stringSize.Y);
-            }
-            if (text == "Resume")
-            {
-                resume = new Rectangle((int)m_graphics.PreferredBackBufferWidth / 2 - (int)stringSize.X / 2, (int)y, (int)stringSize.X, (int)stringSize.Y);
-
-            }
-            if (text == "Help")
-            {
-                help = new Rectangle((int)m_graphics.PreferredBackBufferWidth / 2 - (int)stringSize.X / 2, (int)y, (int)stringSize.X, (int)stringSize.Y);
-
-            }
-            if (text == "Main Menu")
-            {
-                menu = new Rectangle((int)m_graphics.PreferredBackBufferWidth / 2 - (int)stringSize.X / 2, (int)y, (int)stringSize.X, (int)stringSize.Y);
+                keyboard = new Rectangle((int)m_graphics.PreferredBackBufferWidth / 2 - (int)stringSize.X / 2, (int)y, (int)stringSize.X, (int)stringSize.Y);
 
 
             }
-            if (text == "Tutorial")
+            if (text == "Mouse")
             {
-                Tutorial = new Rectangle((int)m_graphics.PreferredBackBufferWidth / 2 - (int)stringSize.X / 2, (int)y, (int)stringSize.X, (int)stringSize.Y);
+                mouse = new Rectangle((int)m_graphics.PreferredBackBufferWidth / 2 - (int)stringSize.X / 2, (int)y, (int)stringSize.X, (int)stringSize.Y);
 
 
             }

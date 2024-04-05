@@ -82,7 +82,6 @@ namespace Client
             {
                 item.Value.loadContent(this.Content);
             }
-            MessageQueueClient.instance.initialize("localhost", 3000);
         }
 
         private HashSet<Keys> m_previouslyDown = new HashSet<Keys>();
@@ -103,11 +102,11 @@ namespace Client
                 m_currentState.update(gameTime);
 
 
-                /*if (m_prevState == m_gameStates[GameStateEnum.MainMenu] && nextStateEnum == GameStateEnum.GamePlay)
+                if (m_prevState == m_gameStates[GameStateEnum.Tutorial] && nextStateEnum == GameStateEnum.GamePlay)
                 {
-                    m_gamePlayView.resetGameplay();
+                    m_gamePlayView.ConnectToServer();
 
-                }*/
+                }
 
                 if (m_prevState == m_gameStates[GameStateEnum.GamePlay] && nextStateEnum == GameStateEnum.Paused)
                 {

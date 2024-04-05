@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Client
 {
@@ -36,24 +37,32 @@ namespace Client
         private bool isEnterUp = false;
         private bool canUseMouse = false;
 
+        private Rectangle TextBox = new Rectangle();
+
+        // TODO: Load playerName from memory...
+        private string playerName = "Temp Name";
+        private Texture2D whiteImage;
+        bool typingBool = false;
+        bool isKeySelected = false;
+
 
 
         private enum MenuState
         {
-            Settings,
-            Help,
-            Resume,
+            
             Menu,
             Controls,
+            Name,
             None,
             
         }
-        private MenuState m_currentSelection = MenuState.Settings;
-        private MenuState m_prevSelection = MenuState.Settings;
+        private MenuState m_currentSelection = MenuState.Menu;
+        private MenuState m_prevSelection = MenuState.Menu;
 
 
         public override void loadContent(ContentManager contentManager)
         {
+            whiteImage = contentManager.Load<Texture2D>("whiteImage");
             backgroundImage = contentManager.Load<Texture2D>("saturnCool");
             m_fontMenu = contentManager.Load<SpriteFont>("Fonts/menu");
             m_fontMenuSelect = contentManager.Load<SpriteFont>("Fonts/menu-selected");
@@ -72,10 +81,21 @@ namespace Client
 
             if (Keyboard.GetState().IsKeyDown(Keys.Escape) && !isESCDown)
             {
-                isESCDown = true;
-                isEnterUp = false;
 
-                return GameStateEnum.GamePlay;
+                if (isKeySelected)
+                {
+                    isKeySelected = false;
+                    isESCDown = true;
+                }
+                else
+                {
+                    isESCDown = true;
+                    isEnterUp = false;
+                    return GameStateEnum.GamePlay;
+
+                }
+
+
             }
             if (Keyboard.GetState().IsKeyUp(Keys.Escape))
             {
@@ -83,11 +103,67 @@ namespace Client
             }
             if (!m_waitForKeyRelease && isEnterUp)
             {
+
+
+                if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                {
+
+                    
+                        isEnterUp = false;
+                        m_waitForKeyRelease = true;
+                    
+                }
+
+                if (isKeySelected && !typingBool)
+                {
+                    // Collect input keys
+
+
+                    Keys[] keys = Keyboard.GetState().GetPressedKeys();
+                    if (keys.Length > 0)
+                    {
+                        typingBool = true;
+                        m_waitForKeyRelease = true;
+
+                        if (keys[0] != Keys.Escape && keys[0] != Keys.Enter)
+                        {
+                            if (keys[0] == Keys.Back)
+                            {
+                                if (playerName.Length > 0)
+                                {
+                                    playerName = playerName.Remove(playerName.Length - 1);
+
+                                }
+                            }
+                            else
+                            {
+                                if ((keys[0] >= Keys.A && keys[0] <= Keys.Z) || keys[0] == Keys.Space)
+                                {
+                                    playerName += ((char)keys[0]);
+                                }
+                                if (keys[0] == Keys.LeftShift || keys[0] == Keys.RightShift) 
+                                {
+                                    typingBool = false;
+                                }
+
+                            }
+                        }
+
+                    }
+
+                }
+
+                if (Keyboard.GetState().GetPressedKeyCount() == 0)
+                {
+                    typingBool = false;
+
+                }
+
                 if (Keyboard.GetState().IsKeyDown(Keys.Down))
                 {
-                    if (m_currentSelection == MenuState.Menu)
+                    if (m_currentSelection == MenuState.Name)
                     {
-                        m_currentSelection = MenuState.Settings;
+                        m_currentSelection = MenuState.Menu;
                     }
                     else
                     {
@@ -97,9 +173,9 @@ namespace Client
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.Up))
                 {
-                    if (m_currentSelection == MenuState.Settings)
+                    if (m_currentSelection == MenuState.Menu)
                     {
-                        m_currentSelection = MenuState.Menu;
+                        m_currentSelection = MenuState.Name;
                     }
                     else
                     {
@@ -116,36 +192,20 @@ namespace Client
                     return GameStateEnum.MainMenu;
                 }
 
-                if (Keyboard.GetState().IsKeyDown(Keys.Enter) && m_currentSelection == MenuState.Help)
-                {
-                    isESCDown = true;
-                    isEnterUp = false;
-                    canUseMouse = false;
-
-                    return GameStateEnum.Help;
-                }
-                if (Keyboard.GetState().IsKeyDown(Keys.Enter) && m_currentSelection == MenuState.Settings)
-                {
-                    isESCDown = true;
-                    isEnterUp = false;
-                    canUseMouse = false;
-
-                    return GameStateEnum.Settings;
-                }
-                if (Keyboard.GetState().IsKeyDown(Keys.Enter) && m_currentSelection == MenuState.Resume)
-                {
-                    isESCDown = true;
-                    isEnterUp = false;
-                    canUseMouse = false;
-
-                    return GameStateEnum.GamePlay;
-                }
+               
                 if (Keyboard.GetState().IsKeyDown(Keys.Enter) && m_currentSelection == MenuState.Controls)
                 {
                     isESCDown = true;
                     isEnterUp = false;
                     canUseMouse = false;
                     return GameStateEnum.Controls;
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.Enter) && m_currentSelection == MenuState.Name)
+                {
+                    isEnterUp = false;
+                    canUseMouse = false;
+                    isKeySelected = true;
+
                 }
             }
             else if (Keyboard.GetState().IsKeyUp(Keys.Down) && Keyboard.GetState().IsKeyUp(Keys.Up))
@@ -156,48 +216,9 @@ namespace Client
 
             if (canUseMouse)
             {
-                if (settings.Contains(Mouse.GetState().Position))
-                {
-                    if (Mouse.GetState().LeftButton == ButtonState.Pressed)
-                    {
-                        isESCDown = true;
-                        isEnterUp = false;
-                        canUseMouse = false;
-
-                        return GameStateEnum.Settings;
-                    }
-                    m_currentSelection = MenuState.Settings;
-
-
-
-                }
-                else if (help.Contains(Mouse.GetState().Position))
-                {
-                    if (Mouse.GetState().LeftButton == ButtonState.Pressed)
-                    {
-                        isESCDown = true;
-                        isEnterUp = false;
-                        canUseMouse = false;
-
-                        return GameStateEnum.Help;
-                    }
-                    m_currentSelection = MenuState.Help;
-
-                }
-                else if (resume.Contains(Mouse.GetState().Position))
-                {
-                    if (Mouse.GetState().LeftButton == ButtonState.Pressed)
-                    {
-                        isESCDown = true;
-                        isEnterUp = false;
-                        canUseMouse = false;
-
-                        return GameStateEnum.GamePlay;
-                    }
-                    m_currentSelection = MenuState.Resume;
-
-                }
-                else if (menu.Contains(Mouse.GetState().Position))
+               
+               
+                if (menu.Contains(Mouse.GetState().Position))
                 {
                     if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                     {
@@ -221,6 +242,19 @@ namespace Client
                         return GameStateEnum.Controls;
                     }
                     m_currentSelection = MenuState.Controls;
+
+                }
+                else if (TextBox.Contains(Mouse.GetState().Position))
+                {
+                    if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                    {
+                        isEnterUp = false;
+                        canUseMouse = false;
+                        isKeySelected = true;
+
+
+                    }
+                    m_currentSelection = MenuState.Name;
 
                 }
             }
@@ -258,20 +292,23 @@ namespace Client
         {
             m_spriteBatch.Begin();
             m_spriteBatch.Draw(backgroundImage, new Rectangle(0, 0, m_graphics.PreferredBackBufferWidth, m_graphics.PreferredBackBufferHeight), Color.Gray);
-            float bottom = drawMenuItem(m_fontMenu, "PAUSED", 100, Color.OrangeRed);
-            bottom = drawMenuItem(m_currentSelection == MenuState.Settings ? m_fontMenuSelect : m_fontMenu, "Settings", bottom, m_currentSelection == MenuState.Settings ? Color.White : Color.LightGray);
+            float bottom = drawMenuItem(m_fontMenu, "Insert Your Preferred Name", 100, Color.OrangeRed);
+           /* bottom = drawMenuItem(m_currentSelection == MenuState.Settings ? m_fontMenuSelect : m_fontMenu, "Settings", bottom, m_currentSelection == MenuState.Settings ? Color.White : Color.LightGray);
 
             bottom = drawMenuItem(m_currentSelection == MenuState.Help ? m_fontMenuSelect : m_fontMenu, "Help", bottom, m_currentSelection == MenuState.Help ? Color.White : Color.LightGray);
-            bottom = drawMenuItem(m_currentSelection == MenuState.Resume ? m_fontMenuSelect : m_fontMenu, "Resume", bottom, m_currentSelection == MenuState.Resume ? Color.White : Color.LightGray);
+            bottom = drawMenuItem(m_currentSelection == MenuState.Resume ? m_fontMenuSelect : m_fontMenu, "Resume", bottom, m_currentSelection == MenuState.Resume ? Color.White : Color.LightGray);*/
             bottom = drawMenuItem(m_currentSelection == MenuState.Menu ? m_fontMenuSelect : m_fontMenu, "Main Menu", bottom, m_currentSelection == MenuState.Menu ? Color.White : Color.LightGray);
-            drawMenuItem(m_currentSelection == MenuState.Controls ? m_fontMenuSelect : m_fontMenu, "Continue", bottom, m_currentSelection == MenuState.Controls ? Color.White : Color.LightGray);
+            bottom = drawMenuItem(m_currentSelection == MenuState.Controls ? m_fontMenuSelect : m_fontMenu, "Continue", bottom, m_currentSelection == MenuState.Controls ? Color.White : Color.LightGray);
 
+            drawMenuItem(m_currentSelection == MenuState.Name ? m_fontMenuSelect : m_fontMenu, playerName, bottom, Color.Black);
+            
             m_spriteBatch.End();
         }
 
 
         private float drawMenuItem(SpriteFont font, string text, float y, Color color)
         {
+            m_spriteBatch.Draw(whiteImage, TextBox, isKeySelected ? Color.Red : Color.White);
 
             float scale = m_graphics.PreferredBackBufferWidth / 1920f;
             Vector2 stringSize = font.MeasureString(text) * scale;
@@ -286,30 +323,26 @@ namespace Client
                            SpriteEffects.None,
                            0);
 
-            if (text == "Settings")
-            {
-                settings = new Rectangle((int)m_graphics.PreferredBackBufferWidth / 2 - (int)stringSize.X / 2, (int)y, (int)stringSize.X, (int)stringSize.Y);
-            }
-            if (text == "Resume")
-            {
-                resume = new Rectangle((int)m_graphics.PreferredBackBufferWidth / 2 - (int)stringSize.X / 2, (int)y, (int)stringSize.X, (int)stringSize.Y);
-
-            }
-            if (text == "Help")
-            {
-                help = new Rectangle((int)m_graphics.PreferredBackBufferWidth / 2 - (int)stringSize.X / 2, (int)y, (int)stringSize.X, (int)stringSize.Y);
-
-            }
+            
             if (text == "Main Menu")
             {
                 menu = new Rectangle((int)m_graphics.PreferredBackBufferWidth / 2 - (int)stringSize.X / 2, (int)y, (int)stringSize.X, (int)stringSize.Y);
 
 
             }
-            if (text == "Continue")
+            else if (text == "Continue")
             {
                 Continue = new Rectangle((int)m_graphics.PreferredBackBufferWidth / 2 - (int)stringSize.X / 2, (int)y, (int)stringSize.X, (int)stringSize.Y);
 
+
+            }
+            else if (text == playerName)
+            { 
+                TextBox = new Rectangle((int)m_graphics.PreferredBackBufferWidth / 2 - (int)stringSize.X / 2, (int)y, (int)stringSize.X, (int)stringSize.Y);
+                if (TextBox.Width == 0)
+                {
+                    TextBox = new Rectangle((int)m_graphics.PreferredBackBufferWidth / 2 - (int)stringSize.X / 2, (int)y, 10, 10);
+                }
 
             }
 

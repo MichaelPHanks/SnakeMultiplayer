@@ -9,6 +9,7 @@ namespace Shared.Messages
         RemoveEntity,   // Server to client
         Join,           // Client to server
         Input,          // Client to server
-        Disconnect      // Client to server
+        Disconnect,      // Client to server
+        JoinGame
     }
 }
