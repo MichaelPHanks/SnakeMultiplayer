@@ -103,6 +103,9 @@ namespace Client
                     isESCDown = true;
                     isEnterUp = false;
                     canUseMouse = false;
+                    //MessageQueueClient.instance.sendMessage(new Shared.Messages.)
+                    MessageQueueClient.instance.sendMessage(new Shared.Messages.Disconnect());
+                    MessageQueueClient.instance.shutdown();
                     return GameStateEnum.MainMenu;
                 }
                 
@@ -187,7 +190,8 @@ namespace Client
                         isESCDown = true;
                         isEnterUp = false;
                         canUseMouse = false;
-
+                        MessageQueueClient.instance.sendMessage(new Shared.Messages.Disconnect());
+                        MessageQueueClient.instance.shutdown();
                         return GameStateEnum.MainMenu;
                     }
                     m_currentSelection = MenuState.Menu;

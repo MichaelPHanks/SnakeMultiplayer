@@ -94,7 +94,9 @@ namespace Client
         bool isPaused = false;
         public void ConnectToServer()
         {
+            //MessageQueueClient.instance.initialize("localhost", 3000);
             MessageQueueClient.instance.initialize("localhost", 3000);
+            //MessageQueueClient.instance.sendMessage(new Shared.Messages.Join());
             m_gameModel = new GameModel();
             m_gameModel.initialize(contentManager1);
         }

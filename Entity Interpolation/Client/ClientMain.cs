@@ -1,7 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Shared;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.IsolatedStorage;
+using System.Runtime.Serialization.Json;
+using System.Threading.Tasks;
+using Shared;
 
 namespace Client
 {
@@ -35,14 +41,15 @@ namespace Client
             m_graphics.PreferredBackBufferHeight = 1080;
             m_graphics.ApplyChanges();*/
 
-            m_gameModel.initialize(this.Content);
-            //setUpFiles();
+            //m_gameModel.initialize(this.Content);
+            setUpFiles();
 
 
             //m_graphics.IsFullScreen = true;
             /*m_graphics.PreferredBackBufferWidth = 1920;
             m_graphics.PreferredBackBufferHeight = 1080;
             m_graphics.ApplyChanges();*/
+            //MessageQueueClient.instance.initialize("localhost", 3000);
 
 
             // TODO: Add your initialization logic here
@@ -162,6 +169,123 @@ namespace Client
 
 
             base.Draw(gameTime);
+        }
+
+        private void setUpFiles()
+        {
+            lock (this)
+            {
+                initializeFiles();
+            }
+        }
+
+
+        /// <summary>
+        ///     If this is the first time running on this computer 
+        ///     (if the key-bindings and highscores do not exist), 
+        ///     create the files
+        /// </summary>
+        private async Task initializeFiles()
+        {
+            await Task.Run(() =>
+            {
+                using (IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication())
+                {
+
+                    try
+                    {
+                        if (!storage.FileExists("KeyControls.json"))
+                        {
+                            saveDefualtControls(new KeyControls(Keys.Left, Keys.Right, Keys.Up, Keys.Down));
+                        }
+
+                    }
+                    catch (IsolatedStorageException)
+                    {
+
+
+                    }
+
+                    try
+                    {
+                        if (!storage.FileExists("HighScores.json"))
+                        {
+                            saveDefualtHighScores(new HighScoresState(new List<System.Tuple<int, System.DateTime>> { }));
+                        }
+                    }
+                    catch (IsolatedStorageException) { }
+                }
+
+            });
+        }
+
+        private void saveDefualtHighScores(HighScoresState highScore)
+        {
+            lock (this)
+            {
+                finalizeSaveAsyncHighScores(highScore);
+            }
+        }
+
+        private async Task finalizeSaveAsyncHighScores(HighScoresState state)
+        {
+            await Task.Run(() =>
+            {
+                using (IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication())
+                {
+                    try
+                    {
+                        using (IsolatedStorageFileStream fs = storage.OpenFile("HighScores.json", FileMode.Create))
+                        {
+                            if (fs != null)
+                            {
+                                DataContractJsonSerializer mySerializer = new DataContractJsonSerializer(typeof(HighScoresState));
+                                mySerializer.WriteObject(fs, state);
+                            }
+                        }
+                    }
+                    catch (IsolatedStorageException)
+                    {
+                    }
+                }
+
+            });
+        }
+        /// <summary>
+        /// Demonstrates how serialize an object to storage
+        /// </summary>
+        private void saveDefualtControls(KeyControls controls)
+        {
+            lock (this)
+            {
+                finalizeSaveAsyncKeyBindings(controls);
+            }
+        }
+
+
+        private async Task finalizeSaveAsyncKeyBindings(KeyControls state)
+        {
+            await Task.Run(() =>
+            {
+                using (IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication())
+                {
+                    try
+                    {
+                        using (IsolatedStorageFileStream fs = storage.OpenFile("KeyControls.json", FileMode.Create))
+                        {
+                            if (fs != null)
+                            {
+                                DataContractJsonSerializer mySerializer = new DataContractJsonSerializer(typeof(KeyControls));
+                                mySerializer.WriteObject(fs, state);
+                            }
+                        }
+                    }
+                    catch (IsolatedStorageException)
+                    {
+                    }
+                }
+
+            });
         }
     }
 }

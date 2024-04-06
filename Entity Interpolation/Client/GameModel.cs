@@ -2,9 +2,14 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Shared;
 using Shared.Entities;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.IsolatedStorage;
+using System.Runtime.Serialization.Json;
+using System.Threading.Tasks;
 
 namespace Client
 {
@@ -17,10 +22,22 @@ namespace Client
         private Systems.Interpolation m_systemInterpolation = new Systems.Interpolation();
         private Systems.Renderer m_systemRenderer = new Systems.Renderer();
         private bool isKeyBoard = true;
-        /// <summary>
-        /// This is where everything performs its update.
-        /// </summary>
-        public void update(TimeSpan elapsedTime)
+        private bool loading = false;
+        private KeyControls m_loadedState;
+
+
+
+        public void resetGameModel()
+        {
+        m_entities = new Dictionary<uint, Entity>();
+            m_systemInterpolation = new Systems.Interpolation();
+            m_systemRenderer = new Systems.Renderer();
+
+        }
+    /// <summary>
+    /// This is where everything performs its update.
+    /// </summary>
+    public void update(TimeSpan elapsedTime)
         {
             m_systemNetwork.update(elapsedTime, MessageQueueClient.instance.getMessages());
             m_systemKeyboardInput.update(elapsedTime);
@@ -44,18 +61,67 @@ namespace Client
 
             m_systemNetwork.registerNewEntityHandler(handleNewEntity);
             m_systemNetwork.registerRemoveEntityHandler(handleRemoveEntity);
-
+            loadKeyControls();
             // Modify this to load in controls
             m_systemKeyboardInput = new Systems.KeyboardInput(new List<Tuple<Shared.Components.Input.Type, Keys>>
             {
-                Tuple.Create(Shared.Components.Input.Type.RotateUp, Keys.W),
-                Tuple.Create(Shared.Components.Input.Type.RotateLeft, Keys.A),
-                Tuple.Create(Shared.Components.Input.Type.RotateRight, Keys.D),
-                Tuple.Create(Shared.Components.Input.Type.RotateDown, Keys.S),
+                Tuple.Create(Shared.Components.Input.Type.RotateUp, m_loadedState.Up),
+                Tuple.Create(Shared.Components.Input.Type.RotateLeft, m_loadedState.Left),
+                Tuple.Create(Shared.Components.Input.Type.RotateRight, m_loadedState.Right),
+                Tuple.Create(Shared.Components.Input.Type.RotateDown, m_loadedState.Down),
 
             }, isKeyBoard);
 
             return true;
+        }
+
+        /// <summary>
+        /// Demonstrates how to deserialize an object from storage device
+        /// </summary>
+        private void loadKeyControls()
+        {
+            lock (this)
+            {
+                if (!this.loading)
+                {
+                    this.loading = true;
+                    // Yes, I know the result is not being saved, I dont' need it
+                    var result = finalizeLoadAsync();
+                    result.Wait();
+
+                }
+            }
+        }
+
+        private async Task finalizeLoadAsync()
+        {
+            await Task.Run(() =>
+            {
+                using (IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication())
+                {
+                    try
+                    {
+                        if (storage.FileExists("KeyControls.json"))
+                        {
+                            using (IsolatedStorageFileStream fs = storage.OpenFile("KeyControls.json", FileMode.Open))
+                            {
+                                if (fs != null)
+                                {
+                                    DataContractJsonSerializer mySerializer = new DataContractJsonSerializer(typeof(KeyControls));
+                                    m_loadedState = (KeyControls)mySerializer.ReadObject(fs);
+                                }
+
+
+                            }
+                        }
+                    }
+                    catch (IsolatedStorageException)
+                    {
+                    }
+                }
+
+                this.loading = false;
+            });
         }
         public void shutdown()
         {

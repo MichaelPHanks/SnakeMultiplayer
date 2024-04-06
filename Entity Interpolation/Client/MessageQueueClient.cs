@@ -76,11 +76,15 @@ namespace Client
         /// </summary>
         public void shutdown()
         {
-            m_keepRunning = false;
-            m_eventSendMessages.Set();
-            m_socketServer.Shutdown(SocketShutdown.Both);
-            m_socketServer.Disconnect(false);
-            m_socketServer.Close();
+            if (m_instance != null)
+            {
+                m_instance.m_keepRunning = false;
+                m_instance.m_eventSendMessages.Set();
+                m_instance.m_socketServer.Shutdown(SocketShutdown.Both);
+                m_instance.m_socketServer.Disconnect(false);
+                m_instance.m_socketServer.Close();
+            }
+            m_instance = null;
         }
 
         /// <summary>

@@ -11,7 +11,8 @@ using System.Linq;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
-
+using Shared;
+using Client.InputHandling;
 namespace Client
 {
     public class SettingsView : GameStateView
@@ -19,6 +20,7 @@ namespace Client
         public Keys up = Keys.W;
         public Keys left = Keys.A;
         public Keys right = Keys.D;
+        public Keys down = Keys.S;
         public GameStateEnum prevState = GameStateEnum.MainMenu;
         private Texture2D backgroundImage;
         private SpriteFont m_fontMenu;
@@ -28,17 +30,20 @@ namespace Client
         private Rectangle Up = new Rectangle();
         private Rectangle Left = new Rectangle();
         private Rectangle Right = new Rectangle();
+        private Rectangle Down = new Rectangle();
+
         private bool saving = false;
         private bool loading = false;
-        //private KeyControls m_loadedState = null;
+        private KeyControls m_loadedState = null;
         private Texture2D whiteBackground;
         private bool isEnterUp = false;
-        //KeyboardInput keyboard;
+        KeyboardInput keyboard;
         private enum KeySelection
         {
             Up,
             Left,
             Right,
+            Down,
             None,
         }
         private KeySelection m_currentSelection = KeySelection.Up;
@@ -50,14 +55,15 @@ namespace Client
             m_fontMenu = contentManager.Load<SpriteFont>("Fonts/voicActivatedFont");
             m_fontMenuSelect = contentManager.Load<SpriteFont>("Fonts/selectedVoiceActivatedFont");
             whiteBackground = contentManager.Load<Texture2D>("whiteImage");
-            /*keyboard = new KeyboardInput();
+            keyboard = new KeyboardInput();
 
-            keyboard.registerCommand(Keys.Enter, true, new IInputDevice.CommandDelegate(enterHit));*/
-            //loadKeyControls();
-/*
+            keyboard.registerCommand(Keys.Enter, true, new IInputDevice.CommandDelegate(enterHit));
+            loadKeyControls();
+
             up = m_loadedState.Up;
             left = m_loadedState.Left;
-            right = m_loadedState.Right;*/
+            right = m_loadedState.Right;
+            down = m_loadedState.Down;
         }
         public void enterHit(GameTime gameTime)
         {
@@ -69,7 +75,7 @@ namespace Client
         }
         public override GameStateEnum processInput(GameTime gameTime)
         {
-            //keyboard.Update(gameTime);
+            keyboard.Update(gameTime);
            
             if (Keyboard.GetState().IsKeyUp(Keys.Enter)) 
             {
@@ -109,14 +115,14 @@ namespace Client
                                 isKeySelected = false;
 
                                 left = keys[0];
-                                //saveKeyControls();
+                                saveKeyControls();
                             }
                             else if (m_currentSelection == KeySelection.Up)
                             {
                                 isKeySelected = false;
 
                                 up = keys[0];
-                                //saveKeyControls();
+                                saveKeyControls();
 
                             }
                             else if (m_currentSelection == KeySelection.Right)
@@ -124,7 +130,15 @@ namespace Client
                                 isKeySelected = false;
 
                                 right = keys[0];
-                                //saveKeyControls();
+                                saveKeyControls();
+
+                            }
+                            else if (m_currentSelection == KeySelection.Down)
+                            {
+                                isKeySelected = false;
+
+                                down = keys[0];
+                                saveKeyControls();
 
                             }
                         }
@@ -135,7 +149,7 @@ namespace Client
                 {
                     if (Keyboard.GetState().IsKeyDown(Keys.Down))
                     {
-                        if (m_currentSelection == KeySelection.Right)
+                        if (m_currentSelection == KeySelection.Down)
                         {
                             m_currentSelection = KeySelection.Up;
                         }
@@ -149,7 +163,7 @@ namespace Client
                     {
                         if (m_currentSelection == KeySelection.Up)
                         {
-                            m_currentSelection = KeySelection.Right;
+                            m_currentSelection = KeySelection.Down;
                         }
                         else
                         {
@@ -188,7 +202,16 @@ namespace Client
                         m_currentSelection = KeySelection.Right;
 
                     }
+                    else if (Down.Contains(Mouse.GetState().Position))
+                    {
+                        if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                        {
+                            isKeySelected = true;
 
+                        }
+                        m_currentSelection = KeySelection.Down;
+
+                    }
                 }
 
                 
@@ -243,10 +266,11 @@ namespace Client
                            0);
             // Display the current Keys and their buttons...
             float bottom = drawMenuItem(m_fontMenu, "Settings", m_graphics.PreferredBackBufferHeight / 1080f * 100f, Color.Red);
-            bottom = drawMenuItem(m_currentSelection == KeySelection.Up ? m_fontMenuSelect: m_fontMenu, "Thrust     : " + up.ToString(), bottom, m_currentSelection == KeySelection.Up && isKeySelected ? Color.Blue : Color.White);
+            bottom = drawMenuItem(m_currentSelection == KeySelection.Up ? m_fontMenuSelect: m_fontMenu, "Up: " + up.ToString(), bottom, m_currentSelection == KeySelection.Up && isKeySelected ? Color.Blue : Color.White);
 
-            bottom = drawMenuItem(m_currentSelection == KeySelection.Left ? m_fontMenuSelect : m_fontMenu, "Rotate Left: " + left.ToString(), bottom, m_currentSelection == KeySelection.Left && isKeySelected ? Color.Blue : Color.White);
-            bottom = drawMenuItem(m_currentSelection == KeySelection.Right ? m_fontMenuSelect : m_fontMenu, "Rotate Right: " + right.ToString(), bottom, m_currentSelection == KeySelection.Right && isKeySelected ? Color.Blue : Color.White);
+            bottom = drawMenuItem(m_currentSelection == KeySelection.Left ? m_fontMenuSelect : m_fontMenu, "Left: " + left.ToString(), bottom, m_currentSelection == KeySelection.Left && isKeySelected ? Color.Blue : Color.White);
+            bottom = drawMenuItem(m_currentSelection == KeySelection.Right ? m_fontMenuSelect : m_fontMenu, "Right: " + right.ToString(), bottom, m_currentSelection == KeySelection.Right && isKeySelected ? Color.Blue : Color.White);
+            bottom = drawMenuItem(m_currentSelection == KeySelection.Down ? m_fontMenuSelect : m_fontMenu, "Down: " + down.ToString(), bottom, m_currentSelection == KeySelection.Down && isKeySelected ? Color.Blue : Color.White);
 
             bottom = drawMenuItem(m_fontMenu, "Press Enter To Select a Key Binding To Change", bottom + stringSize2.Y, Color.LightGray);
             bottom = drawMenuItem(m_fontMenu, "Once Blue, Select The Preferred Key For That Control", bottom + stringSize2.Y, Color.LightGray);
@@ -275,22 +299,27 @@ namespace Client
                            SpriteEffects.None,
                            0);
 
-            if (text == "Thrust     : " + up.ToString())
+            if (text == "Up: " + up.ToString())
             {
                 Up = new Rectangle(((int)m_graphics.PreferredBackBufferWidth / 2 - (int)stringSize.X / 2) - 10, (int)y, (int)stringSize.X + 20, (int)stringSize.Y);
                     
             }
-            if (text == "Rotate Left: " + left.ToString())
+            if (text == "Left: " + left.ToString())
             {
                 Left = new Rectangle(((int)m_graphics.PreferredBackBufferWidth / 2 - (int)stringSize.X / 2) - 10, (int)y, (int)stringSize.X + 20, (int)stringSize.Y);
                     
             }
-            if (text == "Rotate Right: " + right.ToString())
+            if (text == "Right: " + right.ToString())
             {
                 Right = new Rectangle(((int)m_graphics.PreferredBackBufferWidth / 2 - (int)stringSize.X / 2) - 10, (int)y , (int)stringSize.X + 20, (int)stringSize.Y);
                 
             }
-            
+
+            if (text == "Down: " + right.ToString())
+            {
+                Down = new Rectangle(((int)m_graphics.PreferredBackBufferWidth / 2 - (int)stringSize.X / 2) - 10, (int)y, (int)stringSize.X + 20, (int)stringSize.Y);
+
+            }
 
             return y + stringSize.Y;
         }
@@ -300,7 +329,7 @@ namespace Client
         /// <summary>
         /// Demonstrates how serialize an object to storage
         /// </summary>
-        /*private void saveKeyControls()
+        private void saveKeyControls()
         {
             lock (this)
             {
@@ -309,7 +338,7 @@ namespace Client
                     this.saving = true;
 
                     // Create something to save
-                    KeyControls myState = new KeyControls(this.left, this.right, this.up);
+                    KeyControls myState = new KeyControls(this.left, this.right, this.up, this.down);
 
                     // Yes, I know the result is not being saved, I dont' need it
                     finalizeSaveAsync(myState);
@@ -379,7 +408,7 @@ namespace Client
                                     m_loadedState = (KeyControls)mySerializer.ReadObject(fs);
                                 }
 
-                                
+
                             }
                         }
                     }
@@ -390,7 +419,7 @@ namespace Client
 
                 this.loading = false;
             });
-        }*/
+        }
 
         public override void update(GameTime gameTime)
         {
