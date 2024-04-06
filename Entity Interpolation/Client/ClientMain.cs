@@ -100,7 +100,7 @@ namespace Client
             if (nextStateEnum == GameStateEnum.Exit)
             {
                 MessageQueueClient.instance.sendMessage(new Shared.Messages.Disconnect());
-                MessageQueueClient.instance.shutdown();
+                MessageQueueClient.shutdown();
                 Exit();
             }
 
@@ -194,9 +194,9 @@ namespace Client
 
                     try
                     {
-                        if (!storage.FileExists("KeyControls.json"))
+                        if (!storage.FileExists("KeyControlsSnake.json"))
                         {
-                            saveDefualtControls(new KeyControls(Keys.Left, Keys.Right, Keys.Up, Keys.Down));
+                            saveDefualtControls(new KeyControlsSnake(Keys.Left, Keys.Right, Keys.Up, Keys.Down));
                         }
 
                     }
@@ -254,7 +254,7 @@ namespace Client
         /// <summary>
         /// Demonstrates how serialize an object to storage
         /// </summary>
-        private void saveDefualtControls(KeyControls controls)
+        private void saveDefualtControls(KeyControlsSnake controls)
         {
             lock (this)
             {
@@ -263,7 +263,7 @@ namespace Client
         }
 
 
-        private async Task finalizeSaveAsyncKeyBindings(KeyControls state)
+        private async Task finalizeSaveAsyncKeyBindings(KeyControlsSnake state)
         {
             await Task.Run(() =>
             {
@@ -271,11 +271,11 @@ namespace Client
                 {
                     try
                     {
-                        using (IsolatedStorageFileStream fs = storage.OpenFile("KeyControls.json", FileMode.Create))
+                        using (IsolatedStorageFileStream fs = storage.OpenFile("KeyControlsSnake.json", FileMode.Create))
                         {
                             if (fs != null)
                             {
-                                DataContractJsonSerializer mySerializer = new DataContractJsonSerializer(typeof(KeyControls));
+                                DataContractJsonSerializer mySerializer = new DataContractJsonSerializer(typeof(KeyControlsSnake));
                                 mySerializer.WriteObject(fs, state);
                             }
                         }

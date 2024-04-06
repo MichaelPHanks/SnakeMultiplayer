@@ -10,13 +10,13 @@ namespace Shared
     /// under the XNA framework.
     /// </summary>
     //[Serializable]
-    [DataContract(Name = "KeyControls")]
-    public class KeyControls
+    [DataContract(Name = "KeyControlsSnake")]
+    public class KeyControlsSnake
     {
         /// <summary>
         /// Have to have a default constructor for the XmlSerializer.Deserialize method
         /// </summary>
-        public KeyControls() {
+        public KeyControlsSnake() {
         }
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace Shared
         /// </summary>
         /// <param name="score"></param>
         /// <param name="level"></param>
-        public KeyControls(Keys left, Keys right, Keys up, Keys down)
+        public KeyControlsSnake(Keys left, Keys right, Keys up, Keys down)
         {
             this.Up = up;
             this.Left = left;

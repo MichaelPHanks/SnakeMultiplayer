@@ -23,7 +23,7 @@ namespace Client
         private Systems.Renderer m_systemRenderer = new Systems.Renderer();
         private bool isKeyBoard = true;
         private bool loading = false;
-        private KeyControls m_loadedState;
+        private KeyControlsSnake m_loadedState;
 
 
 
@@ -101,14 +101,14 @@ namespace Client
                 {
                     try
                     {
-                        if (storage.FileExists("KeyControls.json"))
+                        if (storage.FileExists("KeyControlsSnake.json"))
                         {
-                            using (IsolatedStorageFileStream fs = storage.OpenFile("KeyControls.json", FileMode.Open))
+                            using (IsolatedStorageFileStream fs = storage.OpenFile("KeyControlsSnake.json", FileMode.Open))
                             {
                                 if (fs != null)
                                 {
-                                    DataContractJsonSerializer mySerializer = new DataContractJsonSerializer(typeof(KeyControls));
-                                    m_loadedState = (KeyControls)mySerializer.ReadObject(fs);
+                                    DataContractJsonSerializer mySerializer = new DataContractJsonSerializer(typeof(KeyControlsSnake));
+                                    m_loadedState = (KeyControlsSnake)mySerializer.ReadObject(fs);
                                 }
 
 

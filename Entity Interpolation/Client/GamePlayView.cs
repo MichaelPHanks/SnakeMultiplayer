@@ -112,7 +112,7 @@ namespace Client
                 new Color[] { Color.White });
             m_font = contentManager.Load<SpriteFont>("Fonts/voicActivatedFont");
             playerTexture = contentManager.Load<Texture2D>("rocketShip");
-            backgroundImage = contentManager.Load<Texture2D>("saturnCool");
+            backgroundImage = contentManager.Load<Texture2D>("NotMainBackground");
             thrustSound = contentManager.Load<SoundEffect>("smartsound_TRANSPORTATION_SPACE_Spaceshuttle_Rocket_Full_Power_Steady_01");
             levelClear = contentManager.Load<SoundEffect>("levelClearEffect");
             explosionEffect = contentManager.Load<SoundEffect>("mixkit-arcade-game-explosion-2759");
@@ -201,9 +201,9 @@ namespace Client
                 {
                     try
                     {
-                        if (storage.FileExists("KeyControls.json"))
+                        if (storage.FileExists("KeyControlsSnake.json"))
                         {
-                            using (IsolatedStorageFileStream fs = storage.OpenFile("KeyControls.json", FileMode.Open))
+                            using (IsolatedStorageFileStream fs = storage.OpenFile("KeyControlsSnake.json", FileMode.Open))
                             {
                                 if (fs != null)
                                 {

@@ -74,17 +74,27 @@ namespace Client
         /// <summary>
         /// Gracefully shutdown the network connection and related activities
         /// </summary>
-        public void shutdown()
+        public static void shutdown()
         {
-            if (m_instance != null)
+            try
             {
-                m_instance.m_keepRunning = false;
-                m_instance.m_eventSendMessages.Set();
-                m_instance.m_socketServer.Shutdown(SocketShutdown.Both);
-                m_instance.m_socketServer.Disconnect(false);
-                m_instance.m_socketServer.Close();
+                if (m_instance != null)
+                {
+
+                    m_instance.m_keepRunning = false;
+                    m_instance.m_eventSendMessages.Set();
+                    m_instance.m_socketServer.Shutdown(SocketShutdown.Both);
+                    m_instance.m_socketServer.Disconnect(false);
+                    m_instance.m_socketServer.Close();
+                    m_instance = null;
+
+                }
             }
-            m_instance = null;
+            catch(Exception e) 
+            { 
+                Console.WriteLine(e.ToString());
+            }
+
         }
 
         /// <summary>

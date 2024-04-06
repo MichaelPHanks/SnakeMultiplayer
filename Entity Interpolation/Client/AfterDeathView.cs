@@ -53,7 +53,7 @@ namespace Client
 
         public override void loadContent(ContentManager contentManager)
         {
-            backgroundImage = contentManager.Load<Texture2D>("saturnCool");
+            backgroundImage = contentManager.Load<Texture2D>("NotMainBackground");
             m_fontMenu = contentManager.Load<SpriteFont>("Fonts/menu");
             m_fontMenuSelect = contentManager.Load<SpriteFont>("Fonts/menu-selected");
             hover = contentManager.Load<SoundEffect>("little_robot_sound_factory_multimedia_Click_Electronic_14");

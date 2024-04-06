@@ -44,7 +44,7 @@ namespace Client
 
         public override void loadContent(ContentManager contentManager)
         {
-            backgroundImage = contentManager.Load<Texture2D>("saturnCool");
+            backgroundImage = contentManager.Load<Texture2D>("NotMainBackground");
             m_fontMenu = contentManager.Load<SpriteFont>("Fonts/menu");
             m_fontMenuSelect = contentManager.Load<SpriteFont>("Fonts/menu-selected");
             hover = contentManager.Load<SoundEffect>("little_robot_sound_factory_multimedia_Click_Electronic_14");
@@ -105,7 +105,7 @@ namespace Client
                     canUseMouse = false;
                     //MessageQueueClient.instance.sendMessage(new Shared.Messages.)
                     MessageQueueClient.instance.sendMessage(new Shared.Messages.Disconnect());
-                    MessageQueueClient.instance.shutdown();
+                    MessageQueueClient.shutdown();
                     return GameStateEnum.MainMenu;
                 }
                 
@@ -191,7 +191,7 @@ namespace Client
                         isEnterUp = false;
                         canUseMouse = false;
                         MessageQueueClient.instance.sendMessage(new Shared.Messages.Disconnect());
-                        MessageQueueClient.instance.shutdown();
+                        MessageQueueClient.shutdown();
                         return GameStateEnum.MainMenu;
                     }
                     m_currentSelection = MenuState.Menu;

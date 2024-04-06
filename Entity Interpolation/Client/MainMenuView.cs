@@ -54,7 +54,7 @@ namespace Client
             m_fontMenu = contentManager.Load<SpriteFont>("Fonts/menu");
             m_fontMenuSelect = contentManager.Load<SpriteFont>("Fonts/menu-selected");
             hover = contentManager.Load<SoundEffect>("little_robot_sound_factory_multimedia_Click_Electronic_14");
-            mainBackground = contentManager.Load<Texture2D>("flbb_3udr_220615");
+            mainBackground = contentManager.Load<Texture2D>("MainBackground");
             m_fontTitle = contentManager.Load<SpriteFont>("Fonts/mainmenuTitle");
             soundInstance = hover.CreateInstance();
 
@@ -261,7 +261,7 @@ namespace Client
 
             m_spriteBatch.Draw(mainBackground, new Rectangle(0,0,m_graphics.PreferredBackBufferWidth, m_graphics.PreferredBackBufferHeight),Color.White);
 
-            float bottom = drawMenuItem(m_fontTitle, "LUNAR LANDER", m_graphics.PreferredBackBufferHeight / 4, Color.OrangeRed);
+            float bottom = drawMenuItem(m_fontTitle, "SNAKE GAME FR", m_graphics.PreferredBackBufferHeight / 4, Color.Black);
              bottom = drawMenuItem(m_currentSelection == MenuState.NewGame ? m_fontMenuSelect: m_fontMenu, "Join Game", bottom, m_currentSelection == MenuState.NewGame ? Color.White:Color.LightGray);
             
             bottom = drawMenuItem(m_currentSelection == MenuState.HighScores ? m_fontMenuSelect : m_fontMenu, "High Scores", bottom, m_currentSelection == MenuState.HighScores ? Color.White : Color.LightGray);

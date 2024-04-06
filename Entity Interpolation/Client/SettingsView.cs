@@ -34,7 +34,7 @@ namespace Client
 
         private bool saving = false;
         private bool loading = false;
-        private KeyControls m_loadedState = null;
+        private KeyControlsSnake m_loadedState = null;
         private Texture2D whiteBackground;
         private bool isEnterUp = false;
         KeyboardInput keyboard;
@@ -51,7 +51,7 @@ namespace Client
 
         public override void loadContent(ContentManager contentManager)
         {
-            backgroundImage = contentManager.Load<Texture2D>("saturnCool");
+            backgroundImage = contentManager.Load<Texture2D>("NotMainBackground");
             m_fontMenu = contentManager.Load<SpriteFont>("Fonts/voicActivatedFont");
             m_fontMenuSelect = contentManager.Load<SpriteFont>("Fonts/selectedVoiceActivatedFont");
             whiteBackground = contentManager.Load<Texture2D>("whiteImage");
@@ -265,7 +265,7 @@ namespace Client
                            SpriteEffects.None,
                            0);
             // Display the current Keys and their buttons...
-            float bottom = drawMenuItem(m_fontMenu, "Settings", m_graphics.PreferredBackBufferHeight / 1080f * 100f, Color.Red);
+            float bottom = drawMenuItem(m_fontMenu, "Settings", m_graphics.PreferredBackBufferHeight / 1080f * 100f, Color.Black);
             bottom = drawMenuItem(m_currentSelection == KeySelection.Up ? m_fontMenuSelect: m_fontMenu, "Up: " + up.ToString(), bottom, m_currentSelection == KeySelection.Up && isKeySelected ? Color.Blue : Color.White);
 
             bottom = drawMenuItem(m_currentSelection == KeySelection.Left ? m_fontMenuSelect : m_fontMenu, "Left: " + left.ToString(), bottom, m_currentSelection == KeySelection.Left && isKeySelected ? Color.Blue : Color.White);
@@ -315,7 +315,7 @@ namespace Client
                 
             }
 
-            if (text == "Down: " + right.ToString())
+            if (text == "Down: " + down.ToString())
             {
                 Down = new Rectangle(((int)m_graphics.PreferredBackBufferWidth / 2 - (int)stringSize.X / 2) - 10, (int)y, (int)stringSize.X + 20, (int)stringSize.Y);
 
@@ -338,7 +338,7 @@ namespace Client
                     this.saving = true;
 
                     // Create something to save
-                    KeyControls myState = new KeyControls(this.left, this.right, this.up, this.down);
+                    KeyControlsSnake myState = new KeyControlsSnake(this.left, this.right, this.up, this.down);
 
                     // Yes, I know the result is not being saved, I dont' need it
                     finalizeSaveAsync(myState);
@@ -346,7 +346,7 @@ namespace Client
             }
         }
 
-        private async Task finalizeSaveAsync(KeyControls state)
+        private async Task finalizeSaveAsync(KeyControlsSnake state)
         {
             await Task.Run(() =>
             {
@@ -354,11 +354,11 @@ namespace Client
                 {
                     try
                     {
-                        using (IsolatedStorageFileStream fs = storage.OpenFile("KeyControls.json", FileMode.Create))
+                        using (IsolatedStorageFileStream fs = storage.OpenFile("KeyControlsSnake.json", FileMode.Create))
                         {
                             if (fs != null)
                             {
-                                DataContractJsonSerializer mySerializer = new DataContractJsonSerializer(typeof(KeyControls));
+                                DataContractJsonSerializer mySerializer = new DataContractJsonSerializer(typeof(KeyControlsSnake));
                                 mySerializer.WriteObject(fs, state);
                             }
                         }
@@ -398,14 +398,14 @@ namespace Client
                 {
                     try
                     {
-                        if (storage.FileExists("KeyControls.json"))
+                        if (storage.FileExists("KeyControlsSnake.json"))
                         {
-                            using (IsolatedStorageFileStream fs = storage.OpenFile("KeyControls.json", FileMode.Open))
+                            using (IsolatedStorageFileStream fs = storage.OpenFile("KeyControlsSnake.json", FileMode.Open))
                             {
                                 if (fs != null)
                                 {
-                                    DataContractJsonSerializer mySerializer = new DataContractJsonSerializer(typeof(KeyControls));
-                                    m_loadedState = (KeyControls)mySerializer.ReadObject(fs);
+                                    DataContractJsonSerializer mySerializer = new DataContractJsonSerializer(typeof(KeyControlsSnake));
+                                    m_loadedState = (KeyControlsSnake)mySerializer.ReadObject(fs);
                                 }
 
 
