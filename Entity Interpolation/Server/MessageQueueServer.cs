@@ -108,6 +108,7 @@ namespace Server
             }
             catch (Exception ex)
             {
+
                 Console.WriteLine(ex.ToString());
             }
         }
@@ -316,6 +317,8 @@ namespace Server
                             {
                                 try
                                 {
+
+                                    // Sometime we get to here and the client is in the M_client list
                                     if (client.Value.Connected && client.Value.Available > 0)
                                     {
                                         // Read the type first

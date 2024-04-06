@@ -95,6 +95,7 @@ namespace Client
         public void ConnectToServer()
         {
             //MessageQueueClient.instance.initialize("localhost", 3000);
+            MessageQueueClient.shutdown();
             MessageQueueClient.instance.initialize("localhost", 3000);
             //MessageQueueClient.instance.sendMessage(new Shared.Messages.Join());
             m_gameModel = new GameModel();
@@ -112,7 +113,7 @@ namespace Client
                 new Color[] { Color.White });
             m_font = contentManager.Load<SpriteFont>("Fonts/voicActivatedFont");
             playerTexture = contentManager.Load<Texture2D>("rocketShip");
-            backgroundImage = contentManager.Load<Texture2D>("NotMainBackground");
+            backgroundImage = contentManager.Load<Texture2D>("Cartoon_green_texture_grass");
             thrustSound = contentManager.Load<SoundEffect>("smartsound_TRANSPORTATION_SPACE_Spaceshuttle_Rocket_Full_Power_Steady_01");
             levelClear = contentManager.Load<SoundEffect>("levelClearEffect");
             explosionEffect = contentManager.Load<SoundEffect>("mixkit-arcade-game-explosion-2759");
@@ -336,9 +337,9 @@ namespace Client
         public override void render(GameTime gameTime)
         {
             m_spriteBatch.Begin();
-            m_spriteBatch.Draw(backgroundImage, new Rectangle(0, 0, m_graphics.PreferredBackBufferWidth, m_graphics.PreferredBackBufferHeight), Color.White);
+            //m_spriteBatch.Draw(backgroundImage, new Rectangle(0, 0, m_graphics.PreferredBackBufferWidth, m_graphics.PreferredBackBufferHeight), Color.White);
             m_spriteBatch.End();
-            m_gameModel.render(gameTime.ElapsedGameTime, m_spriteBatch);
+            m_gameModel.render(gameTime.ElapsedGameTime, m_spriteBatch, m_graphics.PreferredBackBufferWidth, m_graphics.PreferredBackBufferHeight, backgroundImage);
 
 
             // Render the background:

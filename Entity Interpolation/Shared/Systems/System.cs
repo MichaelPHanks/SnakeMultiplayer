@@ -12,6 +12,8 @@ namespace Shared.Systems
         // Contains the entities this system is interested in, keyed by their IDs.
         protected Dictionary<uint, Entity> m_entities = new Dictionary<uint, Entity>();
 
+        protected Entity m_entity;
+
         /// <summary>
         /// An array containing the types of components an entity must have for this system to be interested in it.
         /// </summary>
@@ -35,6 +37,10 @@ namespace Shared.Systems
         {
             foreach (Type type in ComponentTypes)
             {
+                if (entity.contains<Shared.Components.Input>()) 
+                {
+                    m_entity = entity;
+                }
                 if (!entity.contains(type))
                 {
                     return false;

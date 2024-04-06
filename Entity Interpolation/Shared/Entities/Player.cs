@@ -57,7 +57,7 @@ namespace Shared.Entities
         }
 
 
-        public static void mouseRotation(Entity entity, TimeSpan elapsedTime, int mouseX, int mouseY)
+        /*public static void mouseRotation(Entity entity, TimeSpan elapsedTime)
         {
             // Given the location we are looking at, change the orientation.
             var position = entity.get<Position>();
@@ -94,7 +94,7 @@ namespace Shared.Entities
             
 
 
-        }
+        }*/
 
         public static void rotateRight(Entity entity, TimeSpan elapsedTime)
         {

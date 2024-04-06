@@ -9,6 +9,7 @@
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/../../../../LunarLander/LunarLander/Content/Fonts/menu.spritefont</File>
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/../../../../LunarLander/LunarLander/Content/Fonts/selectedVoiceActivatedFont.spritefont</File>
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/../../../../LunarLander/LunarLander/Content/Fonts/voicActivatedFont.spritefont</File>
+    <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/Cartoon_green_texture_grass.jpg</File>
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/EnemyBody.png</File>
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/EnemyHead.png</File>
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/EnemyTail.png</File>
@@ -37,6 +38,7 @@
     <File>Fonts/menu.spritefont</File>
     <File>Fonts/selectedVoiceActivatedFont.spritefont</File>
     <File>Fonts/voicActivatedFont.spritefont</File>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

@@ -5,13 +5,12 @@ namespace Shared.Messages
 {
     public class Input : Message
     {
-        public Input(uint entityId, List<Components.Input.Type> inputs, TimeSpan elapsedTime, int X, int Y) : base(Messages.Type.Input)
+        public Input(uint entityId, List<Components.Input.Type> inputs, TimeSpan elapsedTime) : base(Messages.Type.Input)
         {
             this.entityId = entityId;
             this.inputs = inputs;
             this.elapsedTime = elapsedTime;
-            this.mousePositionX = X;
-            this.mousePositionY = Y;
+            
         }
         
         public Input() : base(Messages.Type.Input)
@@ -23,17 +22,14 @@ namespace Shared.Messages
         public uint entityId { get; private set; }
         public List<Components.Input.Type> inputs { get; private set; }
         public TimeSpan elapsedTime { get; private set; }
-        public int mousePositionX;
-        public int mousePositionY;  
-
+        
         public override byte[] serialize()
         {
             List<byte> data = new List<byte>();
 
             data.AddRange(base.serialize());
             data.AddRange(BitConverter.GetBytes(entityId));
-            data.AddRange(BitConverter.GetBytes(mousePositionX));
-            data.AddRange(BitConverter.GetBytes(mousePositionY));
+            
 
 
             data.AddRange(BitConverter.GetBytes(inputs.Count));
@@ -54,10 +50,7 @@ namespace Shared.Messages
             this.entityId = BitConverter.ToUInt32(data, offset);
             offset += sizeof(UInt32);
 
-            this.mousePositionX = BitConverter.ToInt32(data, offset);
-            offset += sizeof(Int32);
-            this.mousePositionY = BitConverter.ToInt32(data, offset);
-            offset += sizeof(Int32);
+            
             int howMany = BitConverter.ToInt32(data, offset);
             offset += sizeof(UInt32);
 

@@ -21,9 +21,15 @@ namespace Client
         private Systems.KeyboardInput m_systemKeyboardInput;
         private Systems.Interpolation m_systemInterpolation = new Systems.Interpolation();
         private Systems.Renderer m_systemRenderer = new Systems.Renderer();
-        private bool isKeyBoard = true;
         private bool loading = false;
         private KeyControlsSnake m_loadedState;
+
+        private const int GameWorldWidth = 9600;
+        private const int GameWorldHeight = 5400;
+
+
+        private const int GameWorldViewPortWidth = 1920;
+        private const int GameWorldViewPortHeight = 1080;
 
 
 
@@ -45,9 +51,9 @@ namespace Client
             m_systemInterpolation.update(elapsedTime);
         }
 
-        public void render(TimeSpan elapsedTime, SpriteBatch spriteBatch)
+        public void render(TimeSpan elapsedTime, SpriteBatch spriteBatch, int gameWidth, int gameHeight, Texture2D backgroundImage)
         {
-            m_systemRenderer.update(elapsedTime, spriteBatch);
+            m_systemRenderer.update(elapsedTime, spriteBatch, gameWidth, gameHeight, backgroundImage);
         }
 
         /// <summary>
@@ -70,7 +76,7 @@ namespace Client
                 Tuple.Create(Shared.Components.Input.Type.RotateRight, m_loadedState.Right),
                 Tuple.Create(Shared.Components.Input.Type.RotateDown, m_loadedState.Down),
 
-            }, isKeyBoard);
+            });
 
             return true;
         }
@@ -186,6 +192,7 @@ namespace Client
             {
                 return;
             }
+            
 
             m_entities[entity.id] = entity;
             m_systemKeyboardInput.add(entity);

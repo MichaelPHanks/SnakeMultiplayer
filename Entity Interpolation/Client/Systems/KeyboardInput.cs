@@ -22,12 +22,9 @@ namespace Client.Systems
         private HashSet<Keys> m_keysPressed = new HashSet<Keys>();
         private bool m_mouseEnabled = true;
         private List<Shared.Components.Input.Type> m_inputEvents = new List<Shared.Components.Input.Type>();
-        private int previousX = Mouse.GetState().X;
-        private int previousY = Mouse.GetState().Y;
-        private bool isKeyBoard;
-        public KeyboardInput(List<Tuple<Shared.Components.Input.Type, Keys>> mapping, bool isKeyBoard) : base(typeof(Shared.Components.Input))
+        
+        public KeyboardInput(List<Tuple<Shared.Components.Input.Type, Keys>> mapping) : base(typeof(Shared.Components.Input))
         {
-            this.isKeyBoard = isKeyBoard;
             foreach (var input in mapping)
             {
                 m_typeToKey[input.Item1] = input.Item2;
@@ -41,8 +38,7 @@ namespace Client.Systems
             foreach (var item in m_entities)
             {
                 List<Shared.Components.Input.Type> inputs = new List<Shared.Components.Input.Type>();
-                if (isKeyBoard)
-                {
+                
 
 
                     foreach (var key in m_keysPressed)
@@ -70,7 +66,7 @@ namespace Client.Systems
                             }
                         }
                     }
-                }
+                
                 /*var vectorX = Math.Cos(position.orientation);
                 var vectorY = Math.Sin(position.orientation);*/
                 /*if (item.Value.get<Position>().orientation)*/
@@ -100,13 +96,13 @@ namespace Client.Systems
                                     // Do some more stuff here
                                 }*/
 
-                else
+                /*else
                 {
                     previousX = Mouse.GetState().X;
                     previousY = Mouse.GetState().Y;
                     inputs.Add(Shared.Components.Input.Type.RotateMouse);
                     Shared.Entities.Utility.mouseRotation(item.Value, elapsedTime, Mouse.GetState().X, Mouse.GetState().Y);
-                }
+                }*/
                
 
                 inputs.Add(Shared.Components.Input.Type.Thrust);
@@ -114,7 +110,7 @@ namespace Client.Systems
 
                 if (inputs.Count > 0)
                 {
-                    MessageQueueClient.instance.sendMessageWithId(new Shared.Messages.Input(item.Key, inputs, elapsedTime, Mouse.GetState().X, Mouse.GetState().Y));
+                    MessageQueueClient.instance.sendMessageWithId(new Shared.Messages.Input(item.Key, inputs, elapsedTime));
                 }
             }
         }

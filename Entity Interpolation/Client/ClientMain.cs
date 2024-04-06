@@ -99,7 +99,7 @@ namespace Client
 
             if (nextStateEnum == GameStateEnum.Exit)
             {
-                MessageQueueClient.instance.sendMessage(new Shared.Messages.Disconnect());
+                //MessageQueueClient.instance.sendMessage(new Shared.Messages.Disconnect());
                 MessageQueueClient.shutdown();
                 Exit();
             }

@@ -23,7 +23,7 @@ namespace Client
         public override void loadContent(ContentManager contentManager)
         {
 
-            backgroundImage = contentManager.Load<Texture2D>("flbb_3udr_220615");
+            backgroundImage = contentManager.Load<Texture2D>("Cartoon_green_texture_grass");
             backgroundRect = new Rectangle(0 ,0 ,m_graphics.PreferredBackBufferWidth, m_graphics.PreferredBackBufferHeight);
             m_font = contentManager.Load<SpriteFont>("Fonts/voicActivatedFont");
             whiteBackground = contentManager.Load<Texture2D>("whiteImage");

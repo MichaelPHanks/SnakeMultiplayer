@@ -124,10 +124,10 @@ namespace Server.Systems
                         Shared.Entities.Utility.rotateDown(entity, message.elapsedTime);
                         m_reportThese.Add(message.entityId);
                         break;
-                    case Shared.Components.Input.Type.RotateMouse:
-                        Shared.Entities.Utility.mouseRotation(entity, message.elapsedTime, message.mousePositionX, message.mousePositionY);
+                    /*case Shared.Components.Input.Type.RotateMouse:
+                        Shared.Entities.Utility.mouseRotation(entity, message.elapsedTime);
                         m_reportThese.Add(message.entityId);
-                        break;
+                        break;*/
                     case Shared.Components.Input.Type.Thrust:
                         Shared.Entities.Utility.thrust(entity, message.elapsedTime);
                         m_reportThese.Add(message.entityId);

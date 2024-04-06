@@ -106,9 +106,9 @@ namespace Client.Systems
                                     Shared.Entities.Utility.rotateDown(entity, message.elapsedTime);
                                     break;
 
-                                case Shared.Components.Input.Type.RotateMouse:
+                                /*case Shared.Components.Input.Type.RotateMouse:
                                     Shared.Entities.Utility.mouseRotation(entity, message.elapsedTime, message.mousePositionX, message.mousePositionY);
-                                    break;
+                                    break;*/
                             }
                         }
                     }
