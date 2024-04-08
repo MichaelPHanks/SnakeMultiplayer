@@ -48,6 +48,10 @@ namespace Client.Systems
             {
                 m_removeEntityHandler((RemoveEntity)message);
             });
+            registerHandler(Shared.Messages.Type.PlayerDeath, (TimeSpan elapsedTime, Message message) =>
+            {
+                handlePlayerDeath((PlayerDeath)message);
+            });
         }
 
         // Have to implement this because it is abstract in the base class
@@ -170,6 +174,22 @@ namespace Client.Systems
                     entity.get<Position>().orientation = message.orientation;
 
                     m_updatedEntities.Add(entity.id);
+                }
+            }
+        }
+
+        
+        private void handlePlayerDeath(PlayerDeath message)
+        {
+            if (m_entities.ContainsKey(message.id))
+            {
+                m_entities[message.id].isAlive = false;
+
+                if (m_entity.id == message.id)
+                {
+                    // We are dead ... :(
+
+                    m_entity.isAlive = false;
                 }
             }
         }

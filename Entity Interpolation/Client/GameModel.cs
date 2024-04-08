@@ -33,13 +33,13 @@ namespace Client
 
 
 
-        public void resetGameModel()
+        /*public void resetGameModel()
         {
         m_entities = new Dictionary<uint, Entity>();
             m_systemInterpolation = new Systems.Interpolation();
             m_systemRenderer = new Systems.Renderer();
 
-        }
+        }*/
     /// <summary>
     /// This is where everything performs its update.
     /// </summary>
@@ -49,6 +49,9 @@ namespace Client
             m_systemKeyboardInput.update(elapsedTime);
             
             m_systemInterpolation.update(elapsedTime);
+
+
+            
         }
 
         public void render(TimeSpan elapsedTime, SpriteBatch spriteBatch, int gameWidth, int gameHeight, Texture2D backgroundImage)

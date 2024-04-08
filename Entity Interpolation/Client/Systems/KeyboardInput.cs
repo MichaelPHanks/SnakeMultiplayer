@@ -38,8 +38,9 @@ namespace Client.Systems
             foreach (var item in m_entities)
             {
                 List<Shared.Components.Input.Type> inputs = new List<Shared.Components.Input.Type>();
-                
 
+                if (item.Value.isAlive)
+                {
 
                     foreach (var key in m_keysPressed)
                     {
@@ -61,52 +62,54 @@ namespace Client.Systems
                                     Shared.Entities.Utility.rotateRight(item.Value, elapsedTime);
                                     break;
                                 case Shared.Components.Input.Type.RotateDown:
-                                    Shared.Entities.Utility.rotateDown(item.Value,elapsedTime);
+                                    Shared.Entities.Utility.rotateDown(item.Value, elapsedTime);
                                     break;
                             }
                         }
                     }
-                
-                /*var vectorX = Math.Cos(position.orientation);
-                var vectorY = Math.Sin(position.orientation);*/
-                /*if (item.Value.get<Position>().orientation)*/
-                /*
-                                var vectorX = Math.Cos(item.Value.get<Position>().orientation);
-                                var vectorY = Math.Sin(item.Value.get<Position>().orientation);
 
-                                // Get the position of the mouse and the ship, create vector between the two
 
-                                Microsoft.Xna.Framework.Vector2 angle = item.Value.get<Position>().position - new Microsoft.Xna.Framework.Vector2(Mouse.GetState().X, Mouse.GetState().Y);
+                    /*var vectorX = Math.Cos(position.orientation);
+                    var vectorY = Math.Sin(position.orientation);*/
+                    /*if (item.Value.get<Position>().orientation)*/
+                    /*
+                                    var vectorX = Math.Cos(item.Value.get<Position>().orientation);
+                                    var vectorY = Math.Sin(item.Value.get<Position>().orientation);
 
-                                var vectorXMouse = Math.Cos(angle.X);
-                                var vectorYMouse = Math.Sin(angle.Y);
+                                    // Get the position of the mouse and the ship, create vector between the two
 
-                                var angle2 = Math.Atan2(vectorXMouse, vectorYMouse);
-                                var angle3 = Math.Atan2(vectorX, vectorY);
+                                    Microsoft.Xna.Framework.Vector2 angle = item.Value.get<Position>().position - new Microsoft.Xna.Framework.Vector2(Mouse.GetState().X, Mouse.GetState().Y);
 
-                                if (angle3 != angle2)
-                                {
-                                    inputs.Add(Shared.Components.Input.Type.RotateLeft);
-                                    Shared.Entities.Utility.rotateLeft(item.Value, elapsedTime);
+                                    var vectorXMouse = Math.Cos(angle.X);
+                                    var vectorYMouse = Math.Sin(angle.Y);
 
-                                }
+                                    var angle2 = Math.Atan2(vectorXMouse, vectorYMouse);
+                                    var angle3 = Math.Atan2(vectorX, vectorY);
 
-                                if (Mouse.GetState().X != 1)
-                                {
-                                    // Do some more stuff here
-                                }*/
+                                    if (angle3 != angle2)
+                                    {
+                                        inputs.Add(Shared.Components.Input.Type.RotateLeft);
+                                        Shared.Entities.Utility.rotateLeft(item.Value, elapsedTime);
 
-                /*else
-                {
-                    previousX = Mouse.GetState().X;
-                    previousY = Mouse.GetState().Y;
-                    inputs.Add(Shared.Components.Input.Type.RotateMouse);
-                    Shared.Entities.Utility.mouseRotation(item.Value, elapsedTime, Mouse.GetState().X, Mouse.GetState().Y);
-                }*/
-               
+                                    }
 
-                inputs.Add(Shared.Components.Input.Type.Thrust);
-                Shared.Entities.Utility.thrust(item.Value, elapsedTime);
+                                    if (Mouse.GetState().X != 1)
+                                    {
+                                        // Do some more stuff here
+                                    }*/
+
+                    /*else
+                    {
+                        previousX = Mouse.GetState().X;
+                        previousY = Mouse.GetState().Y;
+                        inputs.Add(Shared.Components.Input.Type.RotateMouse);
+                        Shared.Entities.Utility.mouseRotation(item.Value, elapsedTime, Mouse.GetState().X, Mouse.GetState().Y);
+                    }*/
+
+
+                    inputs.Add(Shared.Components.Input.Type.Thrust);
+                    Shared.Entities.Utility.thrust(item.Value, elapsedTime);
+                }
 
                 if (inputs.Count > 0)
                 {

@@ -200,6 +200,7 @@ namespace Server
                         lock (m_mutexSockets)
                         {
                             m_clients.Add(client.GetHashCode(), client);
+                            m_clientLastMessageId.Add(client.GetHashCode(), 0);
                         }
                         Console.WriteLine("Client connected from {0}", client.RemoteEndPoint.ToString());
                     }

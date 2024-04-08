@@ -24,11 +24,14 @@ namespace Shared.Entities
         public Entity()
         {
             id = m_nextId++;
+            isAlive = true;
         }
 
         public Entity(uint id)
         {
             this.id = id;
+            isAlive = true;
+
         }
 
         /// <summary>
@@ -37,6 +40,9 @@ namespace Shared.Entities
         public uint id { get; private set; }
 
         public TimeSpan updateWindow {  get; set; }
+
+
+        public bool isAlive { get; set; }
 
         /// <summary>
         /// Returns whether this Entity contains a component of the given type.

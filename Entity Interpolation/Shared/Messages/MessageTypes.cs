@@ -10,6 +10,7 @@ namespace Shared.Messages
         Join,           // Client to server
         Input,          // Client to server
         Disconnect,      // Client to server
-        JoinGame
+        JoinGame,
+        PlayerDeath,
     }
 }

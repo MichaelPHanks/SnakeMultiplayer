@@ -76,21 +76,21 @@ namespace Client
             Vector2 stringSize = m_font.MeasureString("How To Play") * scale;
 
             // How to play : Top of screen
-            float bottom = drawMenuItem(m_font, "How To Play", m_graphics.PreferredBackBufferHeight / 1080f * 100f,  Color.LightGray);
-            bottom = drawMenuItem(m_font, "Safely Land Under These Conditions: ", bottom + stringSize.Y, Color.LightGray);
-            bottom = drawMenuItem(m_font, " -- Angle Between 355 And 5 Degrees -- ", bottom, Color.LightGray);
+            float bottom = drawMenuItem(m_font, "How To Play", m_graphics.PreferredBackBufferHeight / 1080f * 100f,  Color.Black);
+            bottom = drawMenuItem(m_font, "Safely Land Under These Conditions: ", bottom + stringSize.Y, Color.Black);
+            bottom = drawMenuItem(m_font, " -- Angle Between 355 And 5 Degrees -- ", bottom, Color.Black);
 
-            bottom = drawMenuItem(m_font, " -- Velocity: 2 Or Less m/s -- ", bottom, Color.LightGray);
-            bottom = drawMenuItem(m_font, " -- Land On Specified Flat Surface(s) (In Blue!) -- ", bottom, Color.LightGray);
+            bottom = drawMenuItem(m_font, " -- Velocity: 2 Or Less m/s -- ", bottom, Color.Black);
+            bottom = drawMenuItem(m_font, " -- Land On Specified Flat Surface(s) (In Blue!) -- ", bottom, Color.Black);
 
 
             // Show control usage
 
-            bottom = drawMenuItem(m_font, "Controls", m_graphics.PreferredBackBufferHeight / 2, Color.LightGray);
-            bottom = drawMenuItem(m_font, "Thrust: Thrust The Rocket In Tilted Direction", bottom, Color.LightGray);
-            bottom = drawMenuItem(m_font, "Left: Tilt Rocket In Left Direction", bottom, Color.LightGray);
-            bottom = drawMenuItem(m_font, "Right: Tilt Rocket In Right Direction", bottom, Color.LightGray);
-            bottom = drawMenuItem(m_font, "See Settings Page For Key Bindings", bottom + stringSize.Y, Color.LightGray);
+            bottom = drawMenuItem(m_font, "Controls", m_graphics.PreferredBackBufferHeight / 2, Color.Black);
+            bottom = drawMenuItem(m_font, "Thrust: Thrust The Rocket In Tilted Direction", bottom, Color.Black);
+            bottom = drawMenuItem(m_font, "Left: Tilt Rocket In Left Direction", bottom, Color.Black);
+            bottom = drawMenuItem(m_font, "Right: Tilt Rocket In Right Direction", bottom, Color.Black);
+            bottom = drawMenuItem(m_font, "See Settings Page For Key Bindings", bottom + stringSize.Y, Color.Black);
 
 
 

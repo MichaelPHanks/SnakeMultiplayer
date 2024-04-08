@@ -116,7 +116,7 @@ namespace Client
                            scale1,
                            SpriteEffects.None,
                            0);
-            float bottom = drawMenuItem(m_fontMenu, "High Scores!", m_graphics.PreferredBackBufferHeight / 1080f * 100f, Color.OrangeRed);
+            float bottom = drawMenuItem(m_fontMenu, "High Scores!", m_graphics.PreferredBackBufferHeight / 1080f * 100f, Color.Black);
 
             foreach (var state in m_loadedState.getHighScores())
             {

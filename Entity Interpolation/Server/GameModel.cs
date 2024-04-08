@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Shared.Components;
 using Shared.Entities;
 using Shared.Messages;
+using System.Xml;
 
 namespace Server
 {
@@ -32,6 +33,36 @@ namespace Server
         {
             
             m_systemNetwork.update(elapsedTime, MessageQueueServer.instance.getMessages());
+
+
+            // Check for collision:
+
+            // Check for out of bounds death
+            foreach (var entity in m_entities.Values)
+            {
+                if (entity.isAlive)
+                {
+
+
+                    var position1 = entity.get<Shared.Components.Position>().position;
+                    if (position1.X < 0 || position1.X > GameWorldWidth)
+                    {
+                        entity.isAlive = false;
+                        handlePlayerDeath((int)entity.id);
+                    }
+                    else if (position1.Y < 0 || position1.Y > GameWorldHeight)
+                    {
+                        handlePlayerDeath((int)entity.id);
+                        entity.isAlive = false;
+
+
+                    }
+
+                }
+            }
+
+
+
         }
 
         /// <summary>
@@ -67,6 +98,13 @@ namespace Server
             MessageQueueServer.instance.sendMessage(clientId, new Shared.Messages.ConnectAck());
         }
 
+
+
+        private void handlePlayerDeath(int clientId)
+        {
+            Message message = new Shared.Messages.PlayerDeath((uint)clientId);
+            MessageQueueServer.instance.broadcastMessage(message);
+        }
         /// <summary>
         /// When a client disconnects, need to tell all the other clients
         /// of the disconnect.
@@ -134,7 +172,7 @@ namespace Server
 
             // Step 2: Create an entity for the newly joined player and sent it
             //         to the newly joined client
-            Entity player = Shared.Entities.Player.create("PlayerHead", new Vector2(GameWorldWidth / 2, GameWorldHeight / 2), 50, 0.1f, (float)Math.PI / 1000);
+            Entity player = Shared.Entities.Player.create("PlayerHead", new Vector2(GameWorldWidth / 2, GameWorldHeight / 2), 50, 0.5f, (float)Math.PI / 1000);
             addEntity(player);
             m_clientToEntityId[clientId] = player.id;
 
