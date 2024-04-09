@@ -25,7 +25,7 @@ namespace Client.Systems
         {
 
             spriteBatch.Begin();
-            
+
             // Render the player entity: 
 
             // Render to the middle of the screen
@@ -36,6 +36,9 @@ namespace Client.Systems
             // so this potentially means that when we use the try catch block for the first time an entity joins the server,
             // We are skipping sending the first update and position or something of the other players...
 
+
+            double factorX = 1920 / gameWidth;
+            double factorY = 1080 / gameHeight;
 
             // ANOTHER NOTE: if we want the edges to line up nicely, we need to relate to everything as 1920 X 1080
             if (m_entity != null) {
@@ -53,7 +56,7 @@ namespace Client.Systems
 
                 int x = -(int)(position1.X % 1920) + 1920 / 2;
                 int y = -(int)(position1.Y % 1080) + 1080 / 2;
-
+                int thingsDrawn = 0;
 
                 if (position1.Y <= 0)
                 {
@@ -82,13 +85,15 @@ namespace Client.Systems
 
                 if (position1.X <= (1920 * 5) - 1920)
                 {
-
+                    thingsDrawn += 1;
                     // Take the player position, 
                     // Tile to the right of the player
-                    spriteBatch.Draw(backgroundImage, new Rectangle(-(int)(position1.X % 1920) + 1920 / 2 + 1920, -(int)(position1.Y % 1080) + 1080 / 2, 1920, 1080), Color.White);
-
-                    if (position1.Y >= 1080)
+                    /*spriteBatch.Draw(backgroundImage, new Rectangle(-(int)(position1.X % 1920) + gameWidth / 2 + 1920, -(int)(position1.Y % 1080) + gameHeight / 2, 1920, 1080), Color.White);
+*/
+                    /*if (position1.Y >= 1080)
                     {
+                        thingsDrawn += 1;
+
                         // Tile above and to the right of the player
                         spriteBatch.Draw(backgroundImage, new Rectangle(-(int)(position1.X % 1920) + (1920 / 2) + 1920, -(int)(position1.Y % 1080) + (1080 / 2) - 1080, 1920, 1080), Color.White);
                     }
@@ -97,112 +102,138 @@ namespace Client.Systems
 
                     if (position1.Y <= (1080 * 5) - 1080)
                     {
+                        thingsDrawn += 1;
+
                         // Tile bottom and to the right of the player
                         spriteBatch.Draw(backgroundImage, new Rectangle(-(int)(position1.X % 1920) + (1920 / 2) + 1920, -(int)(position1.Y % 1080) + (1080 / 2) + 1080, 1920, 1080), Color.White);
 
-                    }
+                    }*/
                     
 
                 }
 
-                else 
+                else
                 {
+                    /*thingsDrawn += 3;
+
                     spriteBatch.Draw(wallImage, new Rectangle(-(int)(position1.X % 1920) + (1920 / 2) + 1920, -(int)(position1.Y % 1080) + (1080 / 2) + 1080, 1920, 1080), Color.White);
                     spriteBatch.Draw(wallImage, new Rectangle(-(int)(position1.X % 1920) + (1920 / 2) + 1920, -(int)(position1.Y % 1080) + (1080 / 2) - 1080, 1920, 1080), Color.White);
                     spriteBatch.Draw(wallImage, new Rectangle(-(int)(position1.X % 1920) + 1920 / 2 + 1920, -(int)(position1.Y % 1080) + 1080 / 2, 1920, 1080), Color.White);
-
+*/
                 }
 
 
                 if (position1.X >= 1920)
                 {
                     // Render the left tiles
+                    thingsDrawn += 1;
 
                     // Tile to the left of the player
-                    spriteBatch.Draw(backgroundImage, new Rectangle(-(int)(position1.X % 1920) - 1920 / 2, -(int)(position1.Y % 1080) + 1080 / 2, 1920, 1080), Color.White);
+                   /* spriteBatch.Draw(backgroundImage, new Rectangle(-(int)(position1.X % 1920) - gameWidth / 2, -(int)(position1.Y % 1080) + gameHeight / 2, 1920, 1080), Color.White);
+*/
 
-
-                    if (position1.Y >= 1080)
+                    /*if (position1.Y >= 1080)
                     {
                         // Tile above and to the left of the player
+                        thingsDrawn += 1;
 
                         spriteBatch.Draw(backgroundImage, new Rectangle(-(int)(position1.X % 1920) + (1920 / 2) - 1920, -(int)(position1.Y % 1080) + (1080 / 2) - 1080, 1920, 1080), Color.White);
 
                     }
-                    
+
 
 
                     if (position1.Y <= (1080 * 5) - 1080)
                     {
+                        thingsDrawn += 1;
 
                         // Tile bottom and to the left of the player
                         spriteBatch.Draw(backgroundImage, new Rectangle(-(int)(position1.X % 1920) + (1920 / 2) - 1920, -(int)(position1.Y % 1080) + (1080 / 2) + 1080, 1920, 1080), Color.White);
 
                     }
 
-                    
-
-                }
-
-                else 
-                {
-                    spriteBatch.Draw(wallImage, new Rectangle(-(int)(position1.X % 1920) + (1920 / 2) - 1920, -(int)(position1.Y % 1080) + (1080 / 2) - 1080, 1920, 1080), Color.White);
-
-                    spriteBatch.Draw(wallImage, new Rectangle(-(int)(position1.X % 1920) + (1920 / 2) - 1920, -(int)(position1.Y % 1080) + (1080 / 2) + 1080, 1920, 1080), Color.White);
-                    spriteBatch.Draw(wallImage, new Rectangle(-(int)(position1.X % 1920) - 1920 / 2, -(int)(position1.Y % 1080) + 1080 / 2, 1920, 1080), Color.White);
-
-                }
-
-
-                if (position1.Y <= (1080 * 5) - 1080)
-                {
-                    // Render below the player.
-
-                    // Tile below the player
-                    spriteBatch.Draw(backgroundImage, new Rectangle(-(int)(position1.X % 1920) + (1920 / 2), -(int)(position1.Y % 1080) + (1080 / 2) + 1080, 1920, 1080), Color.White);
-
-                }
-
-                else 
-                {
-                    spriteBatch.Draw(wallImage, new Rectangle(-(int)(position1.X % 1920) + (1920 / 2), -(int)(position1.Y % 1080) + (1080 / 2) + 1080, 1920, 1080), Color.White);
-
-                }
-
-
-                if (position1.Y >= 1080)
-                {
-                    // Tile above the player
-
-                    spriteBatch.Draw(backgroundImage, new Rectangle(-(int)(position1.X % 1920) + 1920 / 2, -(int)(position1.Y % 1080) - 1080 / 2, 1920, 1080), Color.White);
+*/
 
                 }
 
                 else
                 {
-                    spriteBatch.Draw(wallImage, new Rectangle(-(int)(position1.X % 1920) + 1920 / 2, -(int)(position1.Y % 1080) - 1080 / 2, 1920, 1080), Color.White);
+                    /*thingsDrawn += 3;
+
+                    spriteBatch.Draw(wallImage, new Rectangle(-(int)(position1.X % 1920) + (1920 / 2) - 1920, -(int)(position1.Y % 1080) + (1080 / 2) - 1080, 1920, 1080), Color.White);
+
+                    spriteBatch.Draw(wallImage, new Rectangle(-(int)(position1.X % 1920) + (1920 / 2) - 1920, -(int)(position1.Y % 1080) + (1080 / 2) + 1080, 1920, 1080), Color.White);
+                    spriteBatch.Draw(wallImage, new Rectangle(-(int)(position1.X % 1920) - 1920 / 2, -(int)(position1.Y % 1080) + 1080 / 2, 1920, 1080), Color.White);
+*/
+                }
+
+
+                /*if (position1.Y <= (1080 * 5) - 1080)
+                {
+                    // Render below the player.
+                    thingsDrawn += 1;
+
+                    // Tile below the player
+                    spriteBatch.Draw(backgroundImage, new Rectangle(-(int)(position1.X % 1920) + (gameWidth / 2), -(int)(position1.Y % 1080) + (gameHeight / 2) + 1080, 1920, 1080), Color.White);
+
+                }*/
+
+                /*else
+                {
+                    thingsDrawn += 3;
+
+                    spriteBatch.Draw(wallImage, new Rectangle(-(int)(position1.X % 1920) + (1920 / 2), -(int)(position1.Y % 1080) + (1080 / 2) + 1080, 1920, 1080), Color.White);
+                    spriteBatch.Draw(wallImage, new Rectangle(-(int)(position1.X % 1920) + (1920 / 2) - 1920, -(int)(position1.Y % 1080) + (1080 / 2) + 1080, 1920, 1080), Color.White);
+                    spriteBatch.Draw(wallImage, new Rectangle(-(int)(position1.X % 1920) + (1920 / 2) + 1920, -(int)(position1.Y % 1080) + (1080 / 2) + 1080, 1920, 1080), Color.White);
+
+                }*/
+
+
+                if (position1.Y >= 1080)
+                {
+                    // Tile above the player
+                    thingsDrawn += 1;
+
+                    spriteBatch.Draw(
+                        backgroundImage,
+                        new Rectangle(-(int)(position1.X % 1920) + gameWidth / 2, -(int)(position1.Y % 1080) + gameHeight / 2 - 1080, 1920, 1080),
+                        Color.White
+                    );
 
                 }
+
+                /*else
+                {
+                    thingsDrawn += 3;
+
+                    spriteBatch.Draw(wallImage, new Rectangle(-(int)(position1.X % 1920) + 1920 / 2, -(int)(position1.Y % 1080) - 1080 / 2, 1920, 1080), Color.White);
+                    spriteBatch.Draw(wallImage, new Rectangle(-(int)(position1.X % 1920) + (1920 / 2) - 1920, -(int)(position1.Y % 1080) + (1080 / 2) - 1080, 1920, 1080), Color.White);
+                    spriteBatch.Draw(wallImage, new Rectangle(-(int)(position1.X % 1920) + (1920 / 2) + 1920, -(int)(position1.Y % 1080) + (1080 / 2) - 1080, 1920, 1080), Color.White);
+
+                }*/
 
 
 
 
                 // Render this if we are not out of bounds at all
 
-                if (position1.X > 0 && position1.X < (1920 * 5) && position1.Y > 0 && position1.Y < (1080 * 5))
+                /*if (position1.X > 0 && position1.X < (1920 * 5) && position1.Y > 0 && position1.Y < (1080 * 5))
                 {
                      // Main tile the player is actually on
-                spriteBatch.Draw(backgroundImage, new Rectangle(-(int)(position1.X % 1920) + 1920 / 2, -(int)(position1.Y % 1080) + 1080 / 2, 1920, 1080), Color.White);
+                spriteBatch.Draw(backgroundImage, new Rectangle(-(int)(position1.X % 1920) + gameWidth / 2, -(int)(position1.Y % 1080) + gameHeight / 2, 1920, 1080), Color.White);
+                    thingsDrawn += 1;
+
 
                 }
-               
-            
+*/
 
-              
-         
 
-              
-              
+
+
+
+
+
+
 
 
                 var orientation1 = m_entity.get<Shared.Components.Position>().orientation;

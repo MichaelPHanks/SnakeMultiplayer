@@ -51,5 +51,4 @@ C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Server\obj\Deb
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Server\obj\Debug\net6.0\Server.pdb
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Server\obj\Debug\net6.0\Server.genruntimeconfig.cache
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Server\obj\Debug\net6.0\ref\Server.dll
-C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Server\obj\Debug\net6.0\Server.sourcelink.json
-C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Server\obj\Debug\net6.0\Server.csproj.Up2Date
+C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Server\obj\Debug\net6.0\Server.csproj.CopyComplete

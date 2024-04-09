@@ -102,15 +102,10 @@ namespace Server
         /// </summary>
         public void sendMessageWithLastId(int clientId, Message message)
         {
-            try
-            {
+            
                 sendMessage(clientId, message, m_clientLastMessageId[clientId]);
-            }
-            catch (Exception ex)
-            {
-
-                Console.WriteLine(ex.ToString());
-            }
+            
+            
         }
 
         /// <summary>

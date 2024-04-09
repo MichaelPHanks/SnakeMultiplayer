@@ -28,7 +28,7 @@ namespace Client
         public override void loadContent(ContentManager contentManager)
         {
             m_fontMenu = contentManager.Load<SpriteFont>("Fonts/voicActivatedFont");
-            backgroundImage = contentManager.Load<Texture2D>("Cartoon_green_texture_grass");
+            backgroundImage = contentManager.Load<Texture2D>("Cartoon_green_texture_grass_smaller");
             backgroundRect = new Rectangle(0, 0, m_graphics.PreferredBackBufferWidth, m_graphics.PreferredBackBufferHeight);
             whiteBackground = contentManager.Load<Texture2D>("whiteImage");
             loadHighScores();

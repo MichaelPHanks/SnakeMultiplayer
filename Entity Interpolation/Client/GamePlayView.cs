@@ -114,7 +114,7 @@ namespace Client
                 new Color[] { Color.White });
             m_font = contentManager.Load<SpriteFont>("Fonts/voicActivatedFont");
             playerTexture = contentManager.Load<Texture2D>("rocketShip");
-            backgroundImage = contentManager.Load<Texture2D>("Cartoon_green_texture_grass");
+            backgroundImage = contentManager.Load<Texture2D>("Cartoon_green_texture_grass_smaller");
             wallImage = contentManager.Load<Texture2D>("handpaintedwall2");
             thrustSound = contentManager.Load<SoundEffect>("smartsound_TRANSPORTATION_SPACE_Spaceshuttle_Rocket_Full_Power_Steady_01");
             levelClear = contentManager.Load<SoundEffect>("levelClearEffect");

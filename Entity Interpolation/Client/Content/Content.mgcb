@@ -48,7 +48,7 @@
 /processorParam:TextureFormat=Compressed
 /build:../../../../LunarLander/LunarLander/Content/Fonts/voicActivatedFont.spritefont;Fonts/voicActivatedFont.spritefont
 
-#begin Cartoon_green_texture_grass.jpg
+#begin Cartoon_green_texture_grass_smaller.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -58,7 +58,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Cartoon_green_texture_grass.jpg
+/build:Cartoon_green_texture_grass_smaller.jpg
 
 #begin EnemyBody.png
 /importer:TextureImporter
