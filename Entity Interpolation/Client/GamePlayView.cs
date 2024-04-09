@@ -97,7 +97,7 @@ namespace Client
         {
             //MessageQueueClient.instance.initialize("localhost", 3000);
             MessageQueueClient.shutdown();
-            MessageQueueClient.instance.initialize("localhost", 3000);
+            MessageQueueClient.instance.initialize("fe80::2e56:1816:c056:6180%10", 3000);
             //MessageQueueClient.instance.sendMessage(new Shared.Messages.Join());
             m_gameModel = new GameModel();
             m_gameModel.initialize(contentManager1);
