@@ -26,6 +26,7 @@ namespace Client
 
         private const float RECTANGLE2_ROTATION_RATE = MathHelper.Pi / 4;  // radians per second
         private Texture2D backgroundImage;
+        private Texture2D wallImage;
         //LunarLanderLevel m_level;
         private HashSet<Keys> m_previouslyDown = new HashSet<Keys>();
         private double playerAngle;
@@ -114,6 +115,7 @@ namespace Client
             m_font = contentManager.Load<SpriteFont>("Fonts/voicActivatedFont");
             playerTexture = contentManager.Load<Texture2D>("rocketShip");
             backgroundImage = contentManager.Load<Texture2D>("Cartoon_green_texture_grass");
+            wallImage = contentManager.Load<Texture2D>("handpaintedwall2");
             thrustSound = contentManager.Load<SoundEffect>("smartsound_TRANSPORTATION_SPACE_Spaceshuttle_Rocket_Full_Power_Steady_01");
             levelClear = contentManager.Load<SoundEffect>("levelClearEffect");
             explosionEffect = contentManager.Load<SoundEffect>("mixkit-arcade-game-explosion-2759");
@@ -339,7 +341,7 @@ namespace Client
             m_spriteBatch.Begin();
             //m_spriteBatch.Draw(backgroundImage, new Rectangle(0, 0, m_graphics.PreferredBackBufferWidth, m_graphics.PreferredBackBufferHeight), Color.White);
             m_spriteBatch.End();
-            m_gameModel.render(gameTime.ElapsedGameTime, m_spriteBatch, m_graphics.PreferredBackBufferWidth, m_graphics.PreferredBackBufferHeight, backgroundImage);
+            m_gameModel.render(gameTime.ElapsedGameTime, m_spriteBatch, m_graphics.PreferredBackBufferWidth, m_graphics.PreferredBackBufferHeight, backgroundImage, wallImage);
 
 
             // Render the background:

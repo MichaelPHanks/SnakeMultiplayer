@@ -15,6 +15,7 @@
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/EnemyTail.png</File>
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/fire.png</File>
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/flbb_3udr_220615.jpg</File>
+    <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/handpaintedwall2.png</File>
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/levelClearEffect.mp3</File>
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/little_robot_sound_factory_multimedia_Click_Electronic_14.mp3</File>
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/MainBackground.jpg</File>
@@ -38,6 +39,7 @@
     <File>Fonts/menu.spritefont</File>
     <File>Fonts/selectedVoiceActivatedFont.spritefont</File>
     <File>Fonts/voicActivatedFont.spritefont</File>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

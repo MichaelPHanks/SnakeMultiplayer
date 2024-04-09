@@ -54,9 +54,9 @@ namespace Client
             
         }
 
-        public void render(TimeSpan elapsedTime, SpriteBatch spriteBatch, int gameWidth, int gameHeight, Texture2D backgroundImage)
+        public void render(TimeSpan elapsedTime, SpriteBatch spriteBatch, int gameWidth, int gameHeight, Texture2D backgroundImage, Texture2D wallImage)
         {
-            m_systemRenderer.update(elapsedTime, spriteBatch, gameWidth, gameHeight, backgroundImage);
+            m_systemRenderer.update(elapsedTime, spriteBatch, gameWidth, gameHeight, backgroundImage, wallImage);
         }
 
         /// <summary>

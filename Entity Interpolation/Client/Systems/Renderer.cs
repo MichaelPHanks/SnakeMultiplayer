@@ -8,7 +8,7 @@ namespace Client.Systems
 {
     public class Renderer : Shared.Systems.System
     {
-
+        // Note: For the game map, it is of size 1920 times 5 wide and 1080 times 5 tall.
         public Renderer() :
             base(
                 typeof(Client.Components.Sprite),
@@ -21,7 +21,7 @@ namespace Client.Systems
 
         public override void update(TimeSpan elapsedTime) { }
 
-        public void update(TimeSpan elapsedTime, SpriteBatch spriteBatch, int gameWidth, int gameHeight, Texture2D backgroundImage)
+        public void update(TimeSpan elapsedTime, SpriteBatch spriteBatch, int gameWidth, int gameHeight, Texture2D backgroundImage, Texture2D wallImage)
         {
 
             spriteBatch.Begin();
@@ -37,26 +37,173 @@ namespace Client.Systems
             // We are skipping sending the first update and position or something of the other players...
 
 
-            // ANOTHER NOTE: if we want the edges to line up nicely, we need to relate to everythng as 1920 X 1080
-            if (m_entity != null) { 
+            // ANOTHER NOTE: if we want the edges to line up nicely, we need to relate to everything as 1920 X 1080
+            if (m_entity != null) {
 
 
                 
+
+                
             var position1 = m_entity.get<Shared.Components.Position>().position;
-            // Render the background before anything
-            Rectangle tempRectangle = new Rectangle((int)(position1.X - gameWidth / 2), (int)(position1.Y - gameHeight / 2), gameWidth, gameHeight);
 
-            // Render the top
-            //spriteBatch.Draw(backgroundImage, new Rectangle(-(int)(position1.X % gameWidth),-(int)(position1.Y % gameHeight), gameWidth, gameHeight), Color.White);
-
-                // Render the rest...
+                
+                // Render the background before anything
+                Rectangle tempRectangle = new Rectangle((int)(position1.X - gameWidth / 2), (int)(position1.Y - gameHeight / 2), gameWidth, gameHeight);
 
 
+                int x = -(int)(position1.X % 1920) + 1920 / 2;
+                int y = -(int)(position1.Y % 1080) + 1080 / 2;
 
+
+                if (position1.Y <= 0)
+                {
+                    position1.Y = 1;
+                }
+
+                if (position1.X <= 0)
+                {
+                    position1.X = 1;
+                }
+
+                if (position1.X >= (1920 * 5))
+                {
+                    position1.X = (1920 * 5) - 1;
+                }
+                if (position1.Y >= (1080 * 5))
+                {
+                    position1.Y = (1080 * 5) - 1;
+                }
+
+
+                // Check for boundaries of the game map.
+
+
+                // If we can render the right side of the player: 
+
+                if (position1.X <= (1920 * 5) - 1920)
+                {
+
+                    // Take the player position, 
+                    // Tile to the right of the player
+                    spriteBatch.Draw(backgroundImage, new Rectangle(-(int)(position1.X % 1920) + 1920 / 2 + 1920, -(int)(position1.Y % 1080) + 1080 / 2, 1920, 1080), Color.White);
+
+                    if (position1.Y >= 1080)
+                    {
+                        // Tile above and to the right of the player
+                        spriteBatch.Draw(backgroundImage, new Rectangle(-(int)(position1.X % 1920) + (1920 / 2) + 1920, -(int)(position1.Y % 1080) + (1080 / 2) - 1080, 1920, 1080), Color.White);
+                    }
+
+                    
+
+                    if (position1.Y <= (1080 * 5) - 1080)
+                    {
+                        // Tile bottom and to the right of the player
+                        spriteBatch.Draw(backgroundImage, new Rectangle(-(int)(position1.X % 1920) + (1920 / 2) + 1920, -(int)(position1.Y % 1080) + (1080 / 2) + 1080, 1920, 1080), Color.White);
+
+                    }
+                    
+
+                }
+
+                else 
+                {
+                    spriteBatch.Draw(wallImage, new Rectangle(-(int)(position1.X % 1920) + (1920 / 2) + 1920, -(int)(position1.Y % 1080) + (1080 / 2) + 1080, 1920, 1080), Color.White);
+                    spriteBatch.Draw(wallImage, new Rectangle(-(int)(position1.X % 1920) + (1920 / 2) + 1920, -(int)(position1.Y % 1080) + (1080 / 2) - 1080, 1920, 1080), Color.White);
+                    spriteBatch.Draw(wallImage, new Rectangle(-(int)(position1.X % 1920) + 1920 / 2 + 1920, -(int)(position1.Y % 1080) + 1080 / 2, 1920, 1080), Color.White);
+
+                }
+
+
+                if (position1.X >= 1920)
+                {
+                    // Render the left tiles
+
+                    // Tile to the left of the player
+                    spriteBatch.Draw(backgroundImage, new Rectangle(-(int)(position1.X % 1920) - 1920 / 2, -(int)(position1.Y % 1080) + 1080 / 2, 1920, 1080), Color.White);
+
+
+                    if (position1.Y >= 1080)
+                    {
+                        // Tile above and to the left of the player
+
+                        spriteBatch.Draw(backgroundImage, new Rectangle(-(int)(position1.X % 1920) + (1920 / 2) - 1920, -(int)(position1.Y % 1080) + (1080 / 2) - 1080, 1920, 1080), Color.White);
+
+                    }
+                    
+
+
+                    if (position1.Y <= (1080 * 5) - 1080)
+                    {
+
+                        // Tile bottom and to the left of the player
+                        spriteBatch.Draw(backgroundImage, new Rectangle(-(int)(position1.X % 1920) + (1920 / 2) - 1920, -(int)(position1.Y % 1080) + (1080 / 2) + 1080, 1920, 1080), Color.White);
+
+                    }
+
+                    
+
+                }
+
+                else 
+                {
+                    spriteBatch.Draw(wallImage, new Rectangle(-(int)(position1.X % 1920) + (1920 / 2) - 1920, -(int)(position1.Y % 1080) + (1080 / 2) - 1080, 1920, 1080), Color.White);
+
+                    spriteBatch.Draw(wallImage, new Rectangle(-(int)(position1.X % 1920) + (1920 / 2) - 1920, -(int)(position1.Y % 1080) + (1080 / 2) + 1080, 1920, 1080), Color.White);
+                    spriteBatch.Draw(wallImage, new Rectangle(-(int)(position1.X % 1920) - 1920 / 2, -(int)(position1.Y % 1080) + 1080 / 2, 1920, 1080), Color.White);
+
+                }
+
+
+                if (position1.Y <= (1080 * 5) - 1080)
+                {
+                    // Render below the player.
+
+                    // Tile below the player
+                    spriteBatch.Draw(backgroundImage, new Rectangle(-(int)(position1.X % 1920) + (1920 / 2), -(int)(position1.Y % 1080) + (1080 / 2) + 1080, 1920, 1080), Color.White);
+
+                }
+
+                else 
+                {
+                    spriteBatch.Draw(wallImage, new Rectangle(-(int)(position1.X % 1920) + (1920 / 2), -(int)(position1.Y % 1080) + (1080 / 2) + 1080, 1920, 1080), Color.White);
+
+                }
+
+
+                if (position1.Y >= 1080)
+                {
+                    // Tile above the player
+
+                    spriteBatch.Draw(backgroundImage, new Rectangle(-(int)(position1.X % 1920) + 1920 / 2, -(int)(position1.Y % 1080) - 1080 / 2, 1920, 1080), Color.White);
+
+                }
+
+                else
+                {
+                    spriteBatch.Draw(wallImage, new Rectangle(-(int)(position1.X % 1920) + 1920 / 2, -(int)(position1.Y % 1080) - 1080 / 2, 1920, 1080), Color.White);
+
+                }
+
+
+
+
+                // Render this if we are not out of bounds at all
+
+                if (position1.X > 0 && position1.X < (1920 * 5) && position1.Y > 0 && position1.Y < (1080 * 5))
+                {
+                     // Main tile the player is actually on
                 spriteBatch.Draw(backgroundImage, new Rectangle(-(int)(position1.X % 1920) + 1920 / 2, -(int)(position1.Y % 1080) + 1080 / 2, 1920, 1080), Color.White);
-                spriteBatch.Draw(backgroundImage, new Rectangle(-(int)(position1.X % 1920) - 1920 / 2, -(int)(position1.Y % 1080) + 1080 / 2, 1920, 1080), Color.White);
-                spriteBatch.Draw(backgroundImage, new Rectangle(-(int)(position1.X % 1920) + 1920 / 2, -(int)(position1.Y % 1080) - 1080 / 2, 1920, 1080), Color.White);
-                spriteBatch.Draw(backgroundImage, new Rectangle(-(int)(position1.X % 1920) + 1920 / 2 + 1920, -(int)(position1.Y % 1080) + 1080 / 2, 1920, 1080), Color.White);
+
+                }
+               
+            
+
+              
+         
+
+              
+              
+
 
                 var orientation1 = m_entity.get<Shared.Components.Position>().orientation;
             var size1 = m_entity.get<Shared.Components.Size>().size;
