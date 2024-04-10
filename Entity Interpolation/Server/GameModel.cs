@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Shared.Components;
 using Shared.Entities;
 using Shared.Messages;
+using System.Collections.Generic;
 using System.Numerics;
 using System.Xml;
 
@@ -13,7 +14,7 @@ namespace Server
         private HashSet<int> m_clients = new HashSet<int>();
         private Dictionary<uint, Entity> m_entities = new Dictionary<uint, Entity>();
         private Dictionary<int, uint> m_clientToEntityId = new Dictionary<int, uint>();
-
+        private Dictionary<uint, List<Entity>> m_perPlayerEntities = new Dictionary<uint, List<Entity>>();
         Systems.Network m_systemNetwork = new Server.Systems.Network();
         private const int GameWorldWidth = 5000;
         private const int GameWorldHeight = 5000;
@@ -96,6 +97,8 @@ namespace Server
             // Check for player eating a piece of food
 
             Dictionary<uint, Entity> foodToRemove = new Dictionary<uint, Entity>();
+            Dictionary<uint, Entity> entityToAdd = new Dictionary<uint, Entity>();
+            List<uint> clientsNewSegments = new List<uint>();
 
             foreach (Entity entity in foodEntities.Values)
             {
@@ -117,6 +120,15 @@ namespace Server
                             // Food disappears
                             foodToRemove.Add(entity.id, entity);
 
+                            // Add new segment, properly place it.
+                            Entity newSegment = Segment.create("PlayerBody",playerPosition, playerSize.Y, 5,5,new Queue<Tuple<int, int>> { });
+                            entityToAdd.Add(newSegment.id,newSegment);
+
+                            clientsNewSegments.Add(playerEntity.id);
+                            m_perPlayerEntities[playerEntity.id].Add(newSegment);
+                            
+                            // How will we know which entity we are dealing with and what their tail is? Or even their segments?
+                            //Entity yeah = Shared.Entities.Segment.create()
                             /*playerSize.X += 1;
                             playerSize.Y += 1;
                             Message message = new Shared.Messages.UpdateEntity();
@@ -143,6 +155,41 @@ namespace Server
                 m_entities.Remove(food.id);
                 m_systemNetwork.remove(food.id);
             }
+
+            int clientCounter = 0;
+            foreach (Entity entity1 in entityToAdd.Values)
+            {
+                addEntity(entity1);
+
+                uint id = clientsNewSegments[clientCounter];
+                clientCounter += 1;
+                // We need player id here...
+                var keys = m_clientToEntityId.Where(pair => pair.Value == id)
+                             .Select(pair => pair.Key)
+                             .ToList();
+
+
+                Message message = new Shared.Messages.NewEntity(entity1);
+
+                MessageQueueServer.instance.sendMessage(keys[0], message);
+
+
+                message = new Shared.Messages.NewEntity(entity1);
+
+                entity1.remove<Appearance>();
+                entity1.add(new Appearance("EnemyBody"));
+                message = new Shared.Messages.NewEntity(entity1);
+
+                foreach (int otherId in m_clients)
+                {
+                    if (otherId != keys[0])
+                    {
+                        MessageQueueServer.instance.sendMessage(otherId, message);
+                    }
+                }
+
+            }
+
 
 
         }
@@ -216,6 +263,12 @@ namespace Server
                 return;
             }
 
+            if (entity.contains<Shared.Components.Input>())
+            {
+                // Add to the player
+                m_perPlayerEntities[entity.id] = new List<Entity> { entity };
+            }
+
             m_entities[entity.id] = entity;
             m_systemNetwork.add(entity);
         }
@@ -226,6 +279,7 @@ namespace Server
         /// </summary>
         private void removeEntity(uint id)
         {
+            //m_perPlayerEntities.Remove(id);
             m_entities.Remove(id);
             m_systemNetwork.remove(id);
         }
