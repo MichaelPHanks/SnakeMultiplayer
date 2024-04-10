@@ -54,6 +54,10 @@ namespace Client.Systems
                 Rectangle tempRectangle = new Rectangle((int)(position1.X - gameWidth / 2), (int)(position1.Y - gameHeight / 2), gameWidth, gameHeight);
 
 
+
+
+
+
                 int x = -(int)(position1.X % 1920) + 1920 / 2;
                 int y = -(int)(position1.Y % 1080) + 1080 / 2;
                 int thingsDrawn = 0;
@@ -189,7 +193,7 @@ namespace Client.Systems
                 }*/
 
 
-                if (position1.Y >= 1080)
+                /*if (position1.Y >= 1080)
                 {
                     // Tile above the player
                     thingsDrawn += 1;
@@ -200,7 +204,7 @@ namespace Client.Systems
                         Color.White
                     );
 
-                }
+                }*/
 
                 /*else
                 {
@@ -217,16 +221,37 @@ namespace Client.Systems
 
                 // Render this if we are not out of bounds at all
 
-                /*if (position1.X > 0 && position1.X < (1920 * 5) && position1.Y > 0 && position1.Y < (1080 * 5))
+                if (position1.X > 0 && position1.X < (5000) && position1.Y > 0 && position1.Y < (5000))
                 {
-                     // Main tile the player is actually on
-                spriteBatch.Draw(backgroundImage, new Rectangle(-(int)(position1.X % 1920) + gameWidth / 2, -(int)(position1.Y % 1080) + gameHeight / 2, 1920, 1080), Color.White);
+
+                    int upperLeftX = (int)(position1.X - 500);
+                    int upperLeftY = (int)(position1.Y - 500);
+                    // Main tile the player is actually on
+                    spriteBatch.Draw(backgroundImage, new Rectangle(-(int)(position1.X % 1000) + gameWidth / 2, -(int)(position1.Y % 1000) + gameHeight / 2, 1000, 1000), Color.White);
                     thingsDrawn += 1;
 
 
                 }
-*/
 
+
+                /*int upperLeftX = (int)(position1.X - 500);
+                int upperLeftY = (int)(position1.Y - 500);
+                for (int i = 0; i < 5000; i+=1000)
+                {
+                    for (int j = 0; j < 5000; j+=1000)
+                    {
+
+                        // i = 0, j= 0; i = 0, j = 1000
+
+                        int yeah = ((i - upperLeftX) / (1000)) * (1000);
+                        //spriteBatch.Draw(backgroundImage, new Rectangle(((i-upperLeftX) / (1000)) * (1000), ((j - upperLeftY) / (1000)) * (1000), 1000, 1000), Color.White);
+
+
+                    }
+                }
+                spriteBatch.Draw(backgroundImage, new Rectangle(((1000 - upperLeftX) / (1000)) * (1000), ((1000 - upperLeftY) / (1000)) * (1000), 1000, 1000), Color.White);
+
+*/
 
 
 
@@ -274,8 +299,8 @@ namespace Client.Systems
                         {
                             var position = entity.get<Shared.Components.Position>().position;
 
-                            if (tempRectangle.Contains(position.X, position.Y))
-                            {
+                            /*if (tempRectangle.Contains(position.X, position.Y))
+                            {*/
                                 /*double divider = position1.X / (gameWidth / 2);
                                 double divider2 = position1.Y / (gameHeight / 2);
                                 double playerX = position.X / divider;
@@ -308,7 +333,7 @@ namespace Client.Systems
                                     texCenter,
                                     SpriteEffects.None,
                                     0);
-                            }
+                           /* }*/
 
 
 

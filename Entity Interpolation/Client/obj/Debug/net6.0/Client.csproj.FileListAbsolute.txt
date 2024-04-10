@@ -86,3 +86,4 @@ C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\bin\Deb
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\bin\Debug\net6.0\Content\smartsound_TRANSPORTATION_SPACE_Spaceshuttle_Rocket_Full_Power_Steady_01.ogg
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\obj\Debug\net6.0\Client.csproj.CopyComplete
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\bin\Debug\net6.0\Content\Cartoon_green_texture_grass_smaller.xnb
+C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\bin\Debug\net6.0\Content\cake.xnb

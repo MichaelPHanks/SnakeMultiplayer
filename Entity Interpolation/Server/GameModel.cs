@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Shared.Components;
 using Shared.Entities;
 using Shared.Messages;
+using System.Numerics;
 using System.Xml;
 
 namespace Server
@@ -14,13 +15,16 @@ namespace Server
         private Dictionary<int, uint> m_clientToEntityId = new Dictionary<int, uint>();
 
         Systems.Network m_systemNetwork = new Server.Systems.Network();
-        private const int GameWorldWidth = 9600;
-        private const int GameWorldHeight = 5400;
+        private const int GameWorldWidth = 5000;
+        private const int GameWorldHeight = 5000;
 
 
         private const int GameWorldViewPortWidth = 1920;
         private const int GameWorldViewPortHeight = 1080;
 
+
+        private List<int> foodCount = new List<int>();
+        private Dictionary<uint, Entity> foodEntities = new Dictionary<uint, Entity>(); 
 
 
 
@@ -35,10 +39,34 @@ namespace Server
             m_systemNetwork.update(elapsedTime, MessageQueueServer.instance.getMessages());
 
 
+
+            if (foodCount.Count < 1000)
+            {
+                Random rand = new Random();
+
+                for (int i = foodCount.Count; i  < 1000;  i++)
+                {
+                    int randomPositionX = rand.Next(0, 5001);
+                    int randomPositionY = rand.Next(0, 5001);
+
+                    Entity newFood = Shared.Entities.Food.create("cake", new System.Numerics.Vector2(randomPositionX, randomPositionY), 25);
+                    addEntity(newFood);
+                    Message message = new NewEntity(newFood);
+                    foreach (int otherId in m_clients)
+                    {
+                        
+                        MessageQueueServer.instance.sendMessage(otherId, message);
+                        
+                    }
+                    foodCount.Add(1);
+                    foodEntities.Add(newFood.id,newFood);
+                }
+            }
+
             // Check for collision:
 
             // Check for out of bounds death
-            foreach (var entity in m_entities.Values)
+            /*foreach (var entity in m_entities.Values)
             {
                 if (entity.isAlive)
                 {
@@ -59,10 +87,62 @@ namespace Server
                     }
 
                 }
-            }
+            }*/
 
             // Check for any two collisions of player heads to any OTHER existing entity, other than the players other owned stuff
 
+
+
+            // Check for player eating a piece of food
+
+            Dictionary<uint, Entity> foodToRemove = new Dictionary<uint, Entity>();
+
+            foreach (Entity entity in foodEntities.Values)
+            {
+                var position = entity.get<Shared.Components.Position>().position;
+                var size = entity.get<Shared.Components.Size>().size;
+
+                var foodRectangle = new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y);
+                foreach (Entity playerEntity in m_entities.Values)
+                {
+                    if (playerEntity.contains<Shared.Components.Movement>())
+                    {
+                        var playerPosition = playerEntity.get<Shared.Components.Position>().position;
+                        var playerSize = playerEntity.get<Shared.Components.Size>().size;
+
+                        var playerRectangle = new Rectangle((int)playerPosition.X, (int)playerPosition.Y, (int)playerSize.X, (int)playerSize.Y);
+
+                        if (foodRectangle.Intersects(playerRectangle))
+                        {
+                            // Food disappears
+                            foodToRemove.Add(entity.id, entity);
+
+                            /*playerSize.X += 1;
+                            playerSize.Y += 1;
+                            Message message = new Shared.Messages.UpdateEntity();
+                            MessageQueueServer.instance.broadcastMessage(message);
+*/
+
+
+                        }
+                    }
+                }
+
+
+
+            }
+
+            foreach (Entity entity in foodToRemove.Values)
+            {
+                Message message = new Shared.Messages.RemoveEntity(entity.id);
+                MessageQueueServer.instance.broadcastMessage(message);
+            }
+            foreach (Entity food in foodToRemove.Values)
+            {
+                foodEntities.Remove(food.id);
+                m_entities.Remove(food.id);
+                m_systemNetwork.remove(food.id);
+            }
 
 
         }
@@ -174,7 +254,7 @@ namespace Server
 
             // Step 2: Create an entity for the newly joined player and sent it
             //         to the newly joined client
-            Entity player = Shared.Entities.Player.create("PlayerHead", new Vector2(GameWorldWidth / 2, GameWorldHeight / 2), 50, 0.5f, (float)Math.PI / 1000);
+            Entity player = Shared.Entities.Player.create("PlayerHead", new System.Numerics.Vector2(GameWorldWidth / 2, GameWorldHeight / 2), 50, 0.5f, (float)Math.PI / 1000);
             addEntity(player);
             m_clientToEntityId[clientId] = player.id;
 
