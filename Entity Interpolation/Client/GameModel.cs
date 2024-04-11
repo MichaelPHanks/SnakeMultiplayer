@@ -51,7 +51,8 @@ namespace Client
             m_systemInterpolation.update(elapsedTime);
 
 
-            
+
+
         }
 
         public void render(TimeSpan elapsedTime, SpriteBatch spriteBatch, int gameWidth, int gameHeight, Texture2D backgroundImage, Texture2D wallImage)
@@ -180,7 +181,27 @@ namespace Client
             {
                 entity.add(new Shared.Components.Input(message.inputs));
             }
+            if (message.isHead)
+            {
+                entity.add(new Shared.Components.Head());
 
+            }
+
+            if (message.isTail)
+            {
+                entity.add(new Shared.Components.Tail());
+
+            }
+            if (message.isSegment)
+            {
+                entity.add(new Shared.Components.Segment(message.headId));
+
+            }
+            if (message.hasTurnPoints)
+            {
+                entity.add(new Shared.Components.TurnPoints(message.turnPoints));
+
+            }
             return entity;
         }
 

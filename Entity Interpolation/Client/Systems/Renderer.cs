@@ -21,7 +21,7 @@ namespace Client.Systems
 
         public override void update(TimeSpan elapsedTime) { }
 
-        public void update(TimeSpan elapsedTime, SpriteBatch spriteBatch, int gameWidth, int gameHeight, Texture2D backgroundImage, Texture2D wallImage)
+        public void update(TimeSpan elapsedTime, SpriteBatch spriteBatch, double gameWidth, double gameHeight, Texture2D backgroundImage, Texture2D wallImage)
         {
 
             spriteBatch.Begin();
@@ -51,7 +51,7 @@ namespace Client.Systems
 
                 
                 // Render the background before anything
-                Rectangle tempRectangle = new Rectangle((int)(position1.X - gameWidth / 2), (int)(position1.Y - gameHeight / 2), gameWidth, gameHeight);
+                Rectangle tempRectangle = new Rectangle((int)(position1.X - gameWidth / 2), (int)(position1.Y - gameHeight / 2), (int)gameWidth, (int)gameHeight);
 
 
 
@@ -227,7 +227,7 @@ namespace Client.Systems
                     int upperLeftX = (int)(position1.X - 500);
                     int upperLeftY = (int)(position1.Y - 500);
                     // Main tile the player is actually on
-                    spriteBatch.Draw(backgroundImage, new Rectangle(-(int)(position1.X % 1000) + gameWidth / 2, -(int)(position1.Y % 1000) + gameHeight / 2, 1000, 1000), Color.White);
+                    spriteBatch.Draw(backgroundImage, new Rectangle((int)(-(int)(position1.X % 1000) + gameWidth / 2), (int)(-(int)(position1.Y % 1000) + gameHeight / 2), 1000, 1000), Color.White);
                     thingsDrawn += 1;
 
 

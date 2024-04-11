@@ -11,6 +11,7 @@ namespace Shared.Systems
     {
         // Contains the entities this system is interested in, keyed by their IDs.
         protected Dictionary<uint, Entity> m_entities = new Dictionary<uint, Entity>();
+        private Dictionary<uint, List<Entity>> m_perPlayerEntities = new Dictionary<uint, List<Entity>>();
 
         protected Entity m_entity;
 
@@ -60,6 +61,7 @@ namespace Shared.Systems
             {
                 m_entities.Add(entity.id, entity);
             }
+            
 
             return interested;
         }

@@ -4,7 +4,6 @@ using Shared.Components;
 using Shared.Entities;
 using Shared.Messages;
 using System.Collections.Generic;
-using System.Numerics;
 using System.Xml;
 
 namespace Server
@@ -108,7 +107,7 @@ namespace Server
                 var foodRectangle = new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y);
                 foreach (Entity playerEntity in m_entities.Values)
                 {
-                    if (playerEntity.contains<Shared.Components.Movement>())
+                    if (playerEntity.contains<Shared.Components.Head>())
                     {
                         var playerPosition = playerEntity.get<Shared.Components.Position>().position;
                         var playerSize = playerEntity.get<Shared.Components.Size>().size;
@@ -119,9 +118,17 @@ namespace Server
                         {
                             // Food disappears
                             foodToRemove.Add(entity.id, entity);
+                            float offsetDistance = 1.0f; // Adjust this value to control the distance behind the player
+                            float offsetX = (float)(offsetDistance * Math.Cos(playerEntity.get<Shared.Components.Position>().orientation));
+                            float offsetY = (float)(offsetDistance * Math.Sin(playerEntity.get<Shared.Components.Position>().orientation));
 
+                            // Create the position for the segment
+                            Vector2 segmentPosition = new Vector2(playerPosition.X - offsetX, playerPosition.Y - offsetY);
                             // Add new segment, properly place it.
-                            Entity newSegment = Segment.create("PlayerBody",playerPosition, playerSize.Y, 5,5,new Queue<Tuple<int, int>> { });
+
+                            Queue<Tuple<Vector2, float>> yeah = new Queue<Tuple<Vector2, float>>();
+
+                            Entity newSegment = Shared.Entities.Segment.create("PlayerBody",segmentPosition, playerSize.Y, 0.5f,5,yeah, playerEntity.get<Shared.Components.Position>().orientation, playerEntity.id);
                             entityToAdd.Add(newSegment.id,newSegment);
 
                             clientsNewSegments.Add(playerEntity.id);
@@ -190,6 +197,59 @@ namespace Server
 
             }
 
+
+            // Update all of the segments, if any.
+
+
+            /*foreach (List<Entity> entities in m_perPlayerEntities.Values)
+            {
+                foreach (Entity entity in entities)
+                {
+                    if (entity.contains<Shared.Components.Segment>())
+                    {
+
+                        Shared.Entities.Utility.thrust(entity, elapsedTime);
+
+                        // Update the segments
+                        Message message = new Shared.Messages.UpdateEntity(entity, elapsedTime);
+
+                        MessageQueueServer.instance.broadcastMessage(message);
+
+                    }
+                }
+            }*/
+
+
+
+            // Simulate turn points for the segments
+
+
+            foreach (List<Entity> entities in m_perPlayerEntities.Values)
+            {
+                foreach (Entity entity in entities)
+                {
+                    if (entity.contains<Shared.Components.Segment>())
+                    {
+                        var turnPoints = entity.get<Shared.Components.TurnPoints>().turnPoints;
+                        var position = entity.get<Shared.Components.Position>();
+
+                        if (turnPoints.Count > 0)
+                        {
+                            var top = turnPoints.Peek();
+                            if (position.position == top.Item1)
+                            {
+                                var turnPoint = turnPoints.Dequeue();
+                                position.orientation = turnPoint.Item2;
+                                Message message = new Shared.Messages.UpdateEntity(entity, elapsedTime);
+                                MessageQueueServer.instance.broadcastMessage(message);
+                            }
+                        }
+
+
+
+                    }
+                }
+            }
 
 
         }
@@ -308,7 +368,7 @@ namespace Server
 
             // Step 2: Create an entity for the newly joined player and sent it
             //         to the newly joined client
-            Entity player = Shared.Entities.Player.create("PlayerHead", new System.Numerics.Vector2(GameWorldWidth / 2, GameWorldHeight / 2), 50, 0.5f, (float)Math.PI / 1000);
+            Entity player = Shared.Entities.Head.create("PlayerHead", new System.Numerics.Vector2(GameWorldWidth / 2, GameWorldHeight / 2), 50, 0.5f, (float)Math.PI / 1000);
             addEntity(player);
             m_clientToEntityId[clientId] = player.id;
 

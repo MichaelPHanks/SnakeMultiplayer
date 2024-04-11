@@ -1,6 +1,6 @@
 ﻿using Shared.Entities;
 using Shared.Messages;
-using System.Numerics;
+using Microsoft.Xna.Framework;
 
 namespace Server.Systems
 {
@@ -10,7 +10,6 @@ namespace Server.Systems
         public delegate void JoinHandler(int clientId);
         public delegate void DisconnectHandler(int clientId);
         public delegate void InputHandler(Entity entity, Shared.Components.Input.Type type, TimeSpan elapsedTime);
-
         private Dictionary<Shared.Messages.Type, Handler> m_commandMap = new Dictionary<Shared.Messages.Type, Handler>();
         private JoinHandler m_joinHandler;
         private DisconnectHandler m_disconnectHandler;
@@ -104,24 +103,122 @@ namespace Server.Systems
         private void handleInput(Shared.Messages.Input message)
         {
             var entity = m_entities[message.entityId];
+            var orientation = entity.get<Shared.Components.Position>().orientation;
+
             foreach (var input in message.inputs)
             {
                 switch (input)
                 {
                     case Shared.Components.Input.Type.RotateUp:
+
                         Shared.Entities.Utility.rotateUp(entity, message.elapsedTime);
+
+
+                        if (orientation != entity.get<Shared.Components.Position>().orientation)
+                        {
+                            foreach (Entity entity1 in m_entities.Values)
+                            {
+                                if (entity1.contains<Shared.Components.Segment>())
+                                {
+                                    var headId = entity1.get<Shared.Components.Segment>().headId;
+
+                                    if (headId == message.entityId)
+                                    {
+                                        // Add a turn point to the segment.
+
+                                        var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
+                                        var position1 = entity1.get<Shared.Components.Position>().position;
+                                        turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
+                                        m_reportThese.Add(entity1.id);
+
+                                    }
+                                }
+                            }
+                        }
+
+
+
+
                         m_reportThese.Add(message.entityId);
                         break;
                     case Shared.Components.Input.Type.RotateLeft:
+
                         Shared.Entities.Utility.rotateLeft(entity, message.elapsedTime);
+
+
+                        if (orientation != entity.get<Shared.Components.Position>().orientation)
+                        {
+                            foreach (Entity entity1 in m_entities.Values)
+                            {
+                                if (entity1.contains<Shared.Components.Segment>())
+                                {
+                                    var headId = entity1.get<Shared.Components.Segment>().headId;
+
+                                    if (headId == message.entityId)
+                                    {
+                                        // Add a turn point to the segment.
+
+                                        var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
+                                        var position1 = entity1.get<Shared.Components.Position>().position;
+                                        turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
+                                        m_reportThese.Add(entity1.id);
+
+                                    }
+                                }
+                            }
+                        }
+
                         m_reportThese.Add(message.entityId);
                         break;
                     case Shared.Components.Input.Type.RotateRight:
                         Shared.Entities.Utility.rotateRight(entity, message.elapsedTime);
+                        if (orientation != entity.get<Shared.Components.Position>().orientation)
+                        {
+                            foreach (Entity entity1 in m_entities.Values)
+                            {
+                                if (entity1.contains<Shared.Components.Segment>())
+                                {
+                                    var headId = entity1.get<Shared.Components.Segment>().headId;
+
+                                    if (headId == message.entityId)
+                                    {
+                                        // Add a turn point to the segment.
+
+                                        var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
+                                        var position1 = entity1.get<Shared.Components.Position>().position;
+                                        turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
+                                        m_reportThese.Add(entity1.id);
+
+                                    }
+                                }
+                            }
+                        }
                         m_reportThese.Add(message.entityId);
                         break;
                     case Shared.Components.Input.Type.RotateDown:
                         Shared.Entities.Utility.rotateDown(entity, message.elapsedTime);
+                        if (orientation != entity.get<Shared.Components.Position>().orientation)
+                        {
+                            foreach (Entity entity1 in m_entities.Values)
+                            {
+                                if (entity1.contains<Shared.Components.Segment>())
+                                {
+                                    var headId = entity1.get<Shared.Components.Segment>().headId;
+
+                                    if (headId == message.entityId)
+                                    {
+                                        // Add a turn point to the segment.
+
+                                        var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
+                                        var position1 = entity1.get<Shared.Components.Position>().position;
+                                        turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
+                                        m_reportThese.Add(entity1.id);
+
+                                    }
+                                }
+                            }
+                        }
+
                         m_reportThese.Add(message.entityId);
                         break;
                     /*case Shared.Components.Input.Type.RotateMouse:
@@ -130,6 +227,22 @@ namespace Server.Systems
                         break;*/
                     case Shared.Components.Input.Type.Thrust:
                         Shared.Entities.Utility.thrust(entity, message.elapsedTime);
+                        foreach (Entity entity1 in m_entities.Values)
+                        {
+                            if (entity1.contains<Shared.Components.Segment>())
+                            {
+                                var headId = entity1.get<Shared.Components.Segment>().headId;
+
+                                if (headId == message.entityId)
+                                {
+                                    Shared.Entities.Utility.thrust(entity1, message.elapsedTime);
+
+                                    m_reportThese.Add(entity1.id);
+
+                                }
+                            }
+                        }
+
                         m_reportThese.Add(message.entityId);
                         break;
 

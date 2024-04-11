@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Shared.Components;
 using Shared.Entities;
+using System;
 using System.Text;
 
 namespace Shared.Messages
@@ -40,6 +41,7 @@ namespace Shared.Messages
                 this.moveRate = entity.get<Movement>().moveRate;
                 this.rotateRate = entity.get<Movement>().rotateRate;
             }
+            
 
             if (entity.contains<Components.Input>())
             {
@@ -50,11 +52,40 @@ namespace Shared.Messages
             {
                 this.inputs = new List<Components.Input.Type>();
             }
+
+
+            if (entity.contains<Components.Segment>())
+            {
+                this.isSegment = true;
+                this.headId = entity.get<Components.Segment>().headId;
+            }
+            if (entity.contains<Components.Head>())
+            {
+                this.isHead = true;
+
+            }
+            if (entity.contains<Components.Tail>())
+            {
+                this.isTail = true;
+            }
+
+            if (entity.contains<Components.TurnPoints>())
+            {
+                this.hasTurnPoints = true;
+                this.turnPoints = entity.get<Components.TurnPoints>().turnPoints;
+            }
+
+            else 
+            {
+                this.turnPoints = new Queue<Tuple<Vector2, float>>();
+
+            }
         }
         public NewEntity() : base(Type.NewEntity)
         {
             this.texture = "";
             this.inputs = new List<Components.Input.Type>();
+            this.turnPoints = new Queue<Tuple<Vector2, float>>();
         }
 
         public uint id { get; private set; }
@@ -81,6 +112,17 @@ namespace Shared.Messages
         public bool hasInput { get; private set; } = false;
         public List<Components.Input.Type> inputs { get; private set; }
 
+        // Segment
+        public bool isSegment { get; private set; }
+        public uint headId { get; private set; }
+        // Head
+        public bool isHead { get; private set; }
+        // Tail
+        public bool isTail { get; private set; }
+        // TurnPoints
+        public bool hasTurnPoints {  get; private set; }
+
+        public Queue<Tuple<Vector2, float>> turnPoints { get; private set; }
         public override byte[] serialize()
         {
             List<byte> data = new List<byte>();
@@ -125,6 +167,38 @@ namespace Shared.Messages
                 {
                     data.AddRange(BitConverter.GetBytes((UInt16)input));
                 }
+            }
+            data.AddRange(BitConverter.GetBytes(isSegment));
+            if (isSegment)
+            {
+                data.AddRange(BitConverter.GetBytes(headId));
+
+            }
+            data.AddRange(BitConverter.GetBytes(isHead));
+            
+            data.AddRange(BitConverter.GetBytes(isTail));
+            data.AddRange(BitConverter.GetBytes(hasTurnPoints));
+
+            if (hasTurnPoints)
+            {
+                data.AddRange(BitConverter.GetBytes(turnPoints.Count));
+
+                foreach (var input in turnPoints)
+                {
+                    // Convert Vector2's X and Y components to bytes (assuming they are floats)
+                    byte[] xBytes = BitConverter.GetBytes(input.Item1.X);
+                    byte[] yBytes = BitConverter.GetBytes(input.Item1.Y);
+
+                    // Convert float to bytes
+                    byte[] floatBytes = BitConverter.GetBytes(input.Item2);
+
+                    // Add bytes to the list
+                    data.AddRange(xBytes);
+                    data.AddRange(yBytes);
+                    data.AddRange(floatBytes);
+                }
+                
+
             }
 
             return data.ToArray();
@@ -193,6 +267,49 @@ namespace Shared.Messages
                     inputs.Add((Components.Input.Type)BitConverter.ToUInt16(data, offset));
                     offset += sizeof(UInt16);
                 }
+            }
+
+            this.isSegment = BitConverter.ToBoolean(data, offset);
+            offset += sizeof(bool);
+            if (isSegment)
+            {
+                this.headId = BitConverter.ToUInt32(data, offset);
+                offset += sizeof(UInt32);
+            }
+
+
+            this.isHead = BitConverter.ToBoolean(data, offset);
+            offset += sizeof(bool);
+            this.isTail = BitConverter.ToBoolean(data, offset);
+            offset += sizeof(bool);
+
+
+            this.hasTurnPoints = BitConverter.ToBoolean(data, offset);
+            offset += sizeof(bool);
+
+            if (hasTurnPoints)
+            {
+                int howMany = BitConverter.ToInt32(data, offset);
+                offset += sizeof(int);
+                for (int i = 0; i < howMany; i++)
+                {
+                    float x = BitConverter.ToSingle(data.ToArray(), offset);
+
+                    offset += sizeof(float);
+                    float y = BitConverter.ToSingle(data.ToArray(), offset) ;
+                    offset += sizeof(float);
+
+                    // Parse float value from bytes
+                    float floatValue = BitConverter.ToSingle(data.ToArray(), offset);
+
+                    // Create Vector2 and float tuple and add it to the queue
+                    turnPoints.Enqueue(new Tuple<Vector2, float>(new Vector2(x, y), floatValue));
+
+                    // Move the index to the next tuple
+                    offset += sizeof(float);
+                }
+
+
             }
 
             return offset;
