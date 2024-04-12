@@ -82,16 +82,19 @@ namespace Server
                     //Console.WriteLine("Sleep: {0}", sleepTime.TotalMilliseconds);
                     System.Threading.Thread.Sleep(sleepTime);
                 }
+                previousTime += sleepTime;
+
+                Console.WriteLine(elapsedTime);
+                Console.WriteLine(sleepTime);
 
                 // Now, after having slept for a bit, now compute the elapsed time and perform
                 // the game model update.
                 elapsedTime += (sleepTime > TimeSpan.Zero ? sleepTime : TimeSpan.Zero);
-                if (elapsedTime > TimeSpan.FromMilliseconds(33))
-                {
-                    Console.WriteLine("Elapsed time is too long, doesn;t make any sense!: " + elapsedTime);
-                }
+                
+               Console.WriteLine(elapsedTime);
+                
                 //totalTime += elapsedTime;
-                //elapsedTime = TimeSpan.FromMilliseconds(33);
+                elapsedTime = TimeSpan.FromMilliseconds(33);
 
                 model.update(elapsedTime);
             }

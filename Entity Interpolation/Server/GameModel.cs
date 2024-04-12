@@ -111,7 +111,7 @@ namespace Server
             Dictionary<uint, Entity> entityToAdd = new Dictionary<uint, Entity>();
             List<uint> clientsNewSegments = new List<uint>();
 
-            foreach (Entity entity in foodEntities.Values)
+            /*foreach (Entity entity in foodEntities.Values)
             {
                 var position = entity.get<Shared.Components.Position>().position;
                 var size = entity.get<Shared.Components.Size>().size;
@@ -161,7 +161,7 @@ namespace Server
 
 
 
-            }
+            }*/
 
             foreach (Entity entity in foodToRemove.Values)
             {
@@ -391,6 +391,11 @@ namespace Server
             List<Entity> entitiesToRemove = m_perPlayerEntities[m_clientToEntityId[clientId]];
 
 
+            foreach (Entity entityToRemove in entitiesToRemove)
+            {
+                m_entities.Remove(entityToRemove.id);
+            }
+
 
             m_perPlayerEntities.Remove(m_clientToEntityId[clientId]);
 
@@ -460,7 +465,7 @@ namespace Server
             MessageQueueServer.instance.sendMessage(clientId, new NewEntity(player));
 
             // New Step: Make a few different snake stuff.
-            Vector2 position = new Vector2(GameWorldWidth / 2 - 50, GameWorldWidth / 2);
+            Vector2 position = new Vector2(GameWorldWidth / 2 - 25, GameWorldWidth / 2);
             for (int i = 0; i < 8; i++)
             {
 
@@ -468,7 +473,7 @@ namespace Server
                 addEntity(newSegment);
                 m_perPlayerEntities[player.id].Add(newSegment);
 
-                position.X -= 50;
+                position.X -= 25;
                 MessageQueueServer.instance.sendMessage(clientId, new NewEntity(newSegment));
 
             }

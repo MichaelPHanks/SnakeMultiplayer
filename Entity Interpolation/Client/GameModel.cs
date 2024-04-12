@@ -50,24 +50,15 @@ namespace Client
         {
             m_systemNetwork.update(elapsedTime, MessageQueueClient.instance.getMessages());
             m_systemKeyboardInput.update(elapsedTime);
+
+            //m_systemInterpolation.update(elapsedTime);
+
+
+
+
+            int totalHit = 0;
             
-            m_systemInterpolation.update(elapsedTime);
-
-
-            foreach (Entity entity in m_entities.Values)
-            {
-                if (entity.contains<Shared.Components.Movement>())
-                {
-                    Shared.Entities.Utility.thrust(entity, elapsedTime);
-
-                }
-            }
-
-
-
-            foreach (List<Entity> entities in m_perPlayerEntities.Values)
-            {
-                foreach (Entity entity in entities)
+                foreach (Entity entity in m_entities.Values)
                 {
                     if (entity.contains<Shared.Components.Segment>())
                     {
@@ -101,9 +92,11 @@ namespace Client
                             {
                                 if (position.position.X >= top.Item1.X && position.position.Y <= top.Item1.Y)
                                 {
+                                    totalHit += 1;
                                     Vector2 difference = position.position - top.Item1;
                                     var turnPoint = turnPoints.Dequeue();
                                     position.orientation = turnPoint.Item2;
+
                                     position.position = top.Item1;
                                 }
                             }
@@ -138,7 +131,22 @@ namespace Client
 
                     }
                 }
+            
+
+
+            if (totalHit  > 0) 
+            {
+                Console.WriteLine();
             }
+            foreach (Entity entity in m_entities.Values)
+            {
+                if (entity.contains<Shared.Components.Movement>())
+                {
+                    Shared.Entities.Utility.thrust(entity, elapsedTime);
+
+                }
+            }
+
 
 
         }
