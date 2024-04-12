@@ -39,6 +39,14 @@ namespace Server
             m_systemNetwork.update(elapsedTime, MessageQueueServer.instance.getMessages());
 
 
+            foreach (Entity entity in m_entities.Values)
+            {
+                if (entity.contains<Shared.Components.Movement>())
+                {
+                    Shared.Entities.Utility.thrust(entity, elapsedTime);
+
+                }
+            }
 
             if (foodCount.Count < 1000)
             {
@@ -258,8 +266,8 @@ namespace Server
 
                                     position.position = top.Item1;
 
-                                    Message message = new Shared.Messages.UpdateEntity(entity, elapsedTime);
-                                    MessageQueueServer.instance.broadcastMessage(message);
+                                    /*Message message = new Shared.Messages.UpdateEntity(entity, elapsedTime);
+                                    MessageQueueServer.instance.broadcastMessage(message);*/
                                 }
                             }
 
@@ -271,8 +279,8 @@ namespace Server
                                     var turnPoint = turnPoints.Dequeue();
                                     position.orientation = turnPoint.Item2;
                                     position.position = top.Item1;
-                                    Message message = new Shared.Messages.UpdateEntity(entity, elapsedTime);
-                                    MessageQueueServer.instance.broadcastMessage(message);
+                                    /*Message message = new Shared.Messages.UpdateEntity(entity, elapsedTime);
+                                    MessageQueueServer.instance.broadcastMessage(message);*/
                                 }
                             }
                             else if (y >= 0 && x <= 0) 
@@ -283,8 +291,8 @@ namespace Server
                                     var turnPoint = turnPoints.Dequeue();
                                     position.orientation = turnPoint.Item2;
                                     position.position = top.Item1;
-                                    Message message = new Shared.Messages.UpdateEntity(entity, elapsedTime);
-                                    MessageQueueServer.instance.broadcastMessage(message);
+                                   /* Message message = new Shared.Messages.UpdateEntity(entity, elapsedTime);
+                                    MessageQueueServer.instance.broadcastMessage(message);*/
                                 }
                             }
                             else 
@@ -295,8 +303,8 @@ namespace Server
                                     var turnPoint = turnPoints.Dequeue();
                                     position.orientation = turnPoint.Item2;
                                     position.position = top.Item1;
-                                    Message message = new Shared.Messages.UpdateEntity(entity, elapsedTime);
-                                    MessageQueueServer.instance.broadcastMessage(message);
+                                   /* Message message = new Shared.Messages.UpdateEntity(entity, elapsedTime);
+                                    MessageQueueServer.instance.broadcastMessage(message);*/
                                 }
                             }
                             // Lets say x = -0.5 and y = 0.5
@@ -438,7 +446,7 @@ namespace Server
             Vector2 position = new Vector2(GameWorldWidth / 2 - 50, GameWorldWidth / 2);
             for (int i = 0; i < 8; i++)
             {
-            
+
                 Entity newSegment = Shared.Entities.Segment.create("PlayerBody", position, 50, 0.2f, 1, new Queue<Tuple<Vector2, float>> { }, player.get<Shared.Components.Position>().orientation, player.id);
                 addEntity(newSegment);
                 m_perPlayerEntities[player.id].Add(newSegment);

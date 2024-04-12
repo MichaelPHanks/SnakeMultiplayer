@@ -107,8 +107,8 @@ namespace Client.Systems
                     }*/
 
 
-                    inputs.Add(Shared.Components.Input.Type.Thrust);
-                    Shared.Entities.Utility.thrust(item.Value, elapsedTime);
+                    /*inputs.Add(Shared.Components.Input.Type.Thrust);
+                    Shared.Entities.Utility.thrust(item.Value, elapsedTime);*/
                 }
 
                 if (inputs.Count > 0)

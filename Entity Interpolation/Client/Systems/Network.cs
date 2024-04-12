@@ -5,6 +5,7 @@ using Shared.Messages;
 using System;
 using System.Collections.Generic;
 using System.Net.Mail;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Client.Systems
@@ -12,11 +13,13 @@ namespace Client.Systems
     public class Network : Shared.Systems.System
     {
         public delegate void Handler(TimeSpan elapsedTime, Shared.Messages.Message message);
+        public delegate void TurnPointHandler(Shared.Messages.TurnPoint turnPoint);
         public delegate void RemoveEntityHandler(RemoveEntity message);
         public delegate void NewEntityHandler(NewEntity message);
 
         private Dictionary<Shared.Messages.Type, Handler> m_commandMap = new Dictionary<Shared.Messages.Type, Handler>();
         private RemoveEntityHandler m_removeEntityHandler;
+        private TurnPointHandler m_turnPointHandler;
         private NewEntityHandler m_newEntityHandler;
         private uint m_lastMessageId = 0;
         private HashSet<uint> m_updatedEntities = new HashSet<uint>();
@@ -52,7 +55,13 @@ namespace Client.Systems
             {
                 handlePlayerDeath((PlayerDeath)message);
             });
+            registerHandler(Shared.Messages.Type.TurnPoint, (TimeSpan elapsedTime, Message message) =>
+            {
+                m_turnPointHandler((TurnPoint)message);
+            });
         }
+
+       
 
         // Have to implement this because it is abstract in the base class
         public override void update(TimeSpan elapsedTime) { }
@@ -120,6 +129,8 @@ namespace Client.Systems
             }
         }
 
+
+        
         private void registerHandler(Shared.Messages.Type type, Handler handler)
         {
             m_commandMap[type] = handler;
@@ -133,6 +144,11 @@ namespace Client.Systems
         public void registerRemoveEntityHandler(RemoveEntityHandler handler)
         {
             m_removeEntityHandler = handler;
+        }
+
+        public void registerTurnPointMessage(TurnPointHandler handler) 
+        { 
+            m_turnPointHandler = handler;
         }
 
         /// <summary>

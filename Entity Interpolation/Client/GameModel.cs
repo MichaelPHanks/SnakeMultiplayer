@@ -53,6 +53,18 @@ namespace Client
             
             m_systemInterpolation.update(elapsedTime);
 
+
+            foreach (Entity entity in m_entities.Values)
+            {
+                if (entity.contains<Shared.Components.Movement>())
+                {
+                    Shared.Entities.Utility.thrust(entity, elapsedTime);
+
+                }
+            }
+
+
+
             foreach (List<Entity> entities in m_perPlayerEntities.Values)
             {
                 foreach (Entity entity in entities)
@@ -147,6 +159,7 @@ namespace Client
 
             m_systemNetwork.registerNewEntityHandler(handleNewEntity);
             m_systemNetwork.registerRemoveEntityHandler(handleRemoveEntity);
+            m_systemNetwork.registerTurnPointMessage(handleTurnPointMessage);
             loadKeyControls();
             // Modify this to load in controls
             m_systemKeyboardInput = new Systems.KeyboardInput(new List<Tuple<Shared.Components.Input.Type, Keys>>
@@ -341,6 +354,26 @@ namespace Client
         private void handleRemoveEntity(Shared.Messages.RemoveEntity message)
         {
             removeEntity(message.id);
+        }
+
+
+        private void handleTurnPointMessage(Shared.Messages.TurnPoint message)
+        {
+            try 
+            {
+                List<Entity> givenSegments = m_perPlayerEntities[message.headId];
+                foreach (Entity entity in givenSegments)
+                {
+                    if (entity.contains<Shared.Components.TurnPoints>())
+                    {
+                        entity.get<Shared.Components.TurnPoints>().turnPoints.Enqueue(message.turnPoint);
+                    }
+                }
+            } 
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
     }

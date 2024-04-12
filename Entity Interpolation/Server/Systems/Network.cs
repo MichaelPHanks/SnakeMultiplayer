@@ -105,6 +105,8 @@ namespace Server.Systems
             var entity = m_entities[message.entityId];
             var orientation = entity.get<Shared.Components.Position>().orientation;
 
+
+
             foreach (var input in message.inputs)
             {
                 switch (input)
@@ -129,8 +131,9 @@ namespace Server.Systems
                                         var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
                                         var position1 = entity.get<Shared.Components.Position>().position;
                                         turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
-                                        m_reportThese.Add(entity1.id);
-
+                                        //m_reportThese.Add(entity1.id);
+                                        Message newMessage = new Shared.Messages.TurnPoint(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation), entity.id);
+                                        MessageQueueServer.instance.broadcastMessage(newMessage);
                                     }
                                 }
                             }
@@ -161,8 +164,9 @@ namespace Server.Systems
                                         var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
                                         var position1 = entity.get<Shared.Components.Position>().position;
                                         turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
-                                        m_reportThese.Add(entity1.id);
-
+                                        //m_reportThese.Add(entity1.id);
+                                        Message newMessage = new Shared.Messages.TurnPoint(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation), entity.id);
+                                        MessageQueueServer.instance.broadcastMessage(newMessage);
                                     }
                                 }
                             }
@@ -187,7 +191,9 @@ namespace Server.Systems
                                         var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
                                         var position1 = entity.get<Shared.Components.Position>().position;
                                         turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
-                                        m_reportThese.Add(entity1.id);
+                                        Message newMessage = new Shared.Messages.TurnPoint(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation), entity.id);
+                                        MessageQueueServer.instance.broadcastMessage(newMessage);
+                                        //m_reportThese.Add(entity1.id);
 
                                     }
                                 }
@@ -212,10 +218,12 @@ namespace Server.Systems
                                         var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
                                         var position1 = entity.get<Shared.Components.Position>().position;
                                         turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
-                                        m_reportThese.Add(entity1.id);
+                                        //m_reportThese.Add(entity1.id);
 
                                         // add turn point input message
 
+                                        Message newMessage = new Shared.Messages.TurnPoint(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation), entity.id);
+                                        MessageQueueServer.instance.broadcastMessage(newMessage);
                                     }
                                 }
                             }
@@ -227,9 +235,9 @@ namespace Server.Systems
                         Shared.Entities.Utility.mouseRotation(entity, message.elapsedTime);
                         m_reportThese.Add(message.entityId);
                         break;*/
-                    case Shared.Components.Input.Type.Thrust:
+                    /*case Shared.Components.Input.Type.Thrust:
                         Shared.Entities.Utility.thrust(entity, message.elapsedTime);
-                        foreach (Entity entity1 in m_entities.Values)
+                        *//*foreach (Entity entity1 in m_entities.Values)
                         {
                             if (entity1.contains<Shared.Components.Segment>())
                             {
@@ -243,10 +251,10 @@ namespace Server.Systems
 
                                 }
                             }
-                        }
+                        }*//*
 
                         m_reportThese.Add(message.entityId);
-                        break;
+                        break;*/
 
                         /*case Shared.Components.Input.Type.RotateMouse:
                             Shared.Entities.Utility.mouseRotation(entity, message.elapsedTime);

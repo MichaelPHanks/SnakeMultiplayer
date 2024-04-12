@@ -57,6 +57,7 @@ namespace Client
             m_messageCommand[Shared.Messages.Type.UpdateEntity] = () => { return new UpdateEntity(); };
             m_messageCommand[Shared.Messages.Type.RemoveEntity] = () => { return new RemoveEntity(); };
             m_messageCommand[Shared.Messages.Type.PlayerDeath] = () => { return new PlayerDeath(); };
+            m_messageCommand[Shared.Messages.Type.TurnPoint] = () => { return new TurnPoint(); };
 
 
             try

@@ -10,11 +10,11 @@ namespace Shared.Messages
 {
     public class TurnPoint : Message
     {
+
         public TurnPoint() : base(Type.TurnPoint)
         {
         }
-
-        public TurnPoint(Tuple<Vector2,float > turnPoint, uint headId) : base(Type.PlayerDeath)
+        public TurnPoint(Tuple<Vector2,float > turnPoint, uint headId) : base(Type.TurnPoint)
         {
             this.turnPoint = turnPoint;
             this.headId = headId;
@@ -22,12 +22,15 @@ namespace Shared.Messages
         public  Tuple<Vector2,float > turnPoint { get; private set; }
 
         public uint headId { get; private set; }
-        /*public override byte[] serialize()
+        public override byte[] serialize()
         {
             List<byte> data = new List<byte>();
 
             data.AddRange(base.serialize());
-            data.AddRange(BitConverter.GetBytes(id));
+            data.AddRange(BitConverter.GetBytes(headId));
+            data.AddRange(BitConverter.GetBytes(turnPoint.Item1.X));
+            data.AddRange(BitConverter.GetBytes(turnPoint.Item1.Y));
+            data.AddRange(BitConverter.GetBytes(turnPoint.Item2));
 
             return data.ToArray();
         }
@@ -36,10 +39,20 @@ namespace Shared.Messages
         {
             int offset = base.parse(data);
 
-            this.id = BitConverter.ToUInt32(data, offset);
+            this.headId = BitConverter.ToUInt32(data, offset);
             offset += sizeof(UInt32);
 
+            float x = BitConverter.ToSingle(data.ToArray(), offset);
+
+            offset += sizeof(float);
+            float y = BitConverter.ToSingle(data.ToArray(), offset);
+            offset += sizeof(float);
+            float floatValue = BitConverter.ToSingle(data.ToArray(), offset);
+
+            turnPoint = new Tuple<Vector2, float>(new Vector2(x, y), floatValue);
+            offset += sizeof(float);
+
             return offset;
-        }*/
+        }
     }
 }

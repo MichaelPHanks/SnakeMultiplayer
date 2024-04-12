@@ -14,6 +14,7 @@ namespace Shared.Components
         {
             this.turnPoints = turnPoints;
         }
+
         public Queue<Tuple<Vector2, float>> turnPoints { get; private set; }
     }
 }
