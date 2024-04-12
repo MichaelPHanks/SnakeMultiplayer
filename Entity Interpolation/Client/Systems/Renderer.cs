@@ -23,7 +23,7 @@ namespace Client.Systems
 
         public void update(TimeSpan elapsedTime, SpriteBatch spriteBatch, double gameWidth, double gameHeight, Texture2D backgroundImage, Texture2D wallImage)
         {
-
+            // What to do here: create 'entities' (not actual entities) that are the tiles for the game!
             spriteBatch.Begin();
 
             // Render the player entity: 

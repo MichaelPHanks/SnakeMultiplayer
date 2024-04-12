@@ -99,7 +99,7 @@ namespace Server
             Dictionary<uint, Entity> entityToAdd = new Dictionary<uint, Entity>();
             List<uint> clientsNewSegments = new List<uint>();
 
-            foreach (Entity entity in foodEntities.Values)
+         /*   foreach (Entity entity in foodEntities.Values)
             {
                 var position = entity.get<Shared.Components.Position>().position;
                 var size = entity.get<Shared.Components.Size>().size;
@@ -128,7 +128,7 @@ namespace Server
 
                             Queue<Tuple<Vector2, float>> yeah = new Queue<Tuple<Vector2, float>>();
 
-                            Entity newSegment = Shared.Entities.Segment.create("PlayerBody",segmentPosition, playerSize.Y, 0.5f,5,yeah, playerEntity.get<Shared.Components.Position>().orientation, playerEntity.id);
+                            Entity newSegment = Shared.Entities.Segment.create("PlayerBody",segmentPosition, playerSize.Y, 0.2f,1,yeah, playerEntity.get<Shared.Components.Position>().orientation, playerEntity.id);
                             entityToAdd.Add(newSegment.id,newSegment);
 
                             clientsNewSegments.Add(playerEntity.id);
@@ -136,11 +136,11 @@ namespace Server
                             
                             // How will we know which entity we are dealing with and what their tail is? Or even their segments?
                             //Entity yeah = Shared.Entities.Segment.create()
-                            /*playerSize.X += 1;
+                            *//*playerSize.X += 1;
                             playerSize.Y += 1;
                             Message message = new Shared.Messages.UpdateEntity();
                             MessageQueueServer.instance.broadcastMessage(message);
-*/
+*//*
 
 
                         }
@@ -149,7 +149,7 @@ namespace Server
 
 
 
-            }
+            }*/
 
             foreach (Entity entity in foodToRemove.Values)
             {
@@ -201,7 +201,7 @@ namespace Server
             // Update all of the segments, if any.
 
 
-            /*foreach (List<Entity> entities in m_perPlayerEntities.Values)
+          /*  foreach (List<Entity> entities in m_perPlayerEntities.Values)
             {
                 foreach (Entity entity in entities)
                 {
@@ -217,12 +217,17 @@ namespace Server
 
                     }
                 }
-            }*/
-
+            }
+*/
 
 
             // Simulate turn points for the segments
-
+            // There are a bunch of things to note as of right now. 
+            // 1. Both the client and the server have the same simulation for the segments and stuff.
+            // 2. When there is an input, and we hold down two different inputs, the segments get confused. Need to fix that.
+            // 3. For rendering the tiles, rewatch the lecture from 4/11. 
+            // 4. Everything seems to sort of falling into place... :)
+            // 5. 
 
             foreach (List<Entity> entities in m_perPlayerEntities.Values)
             {
@@ -234,15 +239,71 @@ namespace Server
                         var position = entity.get<Shared.Components.Position>();
 
                         if (turnPoints.Count > 0)
-                        {
+                        { 
                             var top = turnPoints.Peek();
-                            if (position.position == top.Item1)
+
+                            float x = (float)Math.Cos(position.orientation);
+                            float y = (float)Math.Sin(position.orientation);
+
+
+                            Vector2 tempVector = new Vector2(x, y);
+
+                            if (x <= 0 && y <= 0)
                             {
-                                var turnPoint = turnPoints.Dequeue();
-                                position.orientation = turnPoint.Item2;
-                                Message message = new Shared.Messages.UpdateEntity(entity, elapsedTime);
-                                MessageQueueServer.instance.broadcastMessage(message);
+                                if (position.position.X <= top.Item1.X && position.position.Y <= top.Item1.Y) 
+                                {
+                                    Vector2 difference = position.position - top.Item1;
+                                    var turnPoint = turnPoints.Dequeue();
+                                    position.orientation = turnPoint.Item2;
+
+                                    position.position = top.Item1;
+
+                                    Message message = new Shared.Messages.UpdateEntity(entity, elapsedTime);
+                                    MessageQueueServer.instance.broadcastMessage(message);
+                                }
                             }
+
+                            else if (x >= 0 && y <= 0)
+                            {
+                                if (position.position.X >= top.Item1.X && position.position.Y <= top.Item1.Y)
+                                {
+                                    Vector2 difference = position.position - top.Item1;
+                                    var turnPoint = turnPoints.Dequeue();
+                                    position.orientation = turnPoint.Item2;
+                                    position.position = top.Item1;
+                                    Message message = new Shared.Messages.UpdateEntity(entity, elapsedTime);
+                                    MessageQueueServer.instance.broadcastMessage(message);
+                                }
+                            }
+                            else if (y >= 0 && x <= 0) 
+                            {
+                                if (position.position.X <= top.Item1.X && position.position.Y >= top.Item1.Y)
+                                {
+                                    Vector2 difference = position.position - top.Item1;
+                                    var turnPoint = turnPoints.Dequeue();
+                                    position.orientation = turnPoint.Item2;
+                                    position.position = top.Item1;
+                                    Message message = new Shared.Messages.UpdateEntity(entity, elapsedTime);
+                                    MessageQueueServer.instance.broadcastMessage(message);
+                                }
+                            }
+                            else 
+                            {
+                                if (position.position.X >= top.Item1.X && position.position.Y >= top.Item1.Y)
+                                {
+                                    Vector2 difference = position.position - top.Item1;
+                                    var turnPoint = turnPoints.Dequeue();
+                                    position.orientation = turnPoint.Item2;
+                                    position.position = top.Item1;
+                                    Message message = new Shared.Messages.UpdateEntity(entity, elapsedTime);
+                                    MessageQueueServer.instance.broadcastMessage(message);
+                                }
+                            }
+                            // Lets say x = -0.5 and y = 0.5
+
+                            // Going from x = 15 to 14.5, y = 15 to 15.5
+
+                            
                         }
 
 
@@ -368,12 +429,25 @@ namespace Server
 
             // Step 2: Create an entity for the newly joined player and sent it
             //         to the newly joined client
-            Entity player = Shared.Entities.Head.create("PlayerHead", new System.Numerics.Vector2(GameWorldWidth / 2, GameWorldHeight / 2), 50, 0.5f, (float)Math.PI / 1000);
+            Entity player = Shared.Entities.Head.create("PlayerHead", new System.Numerics.Vector2(GameWorldWidth / 2, GameWorldHeight / 2), 50, 0.2f, (float)Math.PI / 1000);
             addEntity(player);
             m_clientToEntityId[clientId] = player.id;
-
-            // Step 3: Send the new player entity to the newly joined client
             MessageQueueServer.instance.sendMessage(clientId, new NewEntity(player));
+
+            // New Step: Make a few different snake stuff.
+            Vector2 position = new Vector2(GameWorldWidth / 2 - 50, GameWorldWidth / 2);
+            for (int i = 0; i < 8; i++)
+            {
+            
+                Entity newSegment = Shared.Entities.Segment.create("PlayerBody", position, 50, 0.2f, 1, new Queue<Tuple<Vector2, float>> { }, player.get<Shared.Components.Position>().orientation, player.id);
+                addEntity(newSegment);
+                m_perPlayerEntities[player.id].Add(newSegment);
+
+                position.X -= 50;
+                MessageQueueServer.instance.sendMessage(clientId, new NewEntity(newSegment));
+
+            }
+
 
 
             // Step 4: Let all other clients know about this new player entity

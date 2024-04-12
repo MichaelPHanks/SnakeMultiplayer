@@ -9,6 +9,7 @@ namespace Shared.Components
 {
     public class TurnPoints : Component
     {
+
         public TurnPoints(Queue<Tuple<Vector2, float>> turnPoints)
         {
             this.turnPoints = turnPoints;

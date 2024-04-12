@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Shared;
 using Shared.Entities;
+using Shared.Messages;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,6 +19,8 @@ namespace Client
         private ContentManager m_contentManager;
         private Dictionary<uint, Entity> m_entities = new Dictionary<uint, Entity>();
         private Systems.Network m_systemNetwork = new Systems.Network();
+        private Dictionary<uint, List<Entity>> m_perPlayerEntities = new Dictionary<uint, List<Entity>>();
+
         private Systems.KeyboardInput m_systemKeyboardInput;
         private Systems.Interpolation m_systemInterpolation = new Systems.Interpolation();
         private Systems.Renderer m_systemRenderer = new Systems.Renderer();
@@ -50,7 +53,80 @@ namespace Client
             
             m_systemInterpolation.update(elapsedTime);
 
+            foreach (List<Entity> entities in m_perPlayerEntities.Values)
+            {
+                foreach (Entity entity in entities)
+                {
+                    if (entity.contains<Shared.Components.Segment>())
+                    {
+                        var turnPoints = entity.get<Shared.Components.TurnPoints>().turnPoints;
+                        var position = entity.get<Shared.Components.Position>();
 
+                        if (turnPoints.Count > 0)
+                        {
+                            var top = turnPoints.Peek();
+
+                            float x = (float)Math.Cos(position.orientation);
+                            float y = (float)Math.Sin(position.orientation);
+
+
+                            Vector2 tempVector = new Vector2(x, y);
+
+                            if (x <= 0 && y <= 0)
+                            {
+                                if (position.position.X <= top.Item1.X && position.position.Y <= top.Item1.Y)
+                                {
+                                    Vector2 difference = position.position - top.Item1;
+                                    var turnPoint = turnPoints.Dequeue();
+                                    position.orientation = turnPoint.Item2;
+
+                                    position.position = top.Item1;
+
+                                }
+                            }
+
+                            else if (x >= 0 && y <= 0)
+                            {
+                                if (position.position.X >= top.Item1.X && position.position.Y <= top.Item1.Y)
+                                {
+                                    Vector2 difference = position.position - top.Item1;
+                                    var turnPoint = turnPoints.Dequeue();
+                                    position.orientation = turnPoint.Item2;
+                                    position.position = top.Item1;
+                                }
+                            }
+                            else if (y >= 0 && x <= 0)
+                            {
+                                if (position.position.X <= top.Item1.X && position.position.Y >= top.Item1.Y)
+                                {
+                                    Vector2 difference = position.position - top.Item1;
+                                    var turnPoint = turnPoints.Dequeue();
+                                    position.orientation = turnPoint.Item2;
+                                    position.position = top.Item1;
+                                }
+                            }
+                            else
+                            {
+                                if (position.position.X >= top.Item1.X && position.position.Y >= top.Item1.Y)
+                                {
+                                    Vector2 difference = position.position - top.Item1;
+                                    var turnPoint = turnPoints.Dequeue();
+                                    position.orientation = turnPoint.Item2;
+                                    position.position = top.Item1;
+                                }
+                            }
+                            // Lets say x = -0.5 and y = 0.5
+
+                            // Going from x = 15 to 14.5, y = 15 to 15.5
+
+
+                        }
+
+
+
+                    }
+                }
+            }
 
 
         }
@@ -216,7 +292,20 @@ namespace Client
             {
                 return;
             }
-            
+            if (entity.contains<Shared.Components.Head>())
+            {
+
+                m_perPlayerEntities[entity.id] = new List<Entity> { entity };
+
+
+            }
+            else if (entity.contains<Shared.Components.Segment>())
+            {
+                m_perPlayerEntities[entity.get<Shared.Components.Segment>().headId].Add(entity);
+
+            }
+
+
 
             m_entities[entity.id] = entity;
             m_systemKeyboardInput.add(entity);

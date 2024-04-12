@@ -127,7 +127,7 @@ namespace Server.Systems
                                         // Add a turn point to the segment.
 
                                         var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
-                                        var position1 = entity1.get<Shared.Components.Position>().position;
+                                        var position1 = entity.get<Shared.Components.Position>().position;
                                         turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
                                         m_reportThese.Add(entity1.id);
 
@@ -159,7 +159,7 @@ namespace Server.Systems
                                         // Add a turn point to the segment.
 
                                         var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
-                                        var position1 = entity1.get<Shared.Components.Position>().position;
+                                        var position1 = entity.get<Shared.Components.Position>().position;
                                         turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
                                         m_reportThese.Add(entity1.id);
 
@@ -185,7 +185,7 @@ namespace Server.Systems
                                         // Add a turn point to the segment.
 
                                         var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
-                                        var position1 = entity1.get<Shared.Components.Position>().position;
+                                        var position1 = entity.get<Shared.Components.Position>().position;
                                         turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
                                         m_reportThese.Add(entity1.id);
 
@@ -210,9 +210,11 @@ namespace Server.Systems
                                         // Add a turn point to the segment.
 
                                         var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
-                                        var position1 = entity1.get<Shared.Components.Position>().position;
+                                        var position1 = entity.get<Shared.Components.Position>().position;
                                         turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
                                         m_reportThese.Add(entity1.id);
+
+                                        // add turn point input message
 
                                     }
                                 }

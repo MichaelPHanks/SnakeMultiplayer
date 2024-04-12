@@ -12,5 +12,6 @@ namespace Shared.Messages
         Disconnect,      // Client to server
         JoinGame,
         PlayerDeath,
+        TurnPoint,
     }
 }
