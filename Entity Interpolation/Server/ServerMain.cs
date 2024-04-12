@@ -65,7 +65,7 @@ namespace Server
 
             GameModel model = new GameModel();
             bool running = model.initialize();
-
+            TimeSpan totalTime = new TimeSpan(0);
             DateTime previousTime = DateTime.Now;
             while (running)
             {
@@ -86,6 +86,13 @@ namespace Server
                 // Now, after having slept for a bit, now compute the elapsed time and perform
                 // the game model update.
                 elapsedTime += (sleepTime > TimeSpan.Zero ? sleepTime : TimeSpan.Zero);
+                if (elapsedTime > TimeSpan.FromMilliseconds(33))
+                {
+                    Console.WriteLine("Elapsed time is too long, doesn;t make any sense!: " + elapsedTime);
+                }
+                //totalTime += elapsedTime;
+                //elapsedTime = TimeSpan.FromMilliseconds(33);
+
                 model.update(elapsedTime);
             }
 

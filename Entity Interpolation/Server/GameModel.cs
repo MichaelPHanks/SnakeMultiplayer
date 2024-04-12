@@ -37,12 +37,16 @@ namespace Server
         {
             
             m_systemNetwork.update(elapsedTime, MessageQueueServer.instance.getMessages());
-
+            if (elapsedTime > TimeSpan.FromMilliseconds(33))
+            {
+                Console.WriteLine("Something isn't right here..." + elapsedTime);
+            }
 
             foreach (Entity entity in m_entities.Values)
             {
                 if (entity.contains<Shared.Components.Movement>())
                 {
+                    
                     Shared.Entities.Utility.thrust(entity, elapsedTime);
 
                 }
@@ -107,7 +111,7 @@ namespace Server
             Dictionary<uint, Entity> entityToAdd = new Dictionary<uint, Entity>();
             List<uint> clientsNewSegments = new List<uint>();
 
-         /*   foreach (Entity entity in foodEntities.Values)
+            foreach (Entity entity in foodEntities.Values)
             {
                 var position = entity.get<Shared.Components.Position>().position;
                 var size = entity.get<Shared.Components.Size>().size;
@@ -136,19 +140,19 @@ namespace Server
 
                             Queue<Tuple<Vector2, float>> yeah = new Queue<Tuple<Vector2, float>>();
 
-                            Entity newSegment = Shared.Entities.Segment.create("PlayerBody",segmentPosition, playerSize.Y, 0.2f,1,yeah, playerEntity.get<Shared.Components.Position>().orientation, playerEntity.id);
-                            entityToAdd.Add(newSegment.id,newSegment);
+                            Entity newSegment = Shared.Entities.Segment.create("PlayerBody", segmentPosition, playerSize.Y, 0.2f, 1, yeah, playerEntity.get<Shared.Components.Position>().orientation, playerEntity.id);
+                            entityToAdd.Add(newSegment.id, newSegment);
 
                             clientsNewSegments.Add(playerEntity.id);
                             m_perPlayerEntities[playerEntity.id].Add(newSegment);
-                            
+
                             // How will we know which entity we are dealing with and what their tail is? Or even their segments?
                             //Entity yeah = Shared.Entities.Segment.create()
-                            *//*playerSize.X += 1;
+                            playerSize.X += 1;
                             playerSize.Y += 1;
                             Message message = new Shared.Messages.UpdateEntity();
                             MessageQueueServer.instance.broadcastMessage(message);
-*//*
+
 
 
                         }
@@ -157,7 +161,7 @@ namespace Server
 
 
 
-            }*/
+            }
 
             foreach (Entity entity in foodToRemove.Values)
             {
@@ -372,10 +376,23 @@ namespace Server
         {
             m_clients.Remove(clientId);
 
+
+
+
+
             Message message = new Shared.Messages.RemoveEntity(m_clientToEntityId[clientId]);
             MessageQueueServer.instance.broadcastMessage(message);
 
             removeEntity(m_clientToEntityId[clientId]);
+            // Remove each of the segments as well.
+
+            
+
+            List<Entity> entitiesToRemove = m_perPlayerEntities[m_clientToEntityId[clientId]];
+
+
+
+            m_perPlayerEntities.Remove(m_clientToEntityId[clientId]);
 
             m_clientToEntityId.Remove(clientId);
         }
