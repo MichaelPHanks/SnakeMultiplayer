@@ -10,7 +10,7 @@ namespace Shared.Components
             RotateRight,
             RotateDown,
             RotateMouse,
-            Thrust
+            
         }
 
         public Input(List<Type> inputs)

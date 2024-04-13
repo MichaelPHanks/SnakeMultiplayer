@@ -231,35 +231,7 @@ namespace Server.Systems
 
                         m_reportThese.Add(message.entityId);
                         break;
-                    /*case Shared.Components.Input.Type.RotateMouse:
-                        Shared.Entities.Utility.mouseRotation(entity, message.elapsedTime);
-                        m_reportThese.Add(message.entityId);
-                        break;*/
-                    /*case Shared.Components.Input.Type.Thrust:
-                        Shared.Entities.Utility.thrust(entity, message.elapsedTime);
-                        *//*foreach (Entity entity1 in m_entities.Values)
-                        {
-                            if (entity1.contains<Shared.Components.Segment>())
-                            {
-                                var headId = entity1.get<Shared.Components.Segment>().headId;
-
-                                if (headId == message.entityId)
-                                {
-                                    Shared.Entities.Utility.thrust(entity1, message.elapsedTime);
-
-                                    m_reportThese.Add(entity1.id);
-
-                                }
-                            }
-                        }*//*
-
-                        m_reportThese.Add(message.entityId);
-                        break;*/
-
-                        /*case Shared.Components.Input.Type.RotateMouse:
-                            Shared.Entities.Utility.mouseRotation(entity, message.elapsedTime);
-                            m_reportThese.Add(message.entityId);
-                            break;*/
+                    
 
 
                 }

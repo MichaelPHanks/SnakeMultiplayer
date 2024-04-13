@@ -55,7 +55,6 @@ namespace Client
 
 
 
-
             int totalHit = 0;
             
                 foreach (Entity entity in m_entities.Values)
@@ -323,6 +322,10 @@ namespace Client
             }
             else if (entity.contains<Shared.Components.Segment>())
             {
+                if (!m_perPlayerEntities.ContainsKey(entity.get<Shared.Components.Segment>().headId))
+                {
+                    m_perPlayerEntities[entity.get<Shared.Components.Segment>().headId] = new List<Entity>();
+                }
                 m_perPlayerEntities[entity.get<Shared.Components.Segment>().headId].Add(entity);
 
             }
@@ -333,7 +336,7 @@ namespace Client
             m_systemKeyboardInput.add(entity);
             m_systemRenderer.add(entity);
             m_systemNetwork.add(entity);
-            m_systemInterpolation.add(entity);
+            //m_systemInterpolation.add(entity);
         }
 
         /// <summary>
@@ -347,7 +350,7 @@ namespace Client
             m_systemKeyboardInput.remove(id);
             m_systemNetwork.remove(id);
             m_systemRenderer.remove(id);
-            m_systemInterpolation.remove(id);
+            //m_systemInterpolation.remove(id);
         }
 
         private void handleNewEntity(Shared.Messages.NewEntity message)

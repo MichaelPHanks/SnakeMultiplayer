@@ -1,10 +1,13 @@
 ﻿using Shared.Components;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Schema;
 
 namespace Shared.Entities
 {
@@ -123,6 +126,8 @@ namespace Shared.Entities
             position.position = new Vector2(
                 (float)(position.position.X + vectorX * movement.moveRate * elapsedTime.Milliseconds),
                 (float)(position.position.Y + vectorY * movement.moveRate * elapsedTime.Milliseconds));
+           
+
         }
     }
 }

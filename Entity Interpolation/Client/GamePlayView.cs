@@ -142,7 +142,7 @@ namespace Client
             right = m_loadedState.Right;
             m_level =  new LunarLanderLevel(1, m_graphics.PreferredBackBufferWidth, m_graphics.PreferredBackBufferHeight);*/
 
-            m_graphics.GraphicsDevice.RasterizerState = new RasterizerState
+            /*m_graphics.GraphicsDevice.RasterizerState = new RasterizerState
             {
                 FillMode = FillMode.Solid,
                 CullMode = CullMode.CullCounterClockwiseFace,   // CullMode.None If you want to not worry about triangle winding order
@@ -157,7 +157,7 @@ namespace Client
                     0, m_graphics.GraphicsDevice.Viewport.Width,
                     m_graphics.GraphicsDevice.Viewport.Height, 0,   // doing this to get it to match the default of upper left of (0, 0)
                     0.1f, 2)
-            };
+            };*/
          
            /* playerCircle = new Circle(new Tuple<double,double>(playerX , playerY), playerRectangle.Height / 2);
 

@@ -37,20 +37,10 @@ namespace Server
         {
             
             m_systemNetwork.update(elapsedTime, MessageQueueServer.instance.getMessages());
-            if (elapsedTime > TimeSpan.FromMilliseconds(33))
-            {
-                Console.WriteLine("Something isn't right here..." + elapsedTime);
-            }
+           // Console.WriteLine(elapsedTime.ToString());
 
-            foreach (Entity entity in m_entities.Values)
-            {
-                if (entity.contains<Shared.Components.Movement>())
-                {
-                    
-                    Shared.Entities.Utility.thrust(entity, elapsedTime);
 
-                }
-            }
+            
 
             if (foodCount.Count < 1000)
             {
@@ -241,9 +231,8 @@ namespace Server
             // 4. Everything seems to sort of falling into place... :)
             // 5. 
 
-            foreach (List<Entity> entities in m_perPlayerEntities.Values)
-            {
-                foreach (Entity entity in entities)
+            
+                foreach (Entity entity in m_entities.Values)
                 {
                     if (entity.contains<Shared.Components.Segment>())
                     {
@@ -320,7 +309,16 @@ namespace Server
 
 
 
-                    }
+                    
+                }
+            }
+            foreach (Entity entity in m_entities.Values)
+            {
+                if (entity.contains<Shared.Components.Movement>())
+                {
+
+                    Shared.Entities.Utility.thrust(entity, elapsedTime);
+
                 }
             }
 
@@ -465,7 +463,7 @@ namespace Server
             MessageQueueServer.instance.sendMessage(clientId, new NewEntity(player));
 
             // New Step: Make a few different snake stuff.
-            Vector2 position = new Vector2(GameWorldWidth / 2 - 25, GameWorldWidth / 2);
+            /*Vector2 position = new Vector2(GameWorldWidth / 2 - 25, GameWorldWidth / 2);
             for (int i = 0; i < 8; i++)
             {
 
@@ -476,7 +474,7 @@ namespace Server
                 position.X -= 25;
                 MessageQueueServer.instance.sendMessage(clientId, new NewEntity(newSegment));
 
-            }
+            }*/
 
 
 

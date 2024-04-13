@@ -344,14 +344,52 @@ namespace Client.Systems
       */
 
 
+                foreach (Entity entity in m_entities.Values)
+                {
+                    int tempX = (int)entity.get<Shared.Components.Position>().position.X - 500;
+                    int tempY = (int)entity.get<Shared.Components.Position>().position.Y - 500;
+                    var position = entity.get<Shared.Components.Position>().position;
+                    var size = entity.get<Shared.Components.Size>().size;
+
+
+                    var orientation = entity.get<Shared.Components.Position>().orientation;
+                    var texture = entity.get<Components.Sprite>().texture;
+                    var texCenter = entity.get<Components.Sprite>().center;
+                    Rectangle entityRectangle = new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y);
+                    if (viewPort.Intersects(entityRectangle))
+                    {
+
+                        // Convert from world to screen
+
+
+
+
+                        Rectangle tempRectangle = new Rectangle((int)(position.X- ScreenX), (int)(position.Y - ScreenY), (int)size.X, (int)size.Y);
+                        // Render the tile
+
+                        
+
+                        // Build a rectangle centered at position, with width/height of size
+                        
+
+                        spriteBatch.Draw(
+                            texture,
+                            tempRectangle,
+                            null,
+                            Color.White,
+                            orientation,
+                            texCenter,
+                            SpriteEffects.None,
+                            0);
+                    }
+                }
 
 
 
 
 
 
-
-                var orientation1 = m_entity.get<Shared.Components.Position>().orientation;
+                /*var orientation1 = m_entity.get<Shared.Components.Position>().orientation;
                 var size1 = m_entity.get<Shared.Components.Size>().size;
                 var texture1 = m_entity.get<Components.Sprite>().texture;
                 var texCenter1 = m_entity.get<Components.Sprite>().center;
@@ -374,7 +412,9 @@ namespace Client.Systems
                         texCenter1,
                         SpriteEffects.None,
                         0);
-                }
+                }*/
+
+
 
 
                 // Render all others within area of player entity
