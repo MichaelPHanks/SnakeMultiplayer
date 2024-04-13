@@ -78,7 +78,7 @@ namespace Server
             // Check for collision:
 
             // Check for out of bounds death
-            /*foreach (var entity in m_entities.Values)
+            foreach (var entity in m_entities.Values)
             {
                 if (entity.isAlive)
                 {
@@ -99,7 +99,7 @@ namespace Server
                     }
 
                 }
-            }*/
+            }
 
             // Check for any two collisions of player heads to any OTHER existing entity, other than the players other owned stuff
 
@@ -459,7 +459,7 @@ namespace Server
 
             // Step 2: Create an entity for the newly joined player and sent it
             //         to the newly joined client
-            Entity player = Shared.Entities.Head.create("PlayerHead", new System.Numerics.Vector2(GameWorldWidth / 2, GameWorldHeight / 2), 50, 0.2f, (float)Math.PI / 1000);
+            Entity player = Shared.Entities.Head.create("PlayerHead", new System.Numerics.Vector2(GameWorldWidth / 2, GameWorldHeight / 2), 50, 0.5f, (float)Math.PI / 1000);
             addEntity(player);
             m_clientToEntityId[clientId] = player.id;
             MessageQueueServer.instance.sendMessage(clientId, new NewEntity(player));
@@ -469,7 +469,7 @@ namespace Server
             for (int i = 0; i < 8; i++)
             {
 
-                Entity newSegment = Shared.Entities.Segment.create("PlayerBody", position, 50, 0.2f, 1, new Queue<Tuple<Vector2, float>> { }, player.get<Shared.Components.Position>().orientation, player.id);
+                Entity newSegment = Shared.Entities.Segment.create("PlayerBody", position, 50, 0.5f, 1, new Queue<Tuple<Vector2, float>> { }, player.get<Shared.Components.Position>().orientation, player.id);
                 addEntity(newSegment);
                 m_perPlayerEntities[player.id].Add(newSegment);
 

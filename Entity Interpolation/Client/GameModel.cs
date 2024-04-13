@@ -140,8 +140,9 @@ namespace Client
             }
             foreach (Entity entity in m_entities.Values)
             {
-                if (entity.contains<Shared.Components.Movement>())
+                if (entity.contains<Shared.Components.Movement>() && entity.isAlive)
                 {
+                    
                     Shared.Entities.Utility.thrust(entity, elapsedTime);
 
                 }
