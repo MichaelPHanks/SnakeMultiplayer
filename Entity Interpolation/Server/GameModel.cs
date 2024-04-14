@@ -42,11 +42,11 @@ namespace Server
 
             
 
-            if (foodCount.Count < 1000)
+            if (foodCount.Count < 100)
             {
                 Random rand = new Random();
 
-                for (int i = foodCount.Count; i  < 1000;  i++)
+                for (int i = foodCount.Count; i  < 100;  i++)
                 {
                     int randomPositionX = rand.Next(0, 5001);
                     int randomPositionY = rand.Next(0, 5001);
@@ -101,7 +101,7 @@ namespace Server
             Dictionary<uint, Entity> entityToAdd = new Dictionary<uint, Entity>();
             List<uint> clientsNewSegments = new List<uint>();
 
-            /*foreach (Entity entity in foodEntities.Values)
+            foreach (Entity entity in foodEntities.Values)
             {
                 var position = entity.get<Shared.Components.Position>().position;
                 var size = entity.get<Shared.Components.Size>().size;
@@ -128,9 +128,36 @@ namespace Server
                             Vector2 segmentPosition = new Vector2(playerPosition.X - offsetX, playerPosition.Y - offsetY);
                             // Add new segment, properly place it.
 
-                            Queue<Tuple<Vector2, float>> yeah = new Queue<Tuple<Vector2, float>>();
 
-                            Entity newSegment = Shared.Entities.Segment.create("PlayerBody", segmentPosition, playerSize.Y, 0.2f, 1, yeah, playerEntity.get<Shared.Components.Position>().orientation, playerEntity.id);
+                            Vector2 prevPosition = m_perPlayerEntities[playerEntity.id].Last().get<Shared.Components.Position>().position;
+
+                            float lastOrientation = m_perPlayerEntities[playerEntity.id].Last().get<Shared.Components.Position>().orientation;
+                            float x = (float)Math.Cos(lastOrientation);
+                            float y = (float)Math.Sin(lastOrientation);
+                            Vector2 direction = new Vector2();
+
+                            if (x < 0 && y == 0)
+                            {
+                                direction.X = 25;
+                            }
+                            else if (x > 0 && y == 0)
+                            {
+                                direction.X = -25;
+
+                            }
+                            else if (y < 0 && (int)x == 0)
+                            {
+                                direction.Y = 25;
+
+                            }
+                            else 
+                            {
+                                direction.Y = -25;
+
+                            }
+                            Queue<Tuple<Vector2, float>> turnPointsTemp = new Queue<Tuple<Vector2, float>>(m_perPlayerEntities[playerEntity.id].Last().get<Shared.Components.TurnPoints>().turnPoints);
+
+                            Entity newSegment = Shared.Entities.Segment.create("PlayerBody", prevPosition + direction, playerSize.Y, 0.25f, 1, turnPointsTemp, lastOrientation, playerEntity.id);
                             entityToAdd.Add(newSegment.id, newSegment);
 
                             clientsNewSegments.Add(playerEntity.id);
@@ -138,10 +165,10 @@ namespace Server
 
                             // How will we know which entity we are dealing with and what their tail is? Or even their segments?
                             //Entity yeah = Shared.Entities.Segment.create()
-                            playerSize.X += 1;
+                            /*playerSize.X += 1;
                             playerSize.Y += 1;
                             Message message = new Shared.Messages.UpdateEntity();
-                            MessageQueueServer.instance.broadcastMessage(message);
+                            MessageQueueServer.instance.broadcastMessage(message);*/
 
 
 
@@ -151,7 +178,7 @@ namespace Server
 
 
 
-            }*/
+            }
 
             foreach (Entity entity in foodToRemove.Values)
             {
@@ -249,11 +276,16 @@ namespace Server
 
                             Vector2 tempVector = new Vector2(x, y);
 
-                            if (x <= 0 && y <= 0)
+                        if (x <= 0 && y <= 0)
+                        {
+                            if (position.position.X <= top.Item1.X && position.position.Y <= top.Item1.Y)
                             {
-                                if (position.position.X <= top.Item1.X && position.position.Y <= top.Item1.Y) 
+                                Vector2 difference = position.position - top.Item1;
+
+                                if (difference.X > 5 || difference.Y > 5)
                                 {
-                                    Vector2 difference = position.position - top.Item1;
+                                    Console.WriteLine();
+                                }
                                     var turnPoint = turnPoints.Dequeue();
                                     position.orientation = turnPoint.Item2;
 
@@ -269,7 +301,11 @@ namespace Server
                                 if (position.position.X >= top.Item1.X && position.position.Y <= top.Item1.Y)
                                 {
                                     Vector2 difference = position.position - top.Item1;
-                                    var turnPoint = turnPoints.Dequeue();
+                                if (difference.X > 5 || difference.Y > 5)
+                                {
+                                    Console.WriteLine();
+                                }
+                                var turnPoint = turnPoints.Dequeue();
                                     position.orientation = turnPoint.Item2;
                                     position.position = top.Item1;
                                     /*Message message = new Shared.Messages.UpdateEntity(entity, elapsedTime);
@@ -281,7 +317,11 @@ namespace Server
                                 if (position.position.X <= top.Item1.X && position.position.Y >= top.Item1.Y)
                                 {
                                     Vector2 difference = position.position - top.Item1;
-                                    var turnPoint = turnPoints.Dequeue();
+                                if (difference.X > 5 || difference.Y > 5)
+                                {
+                                    Console.WriteLine();
+                                }
+                                var turnPoint = turnPoints.Dequeue();
                                     position.orientation = turnPoint.Item2;
                                     position.position = top.Item1;
                                    /* Message message = new Shared.Messages.UpdateEntity(entity, elapsedTime);
@@ -293,7 +333,11 @@ namespace Server
                                 if (position.position.X >= top.Item1.X && position.position.Y >= top.Item1.Y)
                                 {
                                     Vector2 difference = position.position - top.Item1;
-                                    var turnPoint = turnPoints.Dequeue();
+                                if (difference.X > 5 || difference.Y > 5)
+                                {
+                                    Console.WriteLine();
+                                }
+                                var turnPoint = turnPoints.Dequeue();
                                     position.orientation = turnPoint.Item2;
                                     position.position = top.Item1;
                                    /* Message message = new Shared.Messages.UpdateEntity(entity, elapsedTime);
@@ -319,7 +363,7 @@ namespace Server
 
                     Shared.Entities.Utility.thrust(entity, elapsedTime);
                     var message = new Shared.Messages.UpdateEntity(entity, elapsedTime);
-                    MessageQueueServer.instance.broadcastMessageWithLastId(message);
+                    MessageQueueServer.instance.broadcastMessage(message);
                 }
             }
 
@@ -465,7 +509,7 @@ namespace Server
 
             // New Step: Make a few different snake segments.
             Vector2 position = new Vector2(GameWorldWidth / 2 - 25, GameWorldWidth / 2);
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 50; i++)
             {
 
                 Entity newSegment = Shared.Entities.Segment.create("PlayerBody", position, 50, 0.25f, 1, new Queue<Tuple<Vector2, float>> { }, player.get<Shared.Components.Position>().orientation, player.id);
@@ -475,6 +519,21 @@ namespace Server
                 position.X -= 25;
                 MessageQueueServer.instance.sendMessage(clientId, new NewEntity(newSegment));
 
+
+
+
+
+
+                newSegment.remove<Appearance>();
+                newSegment.add(new Appearance("EnemyBody"));
+                Message message2 = new NewEntity(newSegment);
+                foreach (int otherId in m_clients)
+                {
+                    if (otherId != clientId)
+                    {
+                        MessageQueueServer.instance.sendMessage(otherId, message2);
+                    }
+                }
             }
 
 
