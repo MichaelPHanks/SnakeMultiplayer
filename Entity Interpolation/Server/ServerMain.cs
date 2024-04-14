@@ -84,34 +84,5 @@ namespace Server
 
             model.shutdown();
         }
-
-            /*DateTime previousTime = DateTime.Now;
-            while (running)
-            {
-                // Work out the elapsed time since the last frame
-                DateTime currentTime = DateTime.Now;
-                TimeSpan frameTime = currentTime - previousTime;
-                previousTime = currentTime;
-
-                // Perform the game model update
-                model.update(frameTime);
-
-                // Calculate the remaining time to sleep
-                TimeSpan sleepTime = SIMULATION_UPDATE_RATE_MS - frameTime;
-
-                // If we still have time to sleep, then sleep
-                if (sleepTime > TimeSpan.Zero)
-                {
-                    System.Threading.Thread.Sleep(sleepTime);
-                }
-                *//*else
-                {
-                    // If the frame took longer than the desired update rate,
-                    // consider adjusting the simulation update rate or optimizing the game logic.
-                    Console.WriteLine("Frame took longer than desired update rate.");
-                }*//*
-            }*/
-
-        
     }
 }

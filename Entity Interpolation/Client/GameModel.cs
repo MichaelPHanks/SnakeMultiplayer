@@ -55,8 +55,7 @@ namespace Client
 
 
 
-            int totalHit = 0;
-            
+            /*
                 foreach (Entity entity in m_entities.Values)
                 {
                     if (entity.contains<Shared.Components.Segment>())
@@ -91,7 +90,6 @@ namespace Client
                             {
                                 if (position.position.X >= top.Item1.X && position.position.Y <= top.Item1.Y)
                                 {
-                                    totalHit += 1;
                                     Vector2 difference = position.position - top.Item1;
                                     var turnPoint = turnPoints.Dequeue();
                                     position.orientation = turnPoint.Item2;
@@ -129,17 +127,14 @@ namespace Client
 
 
                     }
-                }
+                }*/
             
 
 
-            if (totalHit  > 0) 
-            {
-                Console.WriteLine();
-            }
+            
             foreach (Entity entity in m_entities.Values)
             {
-                if (entity.contains<Shared.Components.Movement>() && entity.isAlive)
+                if (entity.contains<Shared.Components.Movement>())
                 {
                     
                     Shared.Entities.Utility.thrust(entity, elapsedTime);
@@ -336,7 +331,7 @@ namespace Client
             m_systemKeyboardInput.add(entity);
             m_systemRenderer.add(entity);
             m_systemNetwork.add(entity);
-            //m_systemInterpolation.add(entity);
+            m_systemInterpolation.add(entity);
         }
 
         /// <summary>

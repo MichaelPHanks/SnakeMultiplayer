@@ -103,7 +103,6 @@ namespace Server.Systems
         private void handleInput(Shared.Messages.Input message)
         {
             var entity = m_entities[message.entityId];
-            var orientation = entity.get<Shared.Components.Position>().orientation;
 
 
 
@@ -113,10 +112,10 @@ namespace Server.Systems
                 {
                     case Shared.Components.Input.Type.RotateUp:
 
-                        Shared.Entities.Utility.rotateUp(entity, message.elapsedTime);
 
 
-                        if (orientation != entity.get<Shared.Components.Position>().orientation)
+
+                        if (Shared.Entities.Utility.rotateUp(entity, message.elapsedTime))
                         {
                             foreach (Entity entity1 in m_entities.Values)
                             {
@@ -126,6 +125,7 @@ namespace Server.Systems
 
                                     if (headId == message.entityId)
                                     {
+
                                         // Add a turn point to the segment.
 
                                         var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
@@ -134,6 +134,8 @@ namespace Server.Systems
                                         //m_reportThese.Add(entity1.id);
                                         Message newMessage = new Shared.Messages.TurnPoint(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation), entity.id);
                                         MessageQueueServer.instance.broadcastMessage(newMessage);
+                                       // m_reportThese.Add(entity1.id);
+
                                     }
                                 }
                             }
@@ -146,10 +148,9 @@ namespace Server.Systems
                         break;
                     case Shared.Components.Input.Type.RotateLeft:
 
-                        Shared.Entities.Utility.rotateLeft(entity, message.elapsedTime);
 
 
-                        if (orientation != entity.get<Shared.Components.Position>().orientation)
+                        if (Shared.Entities.Utility.rotateLeft(entity, message.elapsedTime))
                         {
                             foreach (Entity entity1 in m_entities.Values)
                             {
@@ -159,6 +160,7 @@ namespace Server.Systems
 
                                     if (headId == message.entityId)
                                     {
+
                                         // Add a turn point to the segment.
 
                                         var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
@@ -167,6 +169,8 @@ namespace Server.Systems
                                         //m_reportThese.Add(entity1.id);
                                         Message newMessage = new Shared.Messages.TurnPoint(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation), entity.id);
                                         MessageQueueServer.instance.broadcastMessage(newMessage);
+                                       // m_reportThese.Add(entity1.id);
+
                                     }
                                 }
                             }
@@ -175,8 +179,7 @@ namespace Server.Systems
                         m_reportThese.Add(message.entityId);
                         break;
                     case Shared.Components.Input.Type.RotateRight:
-                        Shared.Entities.Utility.rotateRight(entity, message.elapsedTime);
-                        if (orientation != entity.get<Shared.Components.Position>().orientation)
+                        if (Shared.Entities.Utility.rotateRight(entity, message.elapsedTime))
                         {
                             foreach (Entity entity1 in m_entities.Values)
                             {
@@ -186,6 +189,7 @@ namespace Server.Systems
 
                                     if (headId == message.entityId)
                                     {
+
                                         // Add a turn point to the segment.
 
                                         var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
@@ -202,8 +206,7 @@ namespace Server.Systems
                         m_reportThese.Add(message.entityId);
                         break;
                     case Shared.Components.Input.Type.RotateDown:
-                        Shared.Entities.Utility.rotateDown(entity, message.elapsedTime);
-                        if (orientation != entity.get<Shared.Components.Position>().orientation)
+                        if (Shared.Entities.Utility.rotateDown(entity, message.elapsedTime))
                         {
                             foreach (Entity entity1 in m_entities.Values)
                             {
@@ -224,6 +227,8 @@ namespace Server.Systems
 
                                         Message newMessage = new Shared.Messages.TurnPoint(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation), entity.id);
                                         MessageQueueServer.instance.broadcastMessage(newMessage);
+                                        //m_reportThese.Add(entity1.id);
+
                                     }
                                 }
                             }

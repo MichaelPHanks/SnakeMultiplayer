@@ -540,7 +540,7 @@ namespace Client
 
             foreach (var key in Keyboard.GetState().GetPressedKeys())
             {
-                if (!m_previouslyDown.Contains(key))
+                if (m_previouslyDown.Count == 0)
                 {
                     m_gameModel.signalKeyPressed(key);
                     m_previouslyDown.Add(key);

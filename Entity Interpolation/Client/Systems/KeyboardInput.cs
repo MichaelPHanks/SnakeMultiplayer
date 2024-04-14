@@ -33,8 +33,7 @@ namespace Client.Systems
 
         public override void update(TimeSpan elapsedTime)
         {
-            // Keep in mind we are never going to stop thrusting forward, so we should always be going forward
-            // Mouse is just changing the orientation!
+           
             foreach (var item in m_entities)
             {
                 List<Shared.Components.Input.Type> inputs = new List<Shared.Components.Input.Type>();

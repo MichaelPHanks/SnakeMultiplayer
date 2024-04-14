@@ -318,7 +318,8 @@ namespace Server
                 {
 
                     Shared.Entities.Utility.thrust(entity, elapsedTime);
-
+                    var message = new Shared.Messages.UpdateEntity(entity, elapsedTime);
+                    MessageQueueServer.instance.broadcastMessageWithLastId(message);
                 }
             }
 
@@ -457,24 +458,24 @@ namespace Server
 
             // Step 2: Create an entity for the newly joined player and sent it
             //         to the newly joined client
-            Entity player = Shared.Entities.Head.create("PlayerHead", new System.Numerics.Vector2(GameWorldWidth / 2, GameWorldHeight / 2), 50, 0.5f, (float)Math.PI / 1000);
+            Entity player = Shared.Entities.Head.create("PlayerHead", new System.Numerics.Vector2(GameWorldWidth / 2, GameWorldHeight / 2), 50, 0.25f, (float)Math.PI / 1000);
             addEntity(player);
             m_clientToEntityId[clientId] = player.id;
             MessageQueueServer.instance.sendMessage(clientId, new NewEntity(player));
 
-            // New Step: Make a few different snake stuff.
-            /*Vector2 position = new Vector2(GameWorldWidth / 2 - 25, GameWorldWidth / 2);
+            // New Step: Make a few different snake segments.
+            Vector2 position = new Vector2(GameWorldWidth / 2 - 25, GameWorldWidth / 2);
             for (int i = 0; i < 8; i++)
             {
 
-                Entity newSegment = Shared.Entities.Segment.create("PlayerBody", position, 50, 0.5f, 1, new Queue<Tuple<Vector2, float>> { }, player.get<Shared.Components.Position>().orientation, player.id);
+                Entity newSegment = Shared.Entities.Segment.create("PlayerBody", position, 50, 0.25f, 1, new Queue<Tuple<Vector2, float>> { }, player.get<Shared.Components.Position>().orientation, player.id);
                 addEntity(newSegment);
                 m_perPlayerEntities[player.id].Add(newSegment);
 
                 position.X -= 25;
                 MessageQueueServer.instance.sendMessage(clientId, new NewEntity(newSegment));
 
-            }*/
+            }
 
 
 

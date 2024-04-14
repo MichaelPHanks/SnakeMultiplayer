@@ -119,9 +119,6 @@ namespace Client.Systems
                                     Shared.Entities.Utility.rotateDown(entity, message.elapsedTime);
                                     break;
 
-                                /*case Shared.Components.Input.Type.RotateMouse:
-                                    Shared.Entities.Utility.mouseRotation(entity, message.elapsedTime, message.mousePositionX, message.mousePositionY);
-                                    break;*/
                             }
                         }
                     }
@@ -184,7 +181,7 @@ namespace Client.Systems
                     goal.startPosition = position.position;
                     goal.startOrientation = position.orientation;
                 }
-                else if (entity.contains<Position>() && message.hasPosition)
+                if (entity.contains<Position>() && message.hasPosition)
                 {
                     entity.get<Position>().position = message.position;
                     entity.get<Position>().orientation = message.orientation;
