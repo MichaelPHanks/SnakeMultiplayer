@@ -450,68 +450,78 @@ namespace Client
                         0);*/
             }
 
-           /* if (currentStage == Stage.COMPLETED)
-            {
-                // Render the level over message & time until 'next' level.
-                float scale1 = m_graphics.PreferredBackBufferWidth / 1920f;
+            /* if (currentStage == Stage.COMPLETED)
+             {
+                 // Render the level over message & time until 'next' level.
+                 float scale1 = m_graphics.PreferredBackBufferWidth / 1920f;
 
-                Vector2 stringSize2 = m_font.MeasureString(LEVELOVERMESSAGE) * scale1;
+                 Vector2 stringSize2 = m_font.MeasureString(LEVELOVERMESSAGE) * scale1;
 
 
 
-                m_spriteBatch.DrawString(
+                 m_spriteBatch.DrawString(
+                                m_font,
+                                LEVELOVERMESSAGE,
+                                new Vector2(m_graphics.PreferredBackBufferWidth / 2 - stringSize2.X / 2,
+                 m_graphics.PreferredBackBufferHeight / 1.5f - stringSize2.Y),
+                                Color.White,
+                                0,
+                                Vector2.Zero,
+                                scale1,
+                                SpriteEffects.None,
+                                0);
+
+
+                 stringSize2 = m_font.MeasureString(intervalBetweenLevels.Seconds.ToString()) * scale;
+
+                 m_spriteBatch.DrawString(
                                m_font,
-                               LEVELOVERMESSAGE,
-                               new Vector2(m_graphics.PreferredBackBufferWidth / 2 - stringSize2.X / 2,
-                m_graphics.PreferredBackBufferHeight / 1.5f - stringSize2.Y),
+                              intervalBetweenLevels.Seconds.ToString(),
+                              new Vector2(m_graphics.PreferredBackBufferWidth / 2 - stringSize2.X / 2,
+                 m_graphics.PreferredBackBufferHeight / 1.5f - stringSize2.Y + stringSize2.Y),
                                Color.White,
                                0,
                                Vector2.Zero,
-                               scale1,
+                               scale,
                                SpriteEffects.None,
                                0);
 
 
-                stringSize2 = m_font.MeasureString(intervalBetweenLevels.Seconds.ToString()) * scale;
+             }*/
 
-                m_spriteBatch.DrawString(
-                              m_font,
-                             intervalBetweenLevels.Seconds.ToString(),
-                             new Vector2(m_graphics.PreferredBackBufferWidth / 2 - stringSize2.X / 2,
-                m_graphics.PreferredBackBufferHeight / 1.5f - stringSize2.Y + stringSize2.Y),
-                              Color.White,
-                              0,
-                              Vector2.Zero,
-                              scale,
-                              SpriteEffects.None,
-                              0);
+            /*  else 
+              {
+                  // Render the Level in the top left
+                  float scale1 = m_graphics.PreferredBackBufferWidth / 1920f;
+
+                  Vector2 stringSize2 = m_font.MeasureString(currentLevel == Level.LEVELONE ? "Level: 1": "Level: 2") * scale1;
+
+                  m_spriteBatch.DrawString(
+                                 m_font,
+                                 currentLevel == Level.LEVELONE ? "Level: 1" : "Level: 2",
+                                 new Vector2(m_graphics.PreferredBackBufferWidth / 10 - stringSize2.X / 2,
+                  m_graphics.PreferredBackBufferHeight / 10f - stringSize2.Y),
+                                 Color.Black,
+                                 0,
+                                 Vector2.Zero,
+                                 scale1,
+                                 SpriteEffects.None,
+                                 0);
+              }
+              m_spriteBatch.End();*/
+            /* m_renderSmoke.draw(m_spriteBatch, m_particleSystemSmoke);
+
+             m_renderFire.draw(m_spriteBatch, m_particleSystemFire);*/
 
 
-            }*/
-
-          /*  else 
+            // Draw the top players leaderboard in the top right.
+            foreach (Tuple<string, int> score in m_gameModel.getScores())
             {
-                // Render the Level in the top left
-                float scale1 = m_graphics.PreferredBackBufferWidth / 1920f;
+                // Render the top 5 in the top right of the screen.
 
-                Vector2 stringSize2 = m_font.MeasureString(currentLevel == Level.LEVELONE ? "Level: 1": "Level: 2") * scale1;
-
-                m_spriteBatch.DrawString(
-                               m_font,
-                               currentLevel == Level.LEVELONE ? "Level: 1" : "Level: 2",
-                               new Vector2(m_graphics.PreferredBackBufferWidth / 10 - stringSize2.X / 2,
-                m_graphics.PreferredBackBufferHeight / 10f - stringSize2.Y),
-                               Color.Black,
-                               0,
-                               Vector2.Zero,
-                               scale1,
-                               SpriteEffects.None,
-                               0);
             }
-            m_spriteBatch.End();*/
-           /* m_renderSmoke.draw(m_spriteBatch, m_particleSystemSmoke);
 
-            m_renderFire.draw(m_spriteBatch, m_particleSystemFire);*/
+            // Render your score at the top of the screen
 
 
 

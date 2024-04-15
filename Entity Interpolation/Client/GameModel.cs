@@ -27,6 +27,8 @@ namespace Client
         private bool loading = false;
         private KeyControlsSnake m_loadedState;
 
+        private List<Tuple<string, int>> m_highScores = new List<Tuple<string, int>>();
+
         private const int GameWorldWidth = 9600;
         private const int GameWorldHeight = 5400;
 
@@ -35,6 +37,11 @@ namespace Client
         private const int GameWorldViewPortHeight = 1080;
 
 
+
+        public List<Tuple<string, int>> getScores()
+        {
+            return m_highScores;
+        }
 
         /*public void resetGameModel()
         {
