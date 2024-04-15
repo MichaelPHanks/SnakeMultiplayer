@@ -356,15 +356,15 @@ namespace Server
                     
                 }
             }
-            foreach (Entity entity in m_entities.Values)
+            foreach (List<Entity> entities in m_perPlayerEntities.Values)
             {
-                if (entity.contains<Shared.Components.Movement>())
-                {
 
+                foreach (Entity entity in entities)
+                {
                     Shared.Entities.Utility.thrust(entity, elapsedTime);
-                    var message = new Shared.Messages.UpdateEntity(entity, elapsedTime);
-                    MessageQueueServer.instance.broadcastMessage(message);
+
                 }
+
             }
 
 
@@ -509,7 +509,7 @@ namespace Server
 
             // New Step: Make a few different snake segments.
             Vector2 position = new Vector2(GameWorldWidth / 2 - 25, GameWorldWidth / 2);
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 1; i++)
             {
 
                 Entity newSegment = Shared.Entities.Segment.create("PlayerBody", position, 50, 0.25f, 1, new Queue<Tuple<Vector2, float>> { }, player.get<Shared.Components.Position>().orientation, player.id);

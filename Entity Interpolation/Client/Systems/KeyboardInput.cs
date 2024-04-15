@@ -65,7 +65,10 @@ namespace Client.Systems
                                     break;
                             }
                         }
+
                     }
+
+                    m_keysPressed.Clear();
 
 
                     /*var vectorX = Math.Cos(position.orientation);
@@ -146,6 +149,7 @@ namespace Client.Systems
         public void keyPressed(Keys key)
         {
             m_keysPressed.Add(key);
+
         }
 
         public void keyReleased(Keys key)

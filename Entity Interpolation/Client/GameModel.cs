@@ -55,8 +55,10 @@ namespace Client
 
 
 
-            /*
-                foreach (Entity entity in m_entities.Values)
+
+            foreach (List<Entity> entities in m_perPlayerEntities.Values)
+            {
+                foreach (Entity entity in entities)
                 {
                     if (entity.contains<Shared.Components.Segment>())
                     {
@@ -127,19 +129,20 @@ namespace Client
 
 
                     }
-                }*/
-            
+                }
 
 
+            }
             
-            foreach (Entity entity in m_entities.Values)
+            foreach (List<Entity> entities in m_perPlayerEntities.Values)
             {
-                if (entity.contains<Shared.Components.Movement>())
+
+                foreach (Entity entity in entities)
                 {
-                    
                     Shared.Entities.Utility.thrust(entity, elapsedTime);
 
                 }
+                
             }
 
 
@@ -322,6 +325,7 @@ namespace Client
                     m_perPlayerEntities[entity.get<Shared.Components.Segment>().headId] = new List<Entity>();
                 }
                 m_perPlayerEntities[entity.get<Shared.Components.Segment>().headId].Add(entity);
+                /*m_perPlayerEntities[entity.get<Shared.Components.Segment>().headId].Sort();*/
 
             }
 
