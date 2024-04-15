@@ -36,6 +36,7 @@ namespace Client
         private const int GameWorldViewPortWidth = 1920;
         private const int GameWorldViewPortHeight = 1080;
 
+        private AnimatedSprite m_littleBirdRenderer;
 
 
         public List<Tuple<string, int>> getScores()
@@ -55,6 +56,7 @@ namespace Client
     /// </summary>
     public void update(TimeSpan elapsedTime)
         {
+            
             m_systemNetwork.update(elapsedTime, MessageQueueClient.instance.getMessages());
             m_systemKeyboardInput.update(elapsedTime);
 
@@ -146,7 +148,11 @@ namespace Client
 
                 foreach (Entity entity in entities)
                 {
-                    Shared.Entities.Utility.thrust(entity, elapsedTime);
+                    if (entity.isAlive)
+                    {
+                        Shared.Entities.Utility.thrust(entity, elapsedTime);
+
+                    }
 
                 }
                 
@@ -156,9 +162,9 @@ namespace Client
 
         }
 
-        public void render(TimeSpan elapsedTime, SpriteBatch spriteBatch, int gameWidth, int gameHeight, Texture2D backgroundImage, Texture2D wallImage)
+        public void render(TimeSpan elapsedTime, SpriteBatch spriteBatch, int gameWidth, int gameHeight, Texture2D backgroundImage, Texture2D wallImage, AnimatedSprite animatedRender, SpriteFont font)
         {
-            m_systemRenderer.update(elapsedTime, spriteBatch, gameWidth, gameHeight, backgroundImage, wallImage);
+            m_systemRenderer.update(elapsedTime, spriteBatch, gameWidth, gameHeight, backgroundImage, wallImage, animatedRender, font);
         }
 
         /// <summary>
@@ -257,6 +263,11 @@ namespace Client
         private Entity createEntity(Shared.Messages.NewEntity message)
         {
             Entity entity = new Entity(message.id);
+
+            if (message.hasName)
+            {
+                entity.add(new Shared.Components.Name(message.name));
+            }
 
             if (message.hasAppearance)
             {

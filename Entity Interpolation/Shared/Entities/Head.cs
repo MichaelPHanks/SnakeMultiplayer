@@ -10,11 +10,12 @@ namespace Shared.Entities
 {
     public class Head
     {
-        public static Entity create(string texture, Vector2 position, float size, float moveRate, float rotateRate)
+        public static Entity create(string texture,string name, Vector2 position, float size, float moveRate, float rotateRate)
         {
             Entity entity = new Entity();
 
             entity.add(new Appearance(texture));
+            entity.add(new Name(name));
             entity.add(new Shared.Components.Head());
 
             entity.add(new Position(position));

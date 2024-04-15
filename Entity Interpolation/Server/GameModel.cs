@@ -35,6 +35,7 @@ namespace Server
         /// </summary>
         public void update(TimeSpan elapsedTime)
         {
+
             
             m_systemNetwork.update(elapsedTime, MessageQueueServer.instance.getMessages());
            // Console.WriteLine(elapsedTime.ToString());
@@ -136,11 +137,11 @@ namespace Server
                             float y = (float)Math.Sin(lastOrientation);
                             Vector2 direction = new Vector2();
 
-                            if (x < 0 && y == 0)
+                            if (x < 0 && (int)y == 0)
                             {
                                 direction.X = 25;
                             }
-                            else if (x > 0 && y == 0)
+                            else if (x > 0 && (int)y == 0)
                             {
                                 direction.X = -25;
 
@@ -375,7 +376,7 @@ namespace Server
         /// </summary>
         public bool initialize()
         {
-            m_systemNetwork.registerJoinHandler(handleJoin);
+            m_systemNetwork.registerHandler(Shared.Messages.Type.Join,handleJoin);
             m_systemNetwork.registerDisconnectHandler(handleDisconnect);
 
             MessageQueueServer.instance.registerConnectHandler(handleConnect);
@@ -495,21 +496,45 @@ namespace Server
         /// added to the server game model, and notifies the requesting client
         /// of the player.
         /// </summary>
-        private void handleJoin(int clientId)
+        private void handleJoin(int clientId, TimeSpan elapsedTime, Shared.Messages.Message messageJoin)
         {
+            Shared.Messages.Join messageNew = (Shared.Messages.Join) messageJoin;
+
             // Step 1: Tell the newly connected player about all other entities
             reportAllEntities(clientId);
 
             // Step 2: Create an entity for the newly joined player and sent it
             //         to the newly joined client
-            Entity player = Shared.Entities.Head.create("PlayerHead", new System.Numerics.Vector2(GameWorldWidth / 2, GameWorldHeight / 2), 50, 0.25f, (float)Math.PI / 1000);
+            Entity player = Shared.Entities.Head.create("PlayerHead",messageNew.name, new System.Numerics.Vector2(GameWorldWidth / 2, GameWorldHeight / 2), 50, 0.25f, (float)Math.PI / 1000);
             addEntity(player);
             m_clientToEntityId[clientId] = player.id;
             MessageQueueServer.instance.sendMessage(clientId, new NewEntity(player));
 
             // New Step: Make a few different snake segments.
+            
+
+
+            // Step 4: Let all other clients know about this new player entity
+
+            // We change the appearance for a player ship entity for all other clients to a different texture
+            player.remove<Appearance>();
+            player.add(new Appearance("EnemyHead"));
+
+            // Remove components not needed for "other" players
+            player.remove<Shared.Components.Input>();
+
+            Message message = new NewEntity(player);
+            foreach (int otherId in m_clients)
+            {
+                if (otherId != clientId)
+                {
+                    MessageQueueServer.instance.sendMessage(otherId, message);
+                }
+            }
+
+
             Vector2 position = new Vector2(GameWorldWidth / 2 - 25, GameWorldWidth / 2);
-            for (int i = 0; i < 1; i++)
+            for (int i = 0; i < 8; i++)
             {
 
                 Entity newSegment = Shared.Entities.Segment.create("PlayerBody", position, 50, 0.25f, 1, new Queue<Tuple<Vector2, float>> { }, player.get<Shared.Components.Position>().orientation, player.id);
@@ -536,25 +561,6 @@ namespace Server
                 }
             }
 
-
-
-            // Step 4: Let all other clients know about this new player entity
-
-            // We change the appearance for a player ship entity for all other clients to a different texture
-            player.remove<Appearance>();
-            player.add(new Appearance("EnemyHead"));
-
-            // Remove components not needed for "other" players
-            player.remove<Shared.Components.Input>();
-
-            Message message = new NewEntity(player);
-            foreach (int otherId in m_clients)
-            {
-                if (otherId != clientId)
-                {
-                    MessageQueueServer.instance.sendMessage(otherId, message);
-                }
-            }
         }
     }
 }

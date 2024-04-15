@@ -1,4 +1,5 @@
 ﻿
+using Client.Objects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Shared.Entities;
@@ -22,7 +23,7 @@ namespace Client.Systems
 
         public override void update(TimeSpan elapsedTime) { }
 
-        public void update(TimeSpan elapsedTime, SpriteBatch spriteBatch, double gameWidth, double gameHeight, Texture2D backgroundImage, Texture2D wallImage)
+        public void update(TimeSpan elapsedTime, SpriteBatch spriteBatch, double gameWidth, double gameHeight, Texture2D backgroundImage, Texture2D wallImage, AnimatedSprite animatedRenderer, SpriteFont font)
         {
 
             // Create all of the rectangles:
@@ -346,8 +347,11 @@ namespace Client.Systems
 
                 foreach (Entity entity in m_entities.Values)
                 {
-                    if (!entity.contains<Shared.Components.Segment>())
+                    if ((entity.contains<Shared.Components.Head>() || entity.contains<Shared.Components.Segment>()) && entity.isAlive)
                     {
+
+
+
                         int tempX = (int)entity.get<Shared.Components.Position>().position.X - 500;
                         int tempY = (int)entity.get<Shared.Components.Position>().position.Y - 500;
                         var position = entity.get<Shared.Components.Position>().position;
@@ -358,6 +362,7 @@ namespace Client.Systems
                         var texture = entity.get<Components.Sprite>().texture;
                         var texCenter = entity.get<Components.Sprite>().center;
                         Rectangle entityRectangle = new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y);
+                        Rectangle tempRectangle = new Rectangle();
                         if (viewPort.Intersects(entityRectangle))
                         {
 
@@ -366,7 +371,7 @@ namespace Client.Systems
 
 
 
-                            Rectangle tempRectangle = new Rectangle((int)(position.X - ScreenX), (int)(position.Y - ScreenY), (int)size.X, (int)size.Y);
+                            tempRectangle = new Rectangle((int)(position.X - ScreenX), (int)(position.Y - ScreenY), (int)size.X, (int)size.Y);
                             // Render the tile
 
 
@@ -384,9 +389,81 @@ namespace Client.Systems
                                 SpriteEffects.None,
                                 0);
                         }
+                        if (entity.contains<Shared.Components.Head>())
+                        {
+                            // Render the name of the player.
+
+                            /*  bottom = drawMenuItem(m_currentSelection == MenuState.About ? m_fontMenuSelect : m_fontMenu, "About", bottom, m_currentSelection == MenuState.About ? Color.White : Color.LightGray);
+                              drawMenuItem(m_currentSelection == MenuState.Quit ? m_fontMenuSelect : m_fontMenu, "Quit", bottom, m_currentSelection == MenuState.Quit ? Color.White : Color.LightGray);
+
+
+                              m_spriteBatch.End();
+
+                          }
+                          private float drawMenuItem(SpriteFont font, string text, float y, Color color)
+                          {
+
+                              Vector2 stringSize = font.MeasureString(text) * scale;
+                              m_spriteBatch.DrawString(
+                                             font,
+                                             text,
+                                             new Vector2(m_graphics.PreferredBackBufferWidth / 2 - stringSize.X / 2, y),
+                                             color,
+                                             0,
+                                             Vector2.Zero,
+                                             scale,
+                                             SpriteEffects.None,
+                                             0);
+                          }*/
+                            float scale = 1000 / 1920f;
+
+                            spriteBatch.DrawString(
+                                             font,
+                                             entity.get<Shared.Components.Name>().name,
+                                             new Vector2(tempRectangle.X - size.X, tempRectangle.Y - size.Y),
+                                             Color.White,
+                                             0,
+                                             Vector2.Zero,
+                                             scale,
+                                             SpriteEffects.None,
+                                             0);
+
+                        }
                     }
                 }
 
+
+
+                foreach (Entity entity in m_entities.Values)
+                {
+                    if (!entity.contains<Shared.Components.Head>() && !entity.contains<Shared.Components.Segment>())
+                    {
+
+                        var position = entity.get<Shared.Components.Position>().position;
+                        var size = entity.get<Shared.Components.Size>().size;
+
+
+                        var orientation = entity.get<Shared.Components.Position>().orientation;
+                        var texture = entity.get<Components.Sprite>().texture;
+                        var texCenter = entity.get<Components.Sprite>().center;
+                        Rectangle entityRectangle = new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y);
+                        // Render the food!
+                        if (viewPort.Intersects(entityRectangle))
+                        {
+                            Rectangle tempRectangle = new Rectangle((int)(position.X - ScreenX), (int)(position.Y - ScreenY), (int)size.X, (int)size.Y);
+
+                            Banana banana = new Banana(size*(float)1.5, new Vector2(tempRectangle.X + size.X / 2, tempRectangle.Y + size.Y / 2), 75 / 1000.0, // Pixels per second
+                    (float)(Math.PI / 1000.0));
+
+
+                            animatedRenderer.draw(spriteBatch, banana);
+
+                        }
+
+                    }
+
+
+                }
                
 
 

@@ -1,11 +1,20 @@
 ﻿
+using System.Text;
+
 namespace Shared.Messages
 {
     public class Join : Message
     {
+
+        public String name;
         public Join() : base(Type.Join)
         {
 
+        }
+
+        public Join(String playerName) : base(Type.Join)
+        {
+            this.name = playerName;
         }
 
         /// <summary>
@@ -14,7 +23,11 @@ namespace Shared.Messages
         /// </summary>
         public override byte[] serialize()
         {
-            return base.serialize();
+            List<byte> data = new List<byte>();
+            data.AddRange(base.serialize());
+            data.AddRange(BitConverter.GetBytes(name.Length));
+            data.AddRange(Encoding.UTF8.GetBytes(name));
+            return data.ToArray();
         }
 
         /// <summary>
@@ -23,7 +36,13 @@ namespace Shared.Messages
         /// </summary>
         public override int parse(byte[] data)
         {
-            return base.parse(data);
+            int offset = base.parse(data);
+
+            int size = BitConverter.ToInt32(data, offset);
+            offset += sizeof(Int32);
+            name = Encoding.UTF8.GetString(data, offset, size);
+            offset += size;
+            return offset;
         }
     }
 }

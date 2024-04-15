@@ -71,7 +71,8 @@ namespace Client
         GameModel m_gameModel = new GameModel();
         ContentManager contentManager1;
 
-     
+        private AnimatedSprite m_littleBirdRenderer;
+
 
         public enum Level
         {
@@ -121,7 +122,10 @@ namespace Client
             explosionEffect = contentManager.Load<SoundEffect>("mixkit-arcade-game-explosion-2759");
             thrustInstance = thrustSound.CreateInstance();
             thrustInstance.Volume = 0.25f;
-
+            m_littleBirdRenderer = new AnimatedSprite(
+                contentManager.Load<Texture2D>("spinning_banana"),
+                new int[] { 40,40,40,40,40,40,40,40,40,40 }
+            );
 
 
             playerX = m_graphics.PreferredBackBufferWidth / 6;
@@ -341,8 +345,8 @@ namespace Client
             m_spriteBatch.Begin();
             //m_spriteBatch.Draw(backgroundImage, new Rectangle(0, 0, m_graphics.PreferredBackBufferWidth, m_graphics.PreferredBackBufferHeight), Color.White);
             m_spriteBatch.End();
-            m_gameModel.render(gameTime.ElapsedGameTime, m_spriteBatch, m_graphics.PreferredBackBufferWidth, m_graphics.PreferredBackBufferHeight, backgroundImage, wallImage);
-
+            m_gameModel.render(gameTime.ElapsedGameTime, m_spriteBatch, m_graphics.PreferredBackBufferWidth, m_graphics.PreferredBackBufferHeight, backgroundImage, wallImage, m_littleBirdRenderer, m_font);
+            
 
             // Render the background:
             //m_spriteBatch.Begin();
@@ -532,6 +536,7 @@ namespace Client
 
         public override void update(GameTime gameTime)
         {
+            m_littleBirdRenderer.update(gameTime);
 
             /*if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
