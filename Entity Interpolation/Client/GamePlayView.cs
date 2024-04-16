@@ -342,188 +342,41 @@ namespace Client
 
         public override void render(GameTime gameTime)
         {
-            m_spriteBatch.Begin();
-            //m_spriteBatch.Draw(backgroundImage, new Rectangle(0, 0, m_graphics.PreferredBackBufferWidth, m_graphics.PreferredBackBufferHeight), Color.White);
-            m_spriteBatch.End();
+            
             m_gameModel.render(gameTime.ElapsedGameTime, m_spriteBatch, m_graphics.PreferredBackBufferWidth, m_graphics.PreferredBackBufferHeight, backgroundImage, wallImage, m_littleBirdRenderer, m_font);
             
 
-            // Render the background:
-            //m_spriteBatch.Begin();
-           // m_spriteBatch.Draw(backgroundImage, new Rectangle(0, 0, m_graphics.PreferredBackBufferWidth, m_graphics.PreferredBackBufferHeight), currentStage == Stage.PLAYING ? Color.White : Color.Gray);
+        
+            m_spriteBatch.Begin();
+            //m_spriteBatch.Draw(backgroundImage, new Rectangle(0, 0, m_graphics.PreferredBackBufferWidth, m_graphics.PreferredBackBufferHeight), Color.White);
+            float scale = m_graphics.PreferredBackBufferWidth / 1920f;
 
-
-            // Render the lines
-            
-            /*foreach (Line line in m_level.lines)
-            {
-                Vector2 start = new Vector2(line.x1, line.y1);
-                Vector2 end = new Vector2(line.x2, line.y2);
-
-                Vector2 edge = end - start;
-                float angle =
-                    (float)Math.Atan2(edge.Y, edge.X);
-
-
-                m_spriteBatch.Draw(t,
-                    new Rectangle(
-                        (int)start.X,
-                        (int)start.Y - 2,
-                        (int)edge.Length() + 1,
-                        4),
-                    null,
-                    line.isSafe ? Color.Blue : Color.White,
-                    angle,
-                    new Vector2(0, 0),
-                    SpriteEffects.None,
-                    0);
-
-
-            }*/
-
-            //m_spriteBatch.End();
-
-           /* // Render triangles: 
-            foreach (EffectPass pass in m_effect.CurrentTechnique.Passes)
-            {
-                pass.Apply();
-
-                m_graphics.GraphicsDevice.DrawUserIndexedPrimitives(
-                    PrimitiveType.TriangleList,
-                    m_level.m_vertsTris, 0, m_level.m_vertsTris.Length,
-                    m_level.m_indexTris, 0, m_level.m_indexTris.Length / 3);
-            }*/
-            //m_spriteBatch.Begin();
-            //float scale = m_graphics.PreferredBackBufferWidth / 1920f;
-
-            //Vector2 stringSize1 = m_font.MeasureString(("Fuel   : " + string.Format("{0:0.00}", playerFuel) + " s").PadRight(2)) * scale;
-
-
-
-           /* m_spriteBatch.DrawString(
-                           m_font,
-                           ("Fuel   : " + string.Format("{0:0.00}", playerFuel) + " s").PadRight(2),
-                           new Vector2(m_graphics.PreferredBackBufferWidth * 0.75f - stringSize1.X / 2,
-            m_graphics.PreferredBackBufferHeight / 4f - stringSize1.Y),
-                           playerFuel > 0 ? Color.Green : Color.White,
-                           0,
-                           Vector2.Zero,
-                           scale,
-                           SpriteEffects.None,
-                           0);*/
-
-
-           /* stringSize1 = m_font.MeasureString(("Speed  : " + string.Format("{0:0.00}", Math.Abs(m_level.playerVectorVelocity.Y)) + " m/s").PadRight(2)) * scale;
-
-            m_spriteBatch.DrawString(
-                          m_font,
-                          ("Speed  : " + string.Format("{0:0.00}", Math.Abs(m_level.playerVectorVelocity.Y)) + " m/s").PadRight(2),
-                         new Vector2(m_graphics.PreferredBackBufferWidth * 0.75f - stringSize1.X / 2,
-            m_graphics.PreferredBackBufferHeight / 4f - stringSize1.Y + stringSize1.Y),
-                          Math.Abs(m_level.playerVectorVelocity.Y) > 2 ? Color.White : Color.Green,
-                          0,
-                          Vector2.Zero,
-                          scale,
-                          SpriteEffects.None,
-                          0);*/
-
-
-           /* stringSize1 = m_font.MeasureString(("Angle  : " + string.Format("{0:0.00}", MathHelper.ToDegrees((float)m_level.playerAngle)) + "").PadRight(2)) * scale;
-
-            m_spriteBatch.DrawString(
-                          m_font,
-                          ("Angle  : " + string.Format("{0:0.00}", MathHelper.ToDegrees((float)m_level.playerAngle)) + "").PadRight(2),
-                          new Vector2(m_graphics.PreferredBackBufferWidth * 0.75f - stringSize1.X / 2,
-            m_graphics.PreferredBackBufferHeight / 4f - stringSize1.Y + 2 * stringSize1.Y),
-                         MathHelper.ToDegrees((float)m_level.playerAngle) < 5 || MathHelper.ToDegrees((float)m_level.playerAngle) > 355 ? Color.Green : Color.White,
-                          0,
-                          Vector2.Zero,
-                          scale,
-                          SpriteEffects.None,
-                          0);*/
-            if (!isCrashed)
-            {
-              /*  m_spriteBatch.Draw(
-                        playerTexture,
-                        new Rectangle((int)playerX, (int)playerY, playerRectangle.Width, playerRectangle.Height),
-                        null, // Drawing the whole texture, not a part
-                        Color.White,
-                        (float)m_level.playerAngle,
-                        new Vector2(playerTexture.Width / 2, playerTexture.Height / 2),
-                        SpriteEffects.None,
-                        0);*/
-            }
-
-            /* if (currentStage == Stage.COMPLETED)
-             {
-                 // Render the level over message & time until 'next' level.
-                 float scale1 = m_graphics.PreferredBackBufferWidth / 1920f;
-
-                 Vector2 stringSize2 = m_font.MeasureString(LEVELOVERMESSAGE) * scale1;
-
-
-
-                 m_spriteBatch.DrawString(
-                                m_font,
-                                LEVELOVERMESSAGE,
-                                new Vector2(m_graphics.PreferredBackBufferWidth / 2 - stringSize2.X / 2,
-                 m_graphics.PreferredBackBufferHeight / 1.5f - stringSize2.Y),
-                                Color.White,
-                                0,
-                                Vector2.Zero,
-                                scale1,
-                                SpriteEffects.None,
-                                0);
-
-
-                 stringSize2 = m_font.MeasureString(intervalBetweenLevels.Seconds.ToString()) * scale;
-
-                 m_spriteBatch.DrawString(
-                               m_font,
-                              intervalBetweenLevels.Seconds.ToString(),
-                              new Vector2(m_graphics.PreferredBackBufferWidth / 2 - stringSize2.X / 2,
-                 m_graphics.PreferredBackBufferHeight / 1.5f - stringSize2.Y + stringSize2.Y),
-                               Color.White,
-                               0,
-                               Vector2.Zero,
-                               scale,
-                               SpriteEffects.None,
-                               0);
-
-
-             }*/
-
-            /*  else 
-              {
-                  // Render the Level in the top left
-                  float scale1 = m_graphics.PreferredBackBufferWidth / 1920f;
-
-                  Vector2 stringSize2 = m_font.MeasureString(currentLevel == Level.LEVELONE ? "Level: 1": "Level: 2") * scale1;
-
-                  m_spriteBatch.DrawString(
-                                 m_font,
-                                 currentLevel == Level.LEVELONE ? "Level: 1" : "Level: 2",
-                                 new Vector2(m_graphics.PreferredBackBufferWidth / 10 - stringSize2.X / 2,
-                  m_graphics.PreferredBackBufferHeight / 10f - stringSize2.Y),
-                                 Color.Black,
-                                 0,
-                                 Vector2.Zero,
-                                 scale1,
-                                 SpriteEffects.None,
-                                 0);
-              }
-              m_spriteBatch.End();*/
-            /* m_renderSmoke.draw(m_spriteBatch, m_particleSystemSmoke);
-
-             m_renderFire.draw(m_spriteBatch, m_particleSystemFire);*/
-
-
+            int totalDone = 0;
+            float buffer = 0f;
             // Draw the top players leaderboard in the top right.
             foreach (Tuple<string, int> score in m_gameModel.getScores())
             {
                 // Render the top 5 in the top right of the screen.
-
+                if (totalDone == 7)
+                {
+                    break;
+                }
+                totalDone ++;
+                Vector2 stringSize1 = m_font.MeasureString((score.Item1+": "+ score.Item2.ToString())) * scale;
+                m_spriteBatch.DrawString(
+                          m_font,
+                          (score.Item1 + ": " + score.Item2.ToString()),
+                          new Vector2(m_graphics.PreferredBackBufferWidth * 0.75f - stringSize1.X / 2,
+           m_graphics.PreferredBackBufferHeight / 4f - stringSize1.Y + buffer),
+                          playerFuel > 0 ? Color.Green : Color.White,
+                          0,
+                          Vector2.Zero,
+                          scale,
+                          SpriteEffects.None,
+                          0);
+                buffer += stringSize1.Y;
             }
+            m_spriteBatch.End();
 
             // Render your score at the top of the screen
 

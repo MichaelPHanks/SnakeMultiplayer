@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.IsolatedStorage;
+using System.Linq;
 using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
 
@@ -27,7 +28,7 @@ namespace Client
         private bool loading = false;
         private KeyControlsSnake m_loadedState;
 
-        private List<Tuple<string, int>> m_highScores = new List<Tuple<string, int>>();
+        private List<Tuple<string, int>> m_Scores = new List<Tuple<string, int>>();
 
         private const int GameWorldWidth = 9600;
         private const int GameWorldHeight = 5400;
@@ -41,7 +42,7 @@ namespace Client
 
         public List<Tuple<string, int>> getScores()
         {
-            return m_highScores;
+            return m_Scores;
         }
 
         /*public void resetGameModel()
@@ -179,6 +180,7 @@ namespace Client
             m_systemNetwork.registerNewEntityHandler(handleNewEntity);
             m_systemNetwork.registerRemoveEntityHandler(handleRemoveEntity);
             m_systemNetwork.registerTurnPointMessage(handleTurnPointMessage);
+            m_systemNetwork.registerScoresUpdateHandler(handleScoresMessage);
             loadKeyControls();
             // Modify this to load in controls
             m_systemKeyboardInput = new Systems.KeyboardInput(new List<Tuple<Shared.Components.Input.Type, Keys>>
@@ -317,7 +319,22 @@ namespace Client
             }
             return entity;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="message"></param>
+        private void handleScoresMessage(Shared.Messages.ScoresUpdate message)
+        {
+            m_Scores = new List<Tuple<string, int>>();
 
+            foreach (KeyValuePair<string,int> yeah in message.scoresTable)
+            {
+                m_Scores.Add(new Tuple<string, int>(yeah.Key, yeah.Value));
+            }
+
+            m_Scores.OrderBy(tuple => tuple.Item2).ToList();
+
+        }
         /// <summary>
         /// As entities are added to the game model, they are run by the systems
         /// to see if they are interested in knowing about them during their
@@ -331,8 +348,16 @@ namespace Client
             }
             if (entity.contains<Shared.Components.Head>())
             {
+                if (!m_perPlayerEntities.ContainsKey(entity.id))
+                {
+                    m_perPlayerEntities[entity.id] = new List<Entity> { entity };
 
-                m_perPlayerEntities[entity.id] = new List<Entity> { entity };
+                }
+                else
+                {
+                    m_perPlayerEntities[entity.id].Add(entity);
+                }
+
 
 
             }

@@ -13,5 +13,6 @@ namespace Shared.Messages
         JoinGame,
         PlayerDeath,
         TurnPoint,
+        ScoresUpdate
     }
 }

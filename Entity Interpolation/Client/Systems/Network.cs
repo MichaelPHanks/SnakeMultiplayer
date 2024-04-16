@@ -16,11 +16,14 @@ namespace Client.Systems
         public delegate void TurnPointHandler(Shared.Messages.TurnPoint turnPoint);
         public delegate void RemoveEntityHandler(RemoveEntity message);
         public delegate void NewEntityHandler(NewEntity message);
+        public delegate void ScoresUpdateHandler (ScoresUpdate message);
+
 
         private Dictionary<Shared.Messages.Type, Handler> m_commandMap = new Dictionary<Shared.Messages.Type, Handler>();
         private RemoveEntityHandler m_removeEntityHandler;
         private TurnPointHandler m_turnPointHandler;
         private NewEntityHandler m_newEntityHandler;
+        private ScoresUpdateHandler m_scoresUpdateHandler;
         private uint m_lastMessageId = 0;
         private HashSet<uint> m_updatedEntities = new HashSet<uint>();
 
@@ -59,6 +62,11 @@ namespace Client.Systems
             {
                 m_turnPointHandler((TurnPoint)message);
             });
+            registerHandler(Shared.Messages.Type.ScoresUpdate, (TimeSpan elapsedTime, Message message) =>
+            {
+                m_scoresUpdateHandler((ScoresUpdate)message);
+            });
+
         }
 
        
@@ -146,6 +154,10 @@ namespace Client.Systems
         public void registerTurnPointMessage(TurnPointHandler handler) 
         { 
             m_turnPointHandler = handler;
+        }
+        public void registerScoresUpdateHandler(ScoresUpdateHandler handler)
+        {
+           m_scoresUpdateHandler = handler;
         }
 
         /// <summary>

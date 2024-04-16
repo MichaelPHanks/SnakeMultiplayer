@@ -58,6 +58,8 @@ namespace Client
             m_messageCommand[Shared.Messages.Type.RemoveEntity] = () => { return new RemoveEntity(); };
             m_messageCommand[Shared.Messages.Type.PlayerDeath] = () => { return new PlayerDeath(); };
             m_messageCommand[Shared.Messages.Type.TurnPoint] = () => { return new TurnPoint(); };
+            m_messageCommand[Shared.Messages.Type.ScoresUpdate] = () => { return new ScoresUpdate(); };
+
 
 
             try

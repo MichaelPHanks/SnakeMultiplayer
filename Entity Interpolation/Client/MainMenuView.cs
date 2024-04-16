@@ -261,7 +261,7 @@ namespace Client
 
             m_spriteBatch.Draw(mainBackground, new Rectangle(0,0,m_graphics.PreferredBackBufferWidth, m_graphics.PreferredBackBufferHeight),Color.White);
 
-            float bottom = drawMenuItem(m_fontTitle, "SNAKE GAME FR", m_graphics.PreferredBackBufferHeight / 4, Color.Black);
+            float bottom = drawMenuItem(m_fontTitle, "SNAKE GAME!", m_graphics.PreferredBackBufferHeight / 4, Color.Black);
              bottom = drawMenuItem(m_currentSelection == MenuState.NewGame ? m_fontMenuSelect: m_fontMenu, "Join Game", bottom, m_currentSelection == MenuState.NewGame ? Color.White:Color.LightGray);
             
             bottom = drawMenuItem(m_currentSelection == MenuState.HighScores ? m_fontMenuSelect : m_fontMenu, "High Scores", bottom, m_currentSelection == MenuState.HighScores ? Color.White : Color.LightGray);

@@ -21,6 +21,9 @@ namespace Server
 
         private const int GameWorldViewPortWidth = 1920;
         private const int GameWorldViewPortHeight = 1080;
+        //private List<Tuple<string, int>> m_scores = new List<Tuple<string, int>>();
+
+        private Dictionary<string, int> m_scores = new Dictionary<string, int>();
 
 
         private List<int> foodCount = new List<int>();
@@ -119,6 +122,12 @@ namespace Server
 
                         if (foodRectangle.Intersects(playerRectangle))
                         {
+                            // Send a message indicating a change in score from server to player.
+                            m_scores[playerEntity.get<Shared.Components.Name>().name] += 1;
+
+                            Message scoreMessage = new Shared.Messages.ScoresUpdate(m_scores);
+
+                            MessageQueueServer.instance.broadcastMessage(scoreMessage);
                             // Food disappears
                             foodToRemove.Add(entity.id, entity);
                             float offsetDistance = 1.0f; // Adjust this value to control the distance behind the player
@@ -369,6 +378,9 @@ namespace Server
             }
 
 
+
+
+
         }
 
         /// <summary>
@@ -500,6 +512,26 @@ namespace Server
         {
             Shared.Messages.Join messageNew = (Shared.Messages.Join) messageJoin;
 
+
+            if (m_scores.ContainsKey(messageNew.name))
+            {
+                int temp = 0;
+                while (true)
+                {
+                    if (!m_scores.ContainsKey(messageNew.name + "(" + temp + ")"))
+                    {
+                        messageNew.name = messageNew.name + "(" + temp + ")";
+                        break;
+                    }
+                    temp += 1;
+                }
+            }
+
+            m_scores.Add(messageNew.name, 2);
+            Message scoreMessage = new Shared.Messages.ScoresUpdate(m_scores);
+
+            MessageQueueServer.instance.broadcastMessage(scoreMessage);
+
             // Step 1: Tell the newly connected player about all other entities
             reportAllEntities(clientId);
 
@@ -534,7 +566,7 @@ namespace Server
 
 
             Vector2 position = new Vector2(GameWorldWidth / 2 - 25, GameWorldWidth / 2);
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 2; i++)
             {
 
                 Entity newSegment = Shared.Entities.Segment.create("PlayerBody", position, 50, 0.25f, 1, new Queue<Tuple<Vector2, float>> { }, player.get<Shared.Components.Position>().orientation, player.id);
