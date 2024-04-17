@@ -23,7 +23,7 @@ namespace Client.Systems
 
         public override void update(TimeSpan elapsedTime) { }
 
-        public void update(TimeSpan elapsedTime, SpriteBatch spriteBatch, double gameWidth, double gameHeight, Texture2D backgroundImage, Texture2D wallImage, AnimatedSprite animatedRenderer, SpriteFont font)
+        public void update(TimeSpan elapsedTime, SpriteBatch spriteBatch, double gameWidth, double gameHeight, Texture2D backgroundImage, Texture2D wallImage, AnimatedSprite animatedRenderer, SpriteFont font, Dictionary<uint, List<Entity>> perPlayerEntities)
         {
 
             // Create all of the rectangles:
@@ -94,10 +94,10 @@ namespace Client.Systems
             {
                 // Screen X = ((World X - ScreenX) / (Screen Size Width)) * (Screen Width in pixels)
                 // Screen Y = ((World Y - ScreenY) / (Screen Size Height)) *(Screen Height in pixels)
-                int ScreenX = (int)m_entity.get<Shared.Components.Position>().position.X - 500;
-                int ScreenY = (int)m_entity.get<Shared.Components.Position>().position.Y - 500;
+                float ScreenX = m_entity.get<Shared.Components.Position>().position.X - 500;
+                float ScreenY = m_entity.get<Shared.Components.Position>().position.Y - 500;
 
-                Rectangle viewPort = new Rectangle((ScreenX), ScreenY , 1000, 1000);
+                Rectangle viewPort = new Rectangle((int)(ScreenX), (int)ScreenY , 1000, 1000);
                 foreach (Rectangle r in backgroundTiles)
                 {
                     if (viewPort.Intersects(r))
@@ -109,7 +109,7 @@ namespace Client.Systems
                         int tempX = r.X - 500;
                         int tempY = r.Y - 500;
 
-                        Rectangle tempRectangle = new Rectangle(r.X - ScreenX ,r.Y - ScreenY ,1000,1000);
+                        Rectangle tempRectangle = new Rectangle((int)(r.X - ScreenX), (int)(r.Y - ScreenY), 1000,1000);
                         // Render the tile
 
                         spriteBatch.Draw(backgroundImage, tempRectangle, Color.White);
@@ -126,9 +126,9 @@ namespace Client.Systems
 
 
                         int tempX = r.X - 500;
-                        int tempY = r.Y - 500;
+                        int tempY = r.Y - 500;  
 
-                        Rectangle tempRectangle = new Rectangle(r.X - ScreenX, r.Y - ScreenY, 1000, 1000);
+                        Rectangle tempRectangle = new Rectangle((int)(r.X - ScreenX), (int)(r.Y - ScreenY), 1000, 1000);
                         // Render the tile
 
                         spriteBatch.Draw(wallImage, tempRectangle, Color.White);
@@ -344,90 +344,93 @@ namespace Client.Systems
 
       */
 
-
-                foreach (Entity entity in m_entities.Values)
+                foreach (List<Entity> entities in perPlayerEntities.Values)
                 {
-                    if ((entity.contains<Shared.Components.Head>() || entity.contains<Shared.Components.Segment>()) && entity.isAlive)
+
+                    foreach (Entity entity in entities)
                     {
-
-
-
-                        int tempX = (int)entity.get<Shared.Components.Position>().position.X - 500;
-                        int tempY = (int)entity.get<Shared.Components.Position>().position.Y - 500;
-                        var position = entity.get<Shared.Components.Position>().position;
-                        var size = entity.get<Shared.Components.Size>().size;
-
-
-                        var orientation = entity.get<Shared.Components.Position>().orientation;
-                        var texture = entity.get<Components.Sprite>().texture;
-                        var texCenter = entity.get<Components.Sprite>().center;
-                        Rectangle entityRectangle = new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y);
-                        Rectangle tempRectangle = new Rectangle();
-                        if (viewPort.Intersects(entityRectangle))
+                        if ((entity.contains<Shared.Components.Head>() || entity.contains<Shared.Components.Segment>()) && entity.isAlive)
                         {
 
-                            // Convert from world to screen
+
+
+                            int tempX = (int)entity.get<Shared.Components.Position>().position.X - 500;
+                            int tempY = (int)entity.get<Shared.Components.Position>().position.Y - 500;
+                            var position = entity.get<Shared.Components.Position>().position;
+                            var size = entity.get<Shared.Components.Size>().size;
+
+
+                            var orientation = entity.get<Shared.Components.Position>().orientation;
+                            var texture = entity.get<Components.Sprite>().texture;
+                            var texCenter = entity.get<Components.Sprite>().center;
+                            Rectangle entityRectangle = new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y);
+                            Rectangle tempRectangle = new Rectangle();
+                            if (viewPort.Intersects(entityRectangle))
+                            {
+
+                                // Convert from world to screen
 
 
 
 
-                            tempRectangle = new Rectangle((int)(position.X - ScreenX), (int)(position.Y - ScreenY), (int)size.X, (int)size.Y);
-                            // Render the tile
+                                tempRectangle = new Rectangle((int)(position.X - ScreenX), (int)(position.Y - ScreenY), (int)size.X, (int)size.Y);
+                                // Render the tile
 
 
 
-                            // Build a rectangle centered at position, with width/height of size
+                                // Build a rectangle centered at position, with width/height of size
 
 
-                            spriteBatch.Draw(
-                                texture,
-                                tempRectangle,
-                                null,
-                                Color.White,
-                                orientation,
-                                texCenter,
-                                SpriteEffects.None,
-                                0);
-                        }
-                        if (entity.contains<Shared.Components.Head>())
-                        {
-                            // Render the name of the player.
+                                spriteBatch.Draw(
+                                    texture,
+                                    tempRectangle,
+                                    null,
+                                    Color.White,
+                                    orientation,
+                                    texCenter,
+                                    SpriteEffects.None,
+                                    0);
+                            }
+                            if (entity.contains<Shared.Components.Head>())
+                            {
+                                // Render the name of the player.
 
-                            /*  bottom = drawMenuItem(m_currentSelection == MenuState.About ? m_fontMenuSelect : m_fontMenu, "About", bottom, m_currentSelection == MenuState.About ? Color.White : Color.LightGray);
-                              drawMenuItem(m_currentSelection == MenuState.Quit ? m_fontMenuSelect : m_fontMenu, "Quit", bottom, m_currentSelection == MenuState.Quit ? Color.White : Color.LightGray);
+                                /*  bottom = drawMenuItem(m_currentSelection == MenuState.About ? m_fontMenuSelect : m_fontMenu, "About", bottom, m_currentSelection == MenuState.About ? Color.White : Color.LightGray);
+                                  drawMenuItem(m_currentSelection == MenuState.Quit ? m_fontMenuSelect : m_fontMenu, "Quit", bottom, m_currentSelection == MenuState.Quit ? Color.White : Color.LightGray);
 
 
-                              m_spriteBatch.End();
+                                  m_spriteBatch.End();
 
-                          }
-                          private float drawMenuItem(SpriteFont font, string text, float y, Color color)
-                          {
+                              }
+                              private float drawMenuItem(SpriteFont font, string text, float y, Color color)
+                              {
 
-                              Vector2 stringSize = font.MeasureString(text) * scale;
-                              m_spriteBatch.DrawString(
-                                             font,
-                                             text,
-                                             new Vector2(m_graphics.PreferredBackBufferWidth / 2 - stringSize.X / 2, y),
-                                             color,
-                                             0,
-                                             Vector2.Zero,
-                                             scale,
-                                             SpriteEffects.None,
-                                             0);
-                          }*/
-                            float scale = 1000 / 1920f;
+                                  Vector2 stringSize = font.MeasureString(text) * scale;
+                                  m_spriteBatch.DrawString(
+                                                 font,
+                                                 text,
+                                                 new Vector2(m_graphics.PreferredBackBufferWidth / 2 - stringSize.X / 2, y),
+                                                 color,
+                                                 0,
+                                                 Vector2.Zero,
+                                                 scale,
+                                                 SpriteEffects.None,
+                                                 0);
+                              }*/
+                                float scale = 1000 / 1920f;
 
-                            spriteBatch.DrawString(
-                                             font,
-                                             entity.get<Shared.Components.Name>().name,
-                                             new Vector2(tempRectangle.X - size.X, tempRectangle.Y - size.Y),
-                                             Color.White,
-                                             0,
-                                             Vector2.Zero,
-                                             scale,
-                                             SpriteEffects.None,
-                                             0);
+                                spriteBatch.DrawString(
+                                                 font,
+                                                 entity.get<Shared.Components.Name>().name,
+                                                 new Vector2(tempRectangle.X - size.X, tempRectangle.Y - size.Y),
+                                                 Color.White,
+                                                 0,
+                                                 Vector2.Zero,
+                                                 scale,
+                                                 SpriteEffects.None,
+                                                 0);
 
+                            }
                         }
                     }
                 }

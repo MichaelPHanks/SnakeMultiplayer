@@ -28,9 +28,9 @@ namespace Client.Systems
             {
                 if (base.add(entity))
                 {
-                    interested = true;
-                    var position = entity.get<Shared.Components.Position>();
-                    entity.add(new Components.Goal(position.position, position.orientation));
+                    //interested = true;
+                    //var position = entity.get<Shared.Components.Position>();
+                   // entity.add(new Components.Goal(position.position, position.orientation));
                 }
             }
 

@@ -104,8 +104,8 @@ namespace Shared.Entities
             var vectorY = Math.Sin(position.orientation);
 
             position.position = new Vector2(
-                (float)(position.position.X + vectorX * movement.moveRate * elapsedTime.Milliseconds),
-                (float)(position.position.Y + vectorY * movement.moveRate * elapsedTime.Milliseconds));
+                (float)(position.position.X + vectorX * movement.moveRate * elapsedTime.TotalMilliseconds),
+                (float)(position.position.Y + vectorY * movement.moveRate * elapsedTime.TotalMilliseconds));
         }
     }
 }

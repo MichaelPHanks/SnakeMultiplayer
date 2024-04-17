@@ -17,7 +17,7 @@ namespace Server
         Systems.Network m_systemNetwork = new Server.Systems.Network();
         private const int GameWorldWidth = 5000;
         private const int GameWorldHeight = 5000;
-
+        TimeSpan updateClientClock = TimeSpan.FromSeconds(1);
 
         private const int GameWorldViewPortWidth = 1920;
         private const int GameWorldViewPortHeight = 1080;
@@ -167,7 +167,7 @@ namespace Server
                             }
                             Queue<Tuple<Vector2, float>> turnPointsTemp = new Queue<Tuple<Vector2, float>>(m_perPlayerEntities[playerEntity.id].Last().get<Shared.Components.TurnPoints>().turnPoints);
 
-                            Entity newSegment = Shared.Entities.Segment.create("PlayerBody", prevPosition + direction, playerSize.Y, 0.25f, 1, turnPointsTemp, lastOrientation, playerEntity.id);
+                            Entity newSegment = Shared.Entities.Segment.create("PlayerBody", prevPosition + direction, playerSize.Y, 0.3f, 1, turnPointsTemp, lastOrientation, playerEntity.id);
                             entityToAdd.Add(newSegment.id, newSegment);
 
                             clientsNewSegments.Add(playerEntity.id);
@@ -292,17 +292,14 @@ namespace Server
                             {
                                 Vector2 difference = position.position - top.Item1;
 
-                                if (difference.X > 5 || difference.Y > 5)
-                                {
-                                    Console.WriteLine();
-                                }
+                                
+
                                     var turnPoint = turnPoints.Dequeue();
                                     position.orientation = turnPoint.Item2;
 
                                     position.position = top.Item1;
 
-                                    /*Message message = new Shared.Messages.UpdateEntity(entity, elapsedTime);
-                                    MessageQueueServer.instance.broadcastMessage(message);*/
+                                    
                                 }
                             }
 
@@ -311,15 +308,11 @@ namespace Server
                                 if (position.position.X >= top.Item1.X && position.position.Y <= top.Item1.Y)
                                 {
                                     Vector2 difference = position.position - top.Item1;
-                                if (difference.X > 5 || difference.Y > 5)
-                                {
-                                    Console.WriteLine();
-                                }
+                                
                                 var turnPoint = turnPoints.Dequeue();
                                     position.orientation = turnPoint.Item2;
                                     position.position = top.Item1;
-                                    /*Message message = new Shared.Messages.UpdateEntity(entity, elapsedTime);
-                                    MessageQueueServer.instance.broadcastMessage(message);*/
+                                   
                                 }
                             }
                             else if (y >= 0 && x <= 0) 
@@ -327,15 +320,11 @@ namespace Server
                                 if (position.position.X <= top.Item1.X && position.position.Y >= top.Item1.Y)
                                 {
                                     Vector2 difference = position.position - top.Item1;
-                                if (difference.X > 5 || difference.Y > 5)
-                                {
-                                    Console.WriteLine();
-                                }
+                                
                                 var turnPoint = turnPoints.Dequeue();
                                     position.orientation = turnPoint.Item2;
                                     position.position = top.Item1;
-                                   /* Message message = new Shared.Messages.UpdateEntity(entity, elapsedTime);
-                                    MessageQueueServer.instance.broadcastMessage(message);*/
+                                   
                                 }
                             }
                             else 
@@ -343,15 +332,11 @@ namespace Server
                                 if (position.position.X >= top.Item1.X && position.position.Y >= top.Item1.Y)
                                 {
                                     Vector2 difference = position.position - top.Item1;
-                                if (difference.X > 5 || difference.Y > 5)
-                                {
-                                    Console.WriteLine();
-                                }
+                                
                                 var turnPoint = turnPoints.Dequeue();
                                     position.orientation = turnPoint.Item2;
                                     position.position = top.Item1;
-                                   /* Message message = new Shared.Messages.UpdateEntity(entity, elapsedTime);
-                                    MessageQueueServer.instance.broadcastMessage(message);*/
+                                   
                                 }
                             }
                             // Lets say x = -0.5 and y = 0.5
@@ -376,6 +361,26 @@ namespace Server
                 }
 
             }
+
+
+            /*updateClientClock -= elapsedTime;
+            if (updateClientClock.TotalMilliseconds < 0)
+            {
+                updateClientClock = TimeSpan.FromSeconds(1);
+
+                // Send out where we believe the segments and head are...
+
+                foreach (List<Entity> entities in m_perPlayerEntities.Values)
+                {
+                    foreach (Entity entity in entities)
+                    {
+                        Message updateEntity = new Shared.Messages.UpdateEntity(entity, elapsedTime);
+                        MessageQueueServer.instance.broadcastMessage(updateEntity);
+                    }
+                }
+
+            }*/
+
 
 
 
@@ -537,7 +542,7 @@ namespace Server
 
             // Step 2: Create an entity for the newly joined player and sent it
             //         to the newly joined client
-            Entity player = Shared.Entities.Head.create("PlayerHead",messageNew.name, new System.Numerics.Vector2(GameWorldWidth / 2, GameWorldHeight / 2), 50, 0.25f, (float)Math.PI / 1000);
+            Entity player = Shared.Entities.Head.create("PlayerHead",messageNew.name, new System.Numerics.Vector2(GameWorldWidth / 2, GameWorldHeight / 2), 50, 0.3f, (float)Math.PI / 1000);
             addEntity(player);
             m_clientToEntityId[clientId] = player.id;
             MessageQueueServer.instance.sendMessage(clientId, new NewEntity(player));
@@ -569,7 +574,7 @@ namespace Server
             for (int i = 0; i < 2; i++)
             {
 
-                Entity newSegment = Shared.Entities.Segment.create("PlayerBody", position, 50, 0.25f, 1, new Queue<Tuple<Vector2, float>> { }, player.get<Shared.Components.Position>().orientation, player.id);
+                Entity newSegment = Shared.Entities.Segment.create("PlayerBody", position, 50, 0.3f, 1, new Queue<Tuple<Vector2, float>> { }, player.get<Shared.Components.Position>().orientation, player.id);
                 addEntity(newSegment);
                 m_perPlayerEntities[player.id].Add(newSegment);
 

@@ -9,6 +9,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
+using Shared;
+using System.IO.IsolatedStorage;
+using System.IO;
+using System.Runtime.Serialization.Json;
 
 namespace Client
 {
@@ -20,7 +24,8 @@ namespace Client
         // Note: This might take a while. Give a default random name to start (given from server). 
         // Should probably save name to the computer? Who knows.
         // The server needs to know about the name of the individual.
-
+        private bool saving = false;
+        private bool loading = false;
 
         private Texture2D backgroundImage;
         private bool isESCDown = true;
@@ -44,6 +49,8 @@ namespace Client
         private Texture2D whiteImage;
         bool typingBool = false;
         bool isKeySelected = false;
+
+        PlayerNameState m_playerNameState = null;
 
 
 
@@ -69,6 +76,97 @@ namespace Client
             hover = contentManager.Load<SoundEffect>("little_robot_sound_factory_multimedia_Click_Electronic_14");
             soundInstance = hover.CreateInstance();
 
+            loadPlayerName();
+            playerName = m_playerNameState.getPlayerName();
+
+        }
+        private void savePlayername()
+        {
+            lock (this)
+            {
+                if (!this.saving)
+                {
+                    this.saving = true;
+
+                    // Create something to save
+                    PlayerNameState myState = new PlayerNameState(playerName);
+
+                    // Yes, I know the result is not being saved, I dont' need it
+                    finalizeSaveAsync(myState);
+                }
+            }
+        }
+
+        private async Task finalizeSaveAsync(PlayerNameState state)
+        {
+            await Task.Run(() =>
+            {
+                using (IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication())
+                {
+                    try
+                    {
+                        using (IsolatedStorageFileStream fs = storage.OpenFile("PlayerName.json", FileMode.Create))
+                        {
+                            if (fs != null)
+                            {
+                                DataContractJsonSerializer mySerializer = new DataContractJsonSerializer(typeof(PlayerNameState));
+                                mySerializer.WriteObject(fs, state);
+                            }
+                        }
+                    }
+                    catch (IsolatedStorageException)
+                    {
+                    }
+                }
+
+                this.saving = false;
+            });
+        }
+
+        private void loadPlayerName()
+        {
+            lock (this)
+            {
+                if (!this.loading)
+                {
+                    this.loading = true;
+                    // Yes, I know the result is not being saved, I dont' need it
+                    var result = finalizeLoadAsync();
+                    result.Wait();
+
+                }
+            }
+        }
+
+        private async Task finalizeLoadAsync()
+        {
+            await Task.Run(() =>
+            {
+                using (IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication())
+                {
+                    try
+                    {
+                        if (storage.FileExists("PlayerName.json"))
+                        {
+                            using (IsolatedStorageFileStream fs = storage.OpenFile("PlayerName.json", FileMode.Open))
+                            {
+                                if (fs != null)
+                                {
+                                    DataContractJsonSerializer mySerializer = new DataContractJsonSerializer(typeof(PlayerNameState));
+                                    m_playerNameState = (PlayerNameState)mySerializer.ReadObject(fs);
+                                }
+
+
+                            }
+                        }
+                    }
+                    catch (IsolatedStorageException)
+                    {
+                    }
+                }
+
+                this.loading = false;
+            });
         }
 
         public override GameStateEnum processInput(GameTime gameTime)
@@ -81,6 +179,7 @@ namespace Client
 
             if (Keyboard.GetState().IsKeyDown(Keys.Escape) && !isESCDown)
             {
+                savePlayername();
 
                 if (isKeySelected)
                 {
@@ -185,25 +284,35 @@ namespace Client
 
                 if (Keyboard.GetState().IsKeyDown(Keys.Enter) && m_currentSelection == MenuState.Menu)
                 {
-                    isESCDown = true;
-                    isEnterUp = false;
-                    canUseMouse = false;
-                    return GameStateEnum.MainMenu;
+                    if (!isKeySelected)
+                    {
+
+
+                        isESCDown = true;
+                        isEnterUp = false;
+                        canUseMouse = false;
+                        return GameStateEnum.MainMenu;
+                    }
                 }
 
                
                 if (Keyboard.GetState().IsKeyDown(Keys.Enter) && m_currentSelection == MenuState.Controls)
                 {
-                    isESCDown = true;
-                    isEnterUp = false;
-                    canUseMouse = false;
-                    return GameStateEnum.Controls;
+                    if (!isKeySelected)
+                    {
+                        isESCDown = true;
+                        isEnterUp = false;
+                        canUseMouse = false;
+                        return GameStateEnum.Controls;
+                    }
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.Enter) && m_currentSelection == MenuState.Name)
                 {
-                    isEnterUp = false;
-                    canUseMouse = false;
-                    isKeySelected = true;
+                    
+                        isEnterUp = false;
+                        canUseMouse = false;
+                        isKeySelected = true;
+                    
 
                 }
             }
@@ -221,11 +330,14 @@ namespace Client
                 {
                     if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                     {
-                        isESCDown = true;
-                        isEnterUp = false;
-                        canUseMouse = false;
+                        if (!isKeySelected)
+                        {
+                            isESCDown = true;
+                            isEnterUp = false;
+                            canUseMouse = false;
+                            return GameStateEnum.MainMenu;
 
-                        return GameStateEnum.MainMenu;
+                        }
                     }
                     m_currentSelection = MenuState.Menu;
 
@@ -234,11 +346,14 @@ namespace Client
                 {
                     if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                     {
-                        isESCDown = true;
-                        isEnterUp = false;
-                        canUseMouse = false;
+                        if (!isKeySelected)
+                        {
+                            isESCDown = true;
+                            isEnterUp = false;
+                            canUseMouse = false;
+                            return GameStateEnum.Controls;
 
-                        return GameStateEnum.Controls;
+                        }
                     }
                     m_currentSelection = MenuState.Controls;
 

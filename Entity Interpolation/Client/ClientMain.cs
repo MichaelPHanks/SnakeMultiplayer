@@ -213,12 +213,57 @@ namespace Client
                             saveDefualtHighScores(new HighScoresState(new List<System.Tuple<int, System.DateTime>> { }));
                         }
                     }
-                    catch (IsolatedStorageException) { }
+                    catch (IsolatedStorageException) 
+                    {
+
+                    }
+
+                    try
+                    {
+                        if (!storage.FileExists("PlayerName.json"))
+                        {
+                            saveDefaultName(new PlayerNameState("New Player!"));
+                        }
+                    }
+                    catch (IsolatedStorageException)
+                    {
+
+                    }
                 }
 
             });
         }
+        private void saveDefaultName(PlayerNameState playerName)
+        {
+            lock (this)
+            {
+                finalizeSaveAsyncPlayerName(playerName);
+            }
+        }
+        private async Task finalizeSaveAsyncPlayerName(PlayerNameState state)
+        {
+            await Task.Run(() =>
+            {
+                using (IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication())
+                {
+                    try
+                    {
+                        using (IsolatedStorageFileStream fs = storage.OpenFile("PlayerName.json", FileMode.Create))
+                        {
+                            if (fs != null)
+                            {
+                                DataContractJsonSerializer mySerializer = new DataContractJsonSerializer(typeof(PlayerNameState));
+                                mySerializer.WriteObject(fs, state);
+                            }
+                        }
+                    }
+                    catch (IsolatedStorageException)
+                    {
+                    }
+                }
 
+            });
+        }
         private void saveDefualtHighScores(HighScoresState highScore)
         {
             lock (this)

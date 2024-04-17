@@ -23,7 +23,7 @@ namespace Client
         private Dictionary<uint, List<Entity>> m_perPlayerEntities = new Dictionary<uint, List<Entity>>();
 
         private Systems.KeyboardInput m_systemKeyboardInput;
-        private Systems.Interpolation m_systemInterpolation = new Systems.Interpolation();
+       // private Systems.Interpolation m_systemInterpolation = new Systems.Interpolation();
         private Systems.Renderer m_systemRenderer = new Systems.Renderer();
         private bool loading = false;
         private KeyControlsSnake m_loadedState;
@@ -165,7 +165,7 @@ namespace Client
 
         public void render(TimeSpan elapsedTime, SpriteBatch spriteBatch, int gameWidth, int gameHeight, Texture2D backgroundImage, Texture2D wallImage, AnimatedSprite animatedRender, SpriteFont font)
         {
-            m_systemRenderer.update(elapsedTime, spriteBatch, gameWidth, gameHeight, backgroundImage, wallImage, animatedRender, font);
+            m_systemRenderer.update(elapsedTime, spriteBatch, gameWidth, gameHeight, backgroundImage, wallImage, animatedRender, font, m_perPlayerEntities);
         }
 
         /// <summary>
@@ -378,7 +378,7 @@ namespace Client
             m_systemKeyboardInput.add(entity);
             m_systemRenderer.add(entity);
             m_systemNetwork.add(entity);
-            m_systemInterpolation.add(entity);
+            //m_systemInterpolation.add(entity);
         }
 
         /// <summary>

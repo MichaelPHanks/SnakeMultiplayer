@@ -63,6 +63,8 @@ namespace Server
         {
             TimeSpan SIMULATION_UPDATE_RATE_MS = TimeSpan.FromMilliseconds(16);
 
+            
+
             GameModel model = new GameModel();
             bool running = model.initialize();
 

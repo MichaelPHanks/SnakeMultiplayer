@@ -1,12 +1,17 @@
 ﻿
 using Microsoft.Xna.Framework;
+using Shared;
 using Shared.Components;
 using Shared.Messages;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.IsolatedStorage;
 using System.Net.Mail;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization.Json;
+using System.Threading.Tasks;
 
 namespace Client.Systems
 {
@@ -26,6 +31,8 @@ namespace Client.Systems
         private ScoresUpdateHandler m_scoresUpdateHandler;
         private uint m_lastMessageId = 0;
         private HashSet<uint> m_updatedEntities = new HashSet<uint>();
+        private bool loading = false;
+        private PlayerNameState m_playerNameState = null;
 
         /// <summary>
         /// Primary activity in the constructor is to setup the command map
@@ -167,9 +174,54 @@ namespace Client.Systems
         /// </summary>
         private void handleConnectAck(TimeSpan elapsedTime, ConnectAck message) 
         {
-            MessageQueueClient.instance.sendMessage(new Join("PlayerOne"));
+            loadPlayerName();
+            MessageQueueClient.instance.sendMessage(new Join(m_playerNameState.getPlayerName()));
+        }
+        private void loadPlayerName()
+        {
+            lock (this)
+            {
+                if (!this.loading)
+                {
+                    this.loading = true;
+                    // Yes, I know the result is not being saved, I dont' need it
+                    var result = finalizeLoadAsync();
+                    result.Wait();
+
+                }
+            }
         }
 
+        private async Task finalizeLoadAsync()
+        {
+            await Task.Run(() =>
+            {
+                using (IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication())
+                {
+                    try
+                    {
+                        if (storage.FileExists("PlayerName.json"))
+                        {
+                            using (IsolatedStorageFileStream fs = storage.OpenFile("PlayerName.json", FileMode.Open))
+                            {
+                                if (fs != null)
+                                {
+                                    DataContractJsonSerializer mySerializer = new DataContractJsonSerializer(typeof(PlayerNameState));
+                                    m_playerNameState = (PlayerNameState)mySerializer.ReadObject(fs);
+                                }
+
+
+                            }
+                        }
+                    }
+                    catch (IsolatedStorageException)
+                    {
+                    }
+                }
+
+                this.loading = false;
+            });
+        }
         /// <summary>
         /// Handler for the UpdateEntity message.  It checks to see if the client
         /// actually has the entity, and if it does, updates the components
