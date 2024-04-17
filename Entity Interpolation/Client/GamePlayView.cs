@@ -71,7 +71,7 @@ namespace Client
         GameModel m_gameModel = new GameModel();
         ContentManager contentManager1;
 
-        private AnimatedSprite m_littleBirdRenderer;
+        private AnimatedSprite bananaRenderer;
 
 
         public enum Level
@@ -122,7 +122,7 @@ namespace Client
             explosionEffect = contentManager.Load<SoundEffect>("mixkit-arcade-game-explosion-2759");
             thrustInstance = thrustSound.CreateInstance();
             thrustInstance.Volume = 0.25f;
-            m_littleBirdRenderer = new AnimatedSprite(
+            bananaRenderer = new AnimatedSprite(
                 contentManager.Load<Texture2D>("spinning_banana"),
                 new int[] { 40,40,40,40,40,40,40,40,40,40 }
             );
@@ -343,7 +343,7 @@ namespace Client
         public override void render(GameTime gameTime)
         {
             
-            m_gameModel.render(gameTime.ElapsedGameTime, m_spriteBatch, m_graphics.PreferredBackBufferWidth, m_graphics.PreferredBackBufferHeight, backgroundImage, wallImage, m_littleBirdRenderer, m_font);
+            m_gameModel.render(gameTime.ElapsedGameTime, m_spriteBatch, m_graphics.PreferredBackBufferWidth, m_graphics.PreferredBackBufferHeight, backgroundImage, wallImage, bananaRenderer, m_font);
             
 
         
@@ -357,7 +357,7 @@ namespace Client
             foreach (Tuple<string, int> score in m_gameModel.getScores())
             {
                 // Render the top 5 in the top right of the screen.
-                if (totalDone == 7)
+                if (totalDone == 5)
                 {
                     break;
                 }
@@ -375,8 +375,21 @@ namespace Client
                           SpriteEffects.None,
                           0);
                 buffer += stringSize1.Y;
+
+
+
+                
             }
-            m_spriteBatch.End();
+
+
+
+            
+                // Draw our own score:
+                
+
+
+
+                m_spriteBatch.End();
 
             // Render your score at the top of the screen
 
@@ -389,7 +402,7 @@ namespace Client
 
         public override void update(GameTime gameTime)
         {
-            m_littleBirdRenderer.update(gameTime);
+            bananaRenderer.update(gameTime);
 
             /*if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             {

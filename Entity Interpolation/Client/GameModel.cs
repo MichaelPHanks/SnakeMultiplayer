@@ -19,6 +19,10 @@ namespace Client
     {
         private ContentManager m_contentManager;
         private Dictionary<uint, Entity> m_entities = new Dictionary<uint, Entity>();
+        private Dictionary<uint, string> playerNames = new Dictionary<uint, string>();
+
+        private Entity m_playerEntity;
+
         private Systems.Network m_systemNetwork = new Systems.Network();
         private Dictionary<uint, List<Entity>> m_perPlayerEntities = new Dictionary<uint, List<Entity>>();
 
@@ -37,14 +41,17 @@ namespace Client
         private const int GameWorldViewPortWidth = 1920;
         private const int GameWorldViewPortHeight = 1080;
 
-        private AnimatedSprite m_littleBirdRenderer;
+        private AnimatedSprite bananaRenderer;
 
 
         public List<Tuple<string, int>> getScores()
         {
             return m_Scores;
         }
-
+        public Dictionary<uint, string> getPlayerNames()
+        {
+            return playerNames;
+        }
         /*public void resetGameModel()
         {
         m_entities = new Dictionary<uint, Entity>();
@@ -165,7 +172,7 @@ namespace Client
 
         public void render(TimeSpan elapsedTime, SpriteBatch spriteBatch, int gameWidth, int gameHeight, Texture2D backgroundImage, Texture2D wallImage, AnimatedSprite animatedRender, SpriteFont font)
         {
-            m_systemRenderer.update(elapsedTime, spriteBatch, gameWidth, gameHeight, backgroundImage, wallImage, animatedRender, font, m_perPlayerEntities);
+            m_systemRenderer.update(elapsedTime, spriteBatch, gameWidth, gameHeight, backgroundImage, wallImage, animatedRender, font, m_perPlayerEntities, m_Scores, playerNames );
         }
 
         /// <summary>
@@ -357,6 +364,7 @@ namespace Client
                 {
                     m_perPlayerEntities[entity.id].Add(entity);
                 }
+                playerNames[entity.id] = entity.get<Shared.Components.Name>().name;
 
 
 
@@ -370,6 +378,15 @@ namespace Client
                 m_perPlayerEntities[entity.get<Shared.Components.Segment>().headId].Add(entity);
                 /*m_perPlayerEntities[entity.get<Shared.Components.Segment>().headId].Sort();*/
 
+            }
+
+            // Obtain our own player entity. This is for processing stuff based on us!
+            if (entity.contains<Shared.Components.Input>()) 
+            {
+                if (m_playerEntity == null)
+                {
+                    m_playerEntity = entity;
+                }
             }
 
 
