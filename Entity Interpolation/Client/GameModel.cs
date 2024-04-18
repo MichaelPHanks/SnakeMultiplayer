@@ -12,6 +12,7 @@ using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace Client
 {
@@ -36,7 +37,7 @@ namespace Client
 
         private const int GameWorldWidth = 9600;
         private const int GameWorldHeight = 5400;
-
+        private bool isDead = false;
 
         private const int GameWorldViewPortWidth = 1920;
         private const int GameWorldViewPortHeight = 1080;
@@ -66,104 +67,125 @@ namespace Client
         {
             
             m_systemNetwork.update(elapsedTime, MessageQueueClient.instance.getMessages());
-            m_systemKeyboardInput.update(elapsedTime);
+            if (!isDead)
+            {
+                m_systemKeyboardInput.update(elapsedTime);
+
+            }
 
             //m_systemInterpolation.update(elapsedTime);
 
 
 
 
-            foreach (List<Entity> entities in m_perPlayerEntities.Values)
+            foreach (Entity entity in m_entities.Values)
             {
-                foreach (Entity entity in entities)
+                if (entity.contains<Shared.Components.Segment>())
                 {
-                    if (entity.contains<Shared.Components.Segment>())
+                    var turnPoints = entity.get<Shared.Components.TurnPoints>().turnPoints;
+                    var position = entity.get<Shared.Components.Position>();
+
+                    if (turnPoints.Count > 0)
                     {
-                        var turnPoints = entity.get<Shared.Components.TurnPoints>().turnPoints;
-                        var position = entity.get<Shared.Components.Position>();
+                        var top = turnPoints.Peek();
 
-                        if (turnPoints.Count > 0)
+                        float x = (float)Math.Cos(position.orientation);
+                        float y = (float)Math.Sin(position.orientation);
+
+
+                        Vector2 tempVector = new Vector2(x, y);
+
+                        if (x <= 0 && y <= 0)
                         {
-                            var top = turnPoints.Peek();
-
-                            float x = (float)Math.Cos(position.orientation);
-                            float y = (float)Math.Sin(position.orientation);
-
-
-                            Vector2 tempVector = new Vector2(x, y);
-
-                            if (x <= 0 && y <= 0)
+                            if (position.position.X <= top.Item1.X && position.position.Y <= top.Item1.Y)
                             {
-                                if (position.position.X <= top.Item1.X && position.position.Y <= top.Item1.Y)
-                                {
-                                    Vector2 difference = position.position - top.Item1;
-                                    var turnPoint = turnPoints.Dequeue();
-                                    position.orientation = turnPoint.Item2;
 
-                                    position.position = top.Item1;
 
-                                }
+
+
+                                var turnPoint = turnPoints.Dequeue();
+                                Vector2 newOrientation = new Vector2((float)Math.Cos(turnPoint.Item2), (float)Math.Sin(turnPoint.Item2));
+
+                                Vector2 difference = (position.position - top.Item1) * tempVector * newOrientation;
+
+
+                                position.orientation = turnPoint.Item2;
+
+                                position.position = top.Item1 + difference;
+
+
                             }
-
-                            else if (x >= 0 && y <= 0)
-                            {
-                                if (position.position.X >= top.Item1.X && position.position.Y <= top.Item1.Y)
-                                {
-                                    Vector2 difference = position.position - top.Item1;
-                                    var turnPoint = turnPoints.Dequeue();
-                                    position.orientation = turnPoint.Item2;
-
-                                    position.position = top.Item1;
-                                }
-                            }
-                            else if (y >= 0 && x <= 0)
-                            {
-                                if (position.position.X <= top.Item1.X && position.position.Y >= top.Item1.Y)
-                                {
-                                    Vector2 difference = position.position - top.Item1;
-                                    var turnPoint = turnPoints.Dequeue();
-                                    position.orientation = turnPoint.Item2;
-                                    position.position = top.Item1;
-                                }
-                            }
-                            else
-                            {
-                                if (position.position.X >= top.Item1.X && position.position.Y >= top.Item1.Y)
-                                {
-                                    Vector2 difference = position.position - top.Item1;
-                                    var turnPoint = turnPoints.Dequeue();
-                                    position.orientation = turnPoint.Item2;
-                                    position.position = top.Item1;
-                                }
-                            }
-                            // Lets say x = -0.5 and y = 0.5
-
-                            // Going from x = 15 to 14.5, y = 15 to 15.5
-
-
                         }
 
+                        else if (x >= 0 && y <= 0)
+                        {
+                            if (position.position.X >= top.Item1.X && position.position.Y <= top.Item1.Y)
+                            {
+                                var turnPoint = turnPoints.Dequeue();
+                                Vector2 newOrientation = new Vector2((float)Math.Cos(turnPoint.Item2), (float)Math.Sin(turnPoint.Item2));
+
+                                Vector2 difference = (position.position - top.Item1) * tempVector * newOrientation;
+
+                                
+                                position.orientation = turnPoint.Item2;
+
+                                position.position = top.Item1 + difference;
+
+                            }
+                        }
+                        else if (y >= 0 && x <= 0)
+                        {
+                            if (position.position.X <= top.Item1.X && position.position.Y >= top.Item1.Y)
+                            {
+                                var turnPoint = turnPoints.Dequeue();
+                                Vector2 newOrientation = new Vector2((float)Math.Cos(turnPoint.Item2), (float)Math.Sin(turnPoint.Item2));
+
+                                Vector2 difference = (position.position - top.Item1) * tempVector * newOrientation;
+
+
+                                position.orientation = turnPoint.Item2;
+
+                                position.position = top.Item1 + difference;
+
+                            }
+                        }
+                        else
+                        {
+                            if (position.position.X >= top.Item1.X && position.position.Y >= top.Item1.Y)
+                            {
+                                var turnPoint = turnPoints.Dequeue();
+                                Vector2 newOrientation = new Vector2((float)Math.Cos(turnPoint.Item2), (float)Math.Sin(turnPoint.Item2));
+
+                                Vector2 difference = (position.position - top.Item1) * tempVector * newOrientation;
+
+
+                                position.orientation = turnPoint.Item2;
+
+                                position.position = top.Item1 + difference;
+
+                            }
+                        }
+                        // Lets say x = -0.5 and y = 0.5
+
+                        // Going from x = 15 to 14.5, y = 15 to 15.5
 
 
                     }
+
+
+
+
                 }
-
-
             }
-            
             foreach (List<Entity> entities in m_perPlayerEntities.Values)
             {
 
                 foreach (Entity entity in entities)
                 {
-                    if (entity.isAlive)
-                    {
-                        Shared.Entities.Utility.thrust(entity, elapsedTime);
-
-                    }
+                    Shared.Entities.Utility.thrust(entity, elapsedTime);
 
                 }
-                
+
             }
 
 
@@ -188,6 +210,7 @@ namespace Client
             m_systemNetwork.registerRemoveEntityHandler(handleRemoveEntity);
             m_systemNetwork.registerTurnPointMessage(handleTurnPointMessage);
             m_systemNetwork.registerScoresUpdateHandler(handleScoresMessage);
+            m_systemNetwork.registerPlayerDeathHandler(handlePlayerDeath);
             loadKeyControls();
             // Modify this to load in controls
             m_systemKeyboardInput = new Systems.KeyboardInput(new List<Tuple<Shared.Components.Input.Type, Keys>>
@@ -409,6 +432,11 @@ namespace Client
             m_systemKeyboardInput.remove(id);
             m_systemNetwork.remove(id);
             m_systemRenderer.remove(id);
+            // NOTE: We also remove food. This might be an issue later with this, but it is working for me...
+            // Keep in mind the server only keeps track of the head that collides, so we can just recieve the head and remove the rest of the body
+            m_perPlayerEntities.Remove(id);
+
+            
             //m_systemInterpolation.remove(id);
         }
 
@@ -445,6 +473,16 @@ namespace Client
             {
                 Console.WriteLine(e);
             }
+        }
+        private void handlePlayerDeath(PlayerDeath message)
+        {
+            removeEntity(message.id);
+
+            if (message.id == m_playerEntity.id)
+            {
+                isDead = true;
+            }
+
         }
 
     }

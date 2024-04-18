@@ -22,6 +22,7 @@ namespace Client.Systems
         public delegate void RemoveEntityHandler(RemoveEntity message);
         public delegate void NewEntityHandler(NewEntity message);
         public delegate void ScoresUpdateHandler (ScoresUpdate message);
+        public delegate void PlayerDeathHandler(PlayerDeath message);
 
 
         private Dictionary<Shared.Messages.Type, Handler> m_commandMap = new Dictionary<Shared.Messages.Type, Handler>();
@@ -29,6 +30,7 @@ namespace Client.Systems
         private TurnPointHandler m_turnPointHandler;
         private NewEntityHandler m_newEntityHandler;
         private ScoresUpdateHandler m_scoresUpdateHandler;
+        private PlayerDeathHandler m_playerDeathHandler;
         private uint m_lastMessageId = 0;
         private HashSet<uint> m_updatedEntities = new HashSet<uint>();
         private bool loading = false;
@@ -61,10 +63,10 @@ namespace Client.Systems
             {
                 m_removeEntityHandler((RemoveEntity)message);
             });
-            registerHandler(Shared.Messages.Type.PlayerDeath, (TimeSpan elapsedTime, Message message) =>
+           /* registerHandler(Shared.Messages.Type.PlayerDeath, (TimeSpan elapsedTime, Message message) =>
             {
                 handlePlayerDeath((PlayerDeath)message);
-            });
+            });*/
             registerHandler(Shared.Messages.Type.TurnPoint, (TimeSpan elapsedTime, Message message) =>
             {
                 m_turnPointHandler((TurnPoint)message);
@@ -73,10 +75,14 @@ namespace Client.Systems
             {
                 m_scoresUpdateHandler((ScoresUpdate)message);
             });
+            registerHandler(Shared.Messages.Type.PlayerDeath, (TimeSpan elapsedTime, Message message) =>
+            {
+                m_playerDeathHandler((PlayerDeath)message);
+            });
 
         }
 
-       
+
 
         // Have to implement this because it is abstract in the base class
         public override void update(TimeSpan elapsedTime) { }
@@ -166,6 +172,10 @@ namespace Client.Systems
         {
            m_scoresUpdateHandler = handler;
         }
+        public void registerPlayerDeathHandler(PlayerDeathHandler handler)
+        {
+            m_playerDeathHandler = handler;
+        }
 
         /// <summary>
         /// Handler for the ConnectAck message.  This records the clientId
@@ -252,23 +262,15 @@ namespace Client.Systems
 
                     m_updatedEntities.Add(entity.id);
                 }
+
+                if (message.hasTurnPoints)
+                {
+                    entity.get<TurnPoints>().turnPoints = message.turnPoints;
+                }
             }
         }
 
         
-        private void handlePlayerDeath(PlayerDeath message)
-        {
-            if (m_entities.ContainsKey(message.id))
-            {
-                m_entities[message.id].isAlive = false;
-
-                if (m_entity.id == message.id)
-                {
-                    // We are dead ... :(
-
-                    m_entity.isAlive = false;
-                }
-            }
-        }
+        
     }
 }

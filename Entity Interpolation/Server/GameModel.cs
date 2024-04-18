@@ -4,6 +4,7 @@ using Shared.Components;
 using Shared.Entities;
 using Shared.Messages;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Xml;
 
 namespace Server
@@ -41,66 +42,139 @@ namespace Server
 
             
             m_systemNetwork.update(elapsedTime, MessageQueueServer.instance.getMessages());
-           // Console.WriteLine(elapsedTime.ToString());
+
+
+            foodUpdate();
+           
+            outOfBounds();
+
+            foodEat();
+
+            snakeSimulator(elapsedTime);
 
 
             
 
-            if (foodCount.Count < 100)
+        }
+
+        private void snakeSimulator(TimeSpan elapsedTime)
+        {
+            foreach (Entity entity in m_entities.Values)
             {
-                Random rand = new Random();
-
-                for (int i = foodCount.Count; i  < 100;  i++)
+                if (entity.contains<Shared.Components.Segment>())
                 {
-                    int randomPositionX = rand.Next(0, 5001);
-                    int randomPositionY = rand.Next(0, 5001);
+                    var turnPoints = entity.get<Shared.Components.TurnPoints>().turnPoints;
+                    var position = entity.get<Shared.Components.Position>();
 
-                    Entity newFood = Shared.Entities.Food.create("cake", new System.Numerics.Vector2(randomPositionX, randomPositionY), 25);
-                    addEntity(newFood);
-                    Message message = new NewEntity(newFood);
-                    foreach (int otherId in m_clients)
+                    if (turnPoints.Count > 0)
                     {
-                        
-                        MessageQueueServer.instance.sendMessage(otherId, message);
-                        
+                        var top = turnPoints.Peek();
+
+                        float x = (float)Math.Cos(position.orientation);
+                        float y = (float)Math.Sin(position.orientation);
+
+
+                        Vector2 tempVector = new Vector2(x, y);
+
+                        if (x <= 0 && y <= 0)
+                        {
+                            if (position.position.X <= top.Item1.X && position.position.Y <= top.Item1.Y)
+                            {
+
+                                
+
+
+                                var turnPoint = turnPoints.Dequeue();
+                                Vector2 newOrientation = new Vector2((float)Math.Cos(turnPoint.Item2), (float)Math.Sin(turnPoint.Item2));
+
+                                Vector2 difference = (position.position - top.Item1) * tempVector * newOrientation;
+                                if (difference.Y > 0.001 && turnPoint.Item2 != position.orientation)
+                                {
+                                    Console.WriteLine();
+                                }
+
+                                position.orientation = turnPoint.Item2;
+
+                                position.position = top.Item1 + difference;
+
+
+                            }
+                        }
+
+                        else if (x >= 0 && y <= 0)
+                        {
+                            if (position.position.X >= top.Item1.X && position.position.Y <= top.Item1.Y)
+                            {
+                                var turnPoint = turnPoints.Dequeue();
+                                Vector2 newOrientation = new Vector2((float)Math.Cos(turnPoint.Item2), (float)Math.Sin(turnPoint.Item2));
+
+                                Vector2 difference = (position.position - top.Item1) * tempVector * newOrientation;
+
+
+                                position.orientation = turnPoint.Item2;
+
+                                position.position = top.Item1 + difference;
+
+                            }
+                        }
+                        else if (y >= 0 && x <= 0)
+                        {
+                            if (position.position.X <= top.Item1.X && position.position.Y >= top.Item1.Y)
+                            {
+                                var turnPoint = turnPoints.Dequeue();
+                                Vector2 newOrientation = new Vector2((float)Math.Cos(turnPoint.Item2), (float)Math.Sin(turnPoint.Item2));
+
+                                Vector2 difference = (position.position - top.Item1) * tempVector * newOrientation;
+
+
+                                position.orientation = turnPoint.Item2;
+
+                                position.position = top.Item1 + difference;
+
+                            }
+                        }
+                        else
+                        {
+                            if (position.position.X >= top.Item1.X && position.position.Y >= top.Item1.Y)
+                            {
+                                var turnPoint = turnPoints.Dequeue();
+                                Vector2 newOrientation = new Vector2((float)Math.Cos(turnPoint.Item2), (float)Math.Sin(turnPoint.Item2));
+
+                                Vector2 difference = (position.position - top.Item1) * tempVector * newOrientation;
+
+
+                                position.orientation = turnPoint.Item2;
+
+                                position.position = top.Item1 + difference;
+
+                            }
+                        }
+                        // Lets say x = -0.5 and y = 0.5
+
+                        // Going from x = 15 to 14.5, y = 15 to 15.5
+
+
                     }
-                    foodCount.Add(1);
-                    foodEntities.Add(newFood.id,newFood);
+
+
+
+
                 }
             }
-
-            // Check for collision:
-
-            // Check for out of bounds death
-            foreach (var entity in m_entities.Values)
+            foreach (List<Entity> entities in m_perPlayerEntities.Values)
             {
-                if (entity.isAlive)
+
+                foreach (Entity entity in entities)
                 {
-
-
-                    var position1 = entity.get<Shared.Components.Position>().position;
-                    if (position1.X < 0 || position1.X > GameWorldWidth)
-                    {
-                        entity.isAlive = false;
-                        handlePlayerDeath((int)entity.id);
-                    }
-                    else if (position1.Y < 0 || position1.Y > GameWorldHeight)
-                    {
-                        handlePlayerDeath((int)entity.id);
-                        entity.isAlive = false;
-
-
-                    }
+                    Shared.Entities.Utility.thrust(entity, elapsedTime);
 
                 }
+
             }
+        }
 
-            // Check for any two collisions of player heads to any OTHER existing entity, other than the players other owned stuff
-
-
-
-            // Check for player eating a piece of food
-
+        private void foodEat()
+        {
             Dictionary<uint, Entity> foodToRemove = new Dictionary<uint, Entity>();
             Dictionary<uint, Entity> entityToAdd = new Dictionary<uint, Entity>();
             List<uint> clientsNewSegments = new List<uint>();
@@ -160,7 +234,7 @@ namespace Server
                                 direction.Y = 25;
 
                             }
-                            else 
+                            else
                             {
                                 direction.Y = -25;
 
@@ -235,157 +309,68 @@ namespace Server
                 }
 
             }
+        }
 
-
-            // Update all of the segments, if any.
-
-
-          /*  foreach (List<Entity> entities in m_perPlayerEntities.Values)
+        private void outOfBounds()
+        {
+            // Check for collision:
+            List<Entity> entitiesToRemove = new List<Entity>();
+            // Check for out of bounds death
+            foreach (var entity in m_entities.Values)
             {
-                foreach (Entity entity in entities)
+                if (entity.contains<Shared.Components.Head>())
                 {
-                    if (entity.contains<Shared.Components.Segment>())
+
+
+                    var position1 = entity.get<Shared.Components.Position>().position;
+                    if (position1.X < 0 || position1.X > GameWorldWidth)
                     {
+                        entitiesToRemove.Add(entity);
+                    }
+                    else if (position1.Y < 0 || position1.Y > GameWorldHeight)
+                    {
+                        entitiesToRemove.Add(entity);
 
-                        Shared.Entities.Utility.thrust(entity, elapsedTime);
 
-                        // Update the segments
-                        Message message = new Shared.Messages.UpdateEntity(entity, elapsedTime);
-
-                        MessageQueueServer.instance.broadcastMessage(message);
 
                     }
                 }
+
             }
-*/
-
-
-            // Simulate turn points for the segments
-            // There are a bunch of things to note as of right now. 
-            // 1. Both the client and the server have the same simulation for the segments and stuff.
-            // 2. When there is an input, and we hold down two different inputs, the segments get confused. Need to fix that.
-            // 3. For rendering the tiles, rewatch the lecture from 4/11. 
-            // 4. Everything seems to sort of falling into place... :)
-            // 5. 
-
             
-                foreach (Entity entity in m_entities.Values)
-                {
-                    if (entity.contains<Shared.Components.Segment>())
-                    {
-                        var turnPoints = entity.get<Shared.Components.TurnPoints>().turnPoints;
-                        var position = entity.get<Shared.Components.Position>();
 
-                        if (turnPoints.Count > 0)
-                        { 
-                            var top = turnPoints.Peek();
-
-                            float x = (float)Math.Cos(position.orientation);
-                            float y = (float)Math.Sin(position.orientation);
-
-
-                            Vector2 tempVector = new Vector2(x, y);
-
-                        if (x <= 0 && y <= 0)
-                        {
-                            if (position.position.X <= top.Item1.X && position.position.Y <= top.Item1.Y)
-                            {
-                                Vector2 difference = position.position - top.Item1;
-
-                                
-
-                                    var turnPoint = turnPoints.Dequeue();
-                                    position.orientation = turnPoint.Item2;
-
-                                    position.position = top.Item1;
-
-                                    
-                                }
-                            }
-
-                            else if (x >= 0 && y <= 0)
-                            {
-                                if (position.position.X >= top.Item1.X && position.position.Y <= top.Item1.Y)
-                                {
-                                    Vector2 difference = position.position - top.Item1;
-                                
-                                var turnPoint = turnPoints.Dequeue();
-                                    position.orientation = turnPoint.Item2;
-                                    position.position = top.Item1;
-                                   
-                                }
-                            }
-                            else if (y >= 0 && x <= 0) 
-                            {
-                                if (position.position.X <= top.Item1.X && position.position.Y >= top.Item1.Y)
-                                {
-                                    Vector2 difference = position.position - top.Item1;
-                                
-                                var turnPoint = turnPoints.Dequeue();
-                                    position.orientation = turnPoint.Item2;
-                                    position.position = top.Item1;
-                                   
-                                }
-                            }
-                            else 
-                            {
-                                if (position.position.X >= top.Item1.X && position.position.Y >= top.Item1.Y)
-                                {
-                                    Vector2 difference = position.position - top.Item1;
-                                
-                                var turnPoint = turnPoints.Dequeue();
-                                    position.orientation = turnPoint.Item2;
-                                    position.position = top.Item1;
-                                   
-                                }
-                            }
-                            // Lets say x = -0.5 and y = 0.5
-
-                            // Going from x = 15 to 14.5, y = 15 to 15.5
-
-                            
-                        }
-
-
-
-                    
-                }
-            }
-            foreach (List<Entity> entities in m_perPlayerEntities.Values)
+            // Handle removing the objects.
+            foreach (Entity entity in entitiesToRemove)
             {
-
-                foreach (Entity entity in entities)
-                {
-                    Shared.Entities.Utility.thrust(entity, elapsedTime);
-
-                }
-
+                handlePlayerDeath((int)entity.id);
             }
+        }
 
-
-            /*updateClientClock -= elapsedTime;
-            if (updateClientClock.TotalMilliseconds < 0)
+        private void foodUpdate()
+        {
+            // Food Count Checker
+            if (foodCount.Count < 1000)
             {
-                updateClientClock = TimeSpan.FromSeconds(1);
+                Random rand = new Random();
 
-                // Send out where we believe the segments and head are...
-
-                foreach (List<Entity> entities in m_perPlayerEntities.Values)
+                for (int i = foodCount.Count; i < 1000; i++)
                 {
-                    foreach (Entity entity in entities)
+                    int randomPositionX = rand.Next(0, 5001);
+                    int randomPositionY = rand.Next(0, 5001);
+
+                    Entity newFood = Shared.Entities.Food.create("cake", new System.Numerics.Vector2(randomPositionX, randomPositionY), 25);
+                    addEntity(newFood);
+                    Message message = new NewEntity(newFood);
+                    foreach (int otherId in m_clients)
                     {
-                        Message updateEntity = new Shared.Messages.UpdateEntity(entity, elapsedTime);
-                        MessageQueueServer.instance.broadcastMessage(updateEntity);
+
+                        MessageQueueServer.instance.sendMessage(otherId, message);
+
                     }
+                    foodCount.Add(1);
+                    foodEntities.Add(newFood.id, newFood);
                 }
-
-            }*/
-
-
-
-
-
-
+            }
         }
 
         /// <summary>
@@ -425,9 +410,37 @@ namespace Server
 
         private void handlePlayerDeath(int clientId)
         {
+
+            // Before removing, place food based on where all of the segments and stuff are.
+
+            foreach (Entity entity in m_perPlayerEntities[(uint)clientId]) 
+            {
+                Entity newFood = Shared.Entities.Food.create("cake", entity.get<Shared.Components.Position>().position, 25);
+                addEntity(newFood);
+                foodCount.Add(1);
+                foodEntities.Add(newFood.id, newFood);
+                Message newFoodMessage = new Shared.Messages.NewEntity(newFood);
+                MessageQueueServer.instance.broadcastMessage(newFoodMessage);
+            }
+            m_entities.Remove((uint)clientId);
+
+
+            foreach (Entity entity in m_perPlayerEntities[(uint)clientId])
+            {
+                m_entities.Remove(entity.id);
+
+            }
+            m_perPlayerEntities.Remove((uint)clientId);
+            m_systemNetwork.remove((uint)clientId);
+
             Message message = new Shared.Messages.PlayerDeath((uint)clientId);
             MessageQueueServer.instance.broadcastMessage(message);
+
+            
+
         }
+
+       
         /// <summary>
         /// When a client disconnects, need to tell all the other clients
         /// of the disconnect.
@@ -441,24 +454,31 @@ namespace Server
 
 
 
+
             Message message = new Shared.Messages.RemoveEntity(m_clientToEntityId[clientId]);
             MessageQueueServer.instance.broadcastMessage(message);
+
+
 
             removeEntity(m_clientToEntityId[clientId]);
             // Remove each of the segments as well.
 
-            
 
-            List<Entity> entitiesToRemove = m_perPlayerEntities[m_clientToEntityId[clientId]];
-
-
-            foreach (Entity entityToRemove in entitiesToRemove)
+            if (m_perPlayerEntities.ContainsKey(m_clientToEntityId[clientId]))
             {
-                m_entities.Remove(entityToRemove.id);
+                List<Entity> entitiesToRemove = m_perPlayerEntities[m_clientToEntityId[clientId]];
+
+
+                foreach (Entity entityToRemove in entitiesToRemove)
+                {
+                    m_entities.Remove(entityToRemove.id);
+                }
+                m_perPlayerEntities.Remove(m_clientToEntityId[clientId]);
+
             }
 
 
-            m_perPlayerEntities.Remove(m_clientToEntityId[clientId]);
+
 
             m_clientToEntityId.Remove(clientId);
         }
