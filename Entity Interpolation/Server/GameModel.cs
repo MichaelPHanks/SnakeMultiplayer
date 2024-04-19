@@ -57,7 +57,7 @@ namespace Server
 
 
             // Update clients on head and segments and tail
-
+            // I think we have to do this regardless, despite the fact that it will mess with things  (reset turn points, etc.)
             updateClientClock -= elapsedTime;
             if (updateClientClock.TotalMilliseconds < 0 )
             {
@@ -132,89 +132,72 @@ namespace Server
                     {
                         var top = turnPoints.Peek();
 
-                        float x = (float)Math.Cos(position.orientation);
-                        float y = (float)Math.Sin(position.orientation);
+                        double x = Math.Cos(position.orientation);
+                        double y = Math.Sin(position.orientation);
 
 
-                        Vector2 tempVector = new Vector2(x, y);
+                        Vector2 tempVector = new Vector2((float)x, (float)y);
+                        tempVector.X = (int)tempVector.X;
+                        tempVector.Y = (int)tempVector.Y;
 
-                        if (x <= 0 && y <= 0)
+                        // If we are within 3 points of the turnpoint, then turn
+
+                        float distanceToTurnPoint = Vector2.Distance(position.position, top.Item1);
+                        float secondDistanceToTurnPoint = Vector2.Distance(position.position + tempVector, top.Item1);
+
+
+                       /* if (distanceToTurnPoint < 20)
+
                         {
-                            if (position.position.X <= top.Item1.X && position.position.Y <= top.Item1.Y)
+
+
+
+                            Tuple<Vector2, float> turnPoint = turnPoints.Dequeue();
+                            Vector2 newOrientation = new Vector2((float)Math.Cos(turnPoint.Item2), (float)Math.Sin(turnPoint.Item2));
+
+                            Vector2 difference = (position.position - top.Item1) * tempVector * newOrientation;
+                            
+
+                            if (difference.X == 0 && difference.Y == 0)
                             {
-
-                                
-
-
-                                var turnPoint = turnPoints.Dequeue();
-                                Vector2 newOrientation = new Vector2((float)Math.Cos(turnPoint.Item2), (float)Math.Sin(turnPoint.Item2));
-
-                                Vector2 difference = (position.position - top.Item1) * tempVector * newOrientation;
-                                if (difference.Y > 0.001 && turnPoint.Item2 != position.orientation)
-                                {
-                                    Console.WriteLine();
-                                }
-
-                                position.orientation = turnPoint.Item2;
-
-                                position.position = top.Item1 + difference;
-
-
+                                difference = new Vector2((position.position.Y - top.Item1.Y), (position.position.X - top.Item1.X)) * new Vector2(tempVector.Y, tempVector.X) * newOrientation;
                             }
-                        }
 
-                        else if (x >= 0 && y <= 0)
+                            position.orientation = turnPoint.Item2;
+
+                            position.position = top.Item1 + difference;
+
+
+
+
+
+
+
+                            // Lets say x = -0.5 and y = 0.5
+
+                            // Going from x = 15 to 14.5, y = 15 to 15.5
+
+                        }
+*/
+                        // Make sure we did not pass the position
+
+                        if (secondDistanceToTurnPoint > distanceToTurnPoint)
                         {
-                            if (position.position.X >= top.Item1.X && position.position.Y <= top.Item1.Y)
+
+                            Tuple<Vector2, float> turnPoint = turnPoints.Dequeue();
+                            Vector2 newOrientation = new Vector2((float)Math.Cos(turnPoint.Item2), (float)Math.Sin(turnPoint.Item2));
+
+                            Vector2 difference = (position.position - top.Item1) * tempVector * newOrientation;
+                            if (difference.X == 0 && difference.Y == 0)
                             {
-                                var turnPoint = turnPoints.Dequeue();
-                                Vector2 newOrientation = new Vector2((float)Math.Cos(turnPoint.Item2), (float)Math.Sin(turnPoint.Item2));
-
-                                Vector2 difference = (position.position - top.Item1) * tempVector * newOrientation;
-
-
-                                position.orientation = turnPoint.Item2;
-
-                                position.position = top.Item1 + difference;
-
+                                difference = new Vector2((position.position.Y - top.Item1.Y), (position.position.X - top.Item1.X)) * new Vector2(tempVector.Y, tempVector.X) * newOrientation;
                             }
+
+                            position.orientation = turnPoint.Item2;
+
+                            position.position = top.Item1 + difference;
+
                         }
-                        else if (y >= 0 && x <= 0)
-                        {
-                            if (position.position.X <= top.Item1.X && position.position.Y >= top.Item1.Y)
-                            {
-                                var turnPoint = turnPoints.Dequeue();
-                                Vector2 newOrientation = new Vector2((float)Math.Cos(turnPoint.Item2), (float)Math.Sin(turnPoint.Item2));
-
-                                Vector2 difference = (position.position - top.Item1) * tempVector * newOrientation;
-
-
-                                position.orientation = turnPoint.Item2;
-
-                                position.position = top.Item1 + difference;
-
-                            }
-                        }
-                        else
-                        {
-                            if (position.position.X >= top.Item1.X && position.position.Y >= top.Item1.Y)
-                            {
-                                var turnPoint = turnPoints.Dequeue();
-                                Vector2 newOrientation = new Vector2((float)Math.Cos(turnPoint.Item2), (float)Math.Sin(turnPoint.Item2));
-
-                                Vector2 difference = (position.position - top.Item1) * tempVector * newOrientation;
-
-
-                                position.orientation = turnPoint.Item2;
-
-                                position.position = top.Item1 + difference;
-
-                            }
-                        }
-                        // Lets say x = -0.5 and y = 0.5
-
-                        // Going from x = 15 to 14.5, y = 15 to 15.5
-
 
                     }
 
@@ -337,10 +320,14 @@ namespace Server
                 m_entities.Remove(food.id);
                 m_systemNetwork.remove(food.id);
             }
-
+            /*if (entityToAdd.Count > 1)
+            {
+                Console.WriteLine();
+            }*/
             int clientCounter = 0;
             foreach (Entity entity1 in entityToAdd.Values)
             {
+
                 addEntity(entity1);
 
                 uint id = clientsNewSegments[clientCounter];
@@ -411,11 +398,11 @@ namespace Server
         private void foodUpdate()
         {
             // Food Count Checker
-            if (foodCount.Count < 100)
+            if (foodCount.Count < 150)
             {
                 Random rand = new Random();
 
-                for (int i = foodCount.Count; i < 100; i++)
+                for (int i = foodCount.Count; i < 150; i++)
                 {
                     int randomPositionX = rand.Next(0, 5001);
                     int randomPositionY = rand.Next(0, 5001);

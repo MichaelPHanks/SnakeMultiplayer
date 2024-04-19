@@ -260,9 +260,171 @@ namespace Server.Systems
                         }
 
                         break;
-                    
+
+                    case Shared.Components.Input.Type.RotateTopLeft:
 
 
+
+                        if (Shared.Entities.Utility.rotateTopLeft(entity, message.elapsedTime))
+                        {
+                            m_reportThese.Add(message.entityId);
+
+                            bool canSend = false;
+                            Vector2 position1 = new Vector2();
+                            foreach (Entity entity1 in m_entities.Values)
+                            {
+                                if (entity1.contains<Shared.Components.Segment>())
+                                {
+                                    var headId = entity1.get<Shared.Components.Segment>().headId;
+                                    position1 = entity.get<Shared.Components.Position>().position;
+
+                                    if (headId == message.entityId)
+                                    {
+
+                                        // Add a turn point to the segment.
+                                        canSend = true;
+                                        var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
+                                        turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
+                                        //m_reportThese.Add(entity1.id);
+
+                                        // m_reportThese.Add(entity1.id);
+
+                                    }
+
+                                }
+                            }
+                            if (canSend)
+                            {
+                                Message newMessage = new Shared.Messages.TurnPoint(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation), entity.id);
+                                MessageQueueServer.instance.broadcastMessage(newMessage);
+
+                            }
+                        }
+                        break;
+
+                    case Shared.Components.Input.Type.RotateTopRight:
+
+
+
+                        if (Shared.Entities.Utility.rotateTopRight(entity, message.elapsedTime))
+                        {
+                            m_reportThese.Add(message.entityId);
+
+                            bool canSend = false;
+                            Vector2 position1 = new Vector2();
+                            foreach (Entity entity1 in m_entities.Values)
+                            {
+                                if (entity1.contains<Shared.Components.Segment>())
+                                {
+                                    var headId = entity1.get<Shared.Components.Segment>().headId;
+                                    position1 = entity.get<Shared.Components.Position>().position;
+
+                                    if (headId == message.entityId)
+                                    {
+
+                                        // Add a turn point to the segment.
+                                        canSend = true;
+                                        var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
+                                        turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
+                                        //m_reportThese.Add(entity1.id);
+
+                                        // m_reportThese.Add(entity1.id);
+
+                                    }
+
+                                }
+                            }
+                            if (canSend)
+                            {
+                                Message newMessage = new Shared.Messages.TurnPoint(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation), entity.id);
+                                MessageQueueServer.instance.broadcastMessage(newMessage);
+
+                            }
+                        }
+                        break;
+
+                    case Shared.Components.Input.Type.RotateBottomLeft:
+
+
+
+                        if (Shared.Entities.Utility.rotateBottomLeft(entity, message.elapsedTime))
+                        {
+                            m_reportThese.Add(message.entityId);
+
+                            bool canSend = false;
+                            Vector2 position1 = new Vector2();
+                            foreach (Entity entity1 in m_entities.Values)
+                            {
+                                if (entity1.contains<Shared.Components.Segment>())
+                                {
+                                    var headId = entity1.get<Shared.Components.Segment>().headId;
+                                    position1 = entity.get<Shared.Components.Position>().position;
+
+                                    if (headId == message.entityId)
+                                    {
+
+                                        // Add a turn point to the segment.
+                                        canSend = true;
+                                        var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
+                                        turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
+                                        //m_reportThese.Add(entity1.id);
+
+                                        // m_reportThese.Add(entity1.id);
+
+                                    }
+
+                                }
+                            }
+                            if (canSend)
+                            {
+                                Message newMessage = new Shared.Messages.TurnPoint(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation), entity.id);
+                                MessageQueueServer.instance.broadcastMessage(newMessage);
+
+                            }
+                        }
+                        break;
+
+
+                    case Shared.Components.Input.Type.RotateBottomRight:
+
+
+
+                        if (Shared.Entities.Utility.rotateBottomRight(entity, message.elapsedTime))
+                        {
+                            m_reportThese.Add(message.entityId);
+
+                            bool canSend = false;
+                            Vector2 position1 = new Vector2();
+                            foreach (Entity entity1 in m_entities.Values)
+                            {
+                                if (entity1.contains<Shared.Components.Segment>())
+                                {
+                                    var headId = entity1.get<Shared.Components.Segment>().headId;
+                                    position1 = entity.get<Shared.Components.Position>().position;
+
+                                    if (headId == message.entityId)
+                                    {
+
+                                        // Add a turn point to the segment.
+                                        canSend = true;
+                                        var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
+                                        turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
+                                        //m_reportThese.Add(entity1.id);
+
+                                        // m_reportThese.Add(entity1.id);
+
+                                    }
+
+                                }
+                            }
+                            if (canSend)
+                            {
+                                Message newMessage = new Shared.Messages.TurnPoint(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation), entity.id);
+                                MessageQueueServer.instance.broadcastMessage(newMessage);
+
+                            }
+                        }
+                        break;
                 }
             }
         }

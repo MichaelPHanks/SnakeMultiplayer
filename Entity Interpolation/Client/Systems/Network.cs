@@ -253,7 +253,12 @@ namespace Client.Systems
 
                 if (message.hasTurnPoints)
                 {
-                    entity.get<TurnPoints>().turnPoints = message.turnPoints;
+                    
+                        Queue<Tuple<Vector2, float>> turnPointsTemp = new Queue<Tuple<Vector2, float>>(message.turnPoints);
+
+                        entity.get<TurnPoints>().turnPoints = turnPointsTemp;
+
+                   
                 }
             }
         }
