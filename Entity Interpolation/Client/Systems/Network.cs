@@ -114,7 +114,7 @@ namespace Client.Systems
 
             // After processing all the messages, perform server reconciliation by
             // resimulating the inputs from any sent messages not yet acknowledged by the server.
-            var sent = MessageQueueClient.instance.getSendMessageHistory(m_lastMessageId);
+            /*var sent = MessageQueueClient.instance.getSendMessageHistory(m_lastMessageId);
             while (sent.Count > 0)
             {
                 var message = (Shared.Messages.Input)sent.Dequeue();
@@ -144,7 +144,7 @@ namespace Client.Systems
                         }
                     }
                 }
-            }
+            }*/
         }
 
 

@@ -43,18 +43,61 @@ namespace Server
             
             m_systemNetwork.update(elapsedTime, MessageQueueServer.instance.getMessages());
 
+            outOfBounds();
+
+            collisionDetection();
+
+            foodEat();
 
             foodUpdate();
            
-            outOfBounds();
 
-            foodEat();
 
             snakeSimulator(elapsedTime);
 
 
             
 
+        }
+
+        private void collisionDetection()
+        {
+            List<Entity> entitiesToRemove = new List<Entity>();
+
+            // Check every single head entity to see if it collides with 
+            foreach (Entity entity in m_entities.Values)
+            {
+                if (entity.contains<Shared.Components.Head>())
+                {
+                    foreach (Entity entity1 in m_entities.Values)
+                    {
+                        if (entity1.contains<Shared.Components.Segment>() || entity1.contains<Shared.Components.Tail>())
+                        {
+                            if (entity1.get<Shared.Components.Segment>().headId != entity.id)
+                            {
+                                // Check if they collide
+
+                                Rectangle headRectangle = new Rectangle((int)entity.get<Shared.Components.Position>().position.X, (int)entity.get<Shared.Components.Position>().position.Y, (int)entity.get<Shared.Components.Size>().size.X, (int)entity.get<Shared.Components.Size>().size.Y);
+                                Rectangle otherRectangle = new Rectangle((int)entity1.get<Shared.Components.Position>().position.X, (int)entity1.get<Shared.Components.Position>().position.Y, (int)entity1.get<Shared.Components.Size>().size.X, (int)entity1.get<Shared.Components.Size>().size.Y);
+
+                                if (otherRectangle.Intersects(headRectangle))
+                                {
+                                    // Kill the snake
+
+                                    if (!entitiesToRemove.Contains(entity))
+                                    {
+                                        entitiesToRemove.Add(entity);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            foreach (Entity entity in entitiesToRemove)
+            {
+                handlePlayerDeath((int)entity.id);
+            }
         }
 
         private void snakeSimulator(TimeSpan elapsedTime)
@@ -349,11 +392,11 @@ namespace Server
         private void foodUpdate()
         {
             // Food Count Checker
-            if (foodCount.Count < 1000)
+            if (foodCount.Count < 100)
             {
                 Random rand = new Random();
 
-                for (int i = foodCount.Count; i < 1000; i++)
+                for (int i = foodCount.Count; i < 100; i++)
                 {
                     int randomPositionX = rand.Next(0, 5001);
                     int randomPositionY = rand.Next(0, 5001);

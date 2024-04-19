@@ -165,9 +165,7 @@ namespace Client
 
                             }
                         }
-                        // Lets say x = -0.5 and y = 0.5
 
-                        // Going from x = 15 to 14.5, y = 15 to 15.5
 
 
                     }
