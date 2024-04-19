@@ -10,6 +10,10 @@ namespace Shared.Components
             RotateRight,
             RotateDown,
             RotateMouse,
+            RotateTopRight,
+            RotateTopLeft,
+            RotateBottomLeft,
+            RotateBottomRight,
             
         }
 

@@ -95,6 +95,59 @@ namespace Shared.Entities
             }
             return false;
         }
+        public static bool rotateTopRight(Entity entity, TimeSpan elapsedTime)
+        {
+            var position = entity.get<Position>();
+
+
+            float targetOrientation = (float)Math.Atan2(-1, 1); // Calculate the target orientation
+            if (position.orientation != targetOrientation)
+            {
+                position.orientation = targetOrientation;
+                return true;
+            }
+            return false;
+        }
+        public static bool rotateTopLeft(Entity entity, TimeSpan elapsedTime)
+        {
+            var position = entity.get<Position>();
+
+
+            float targetOrientation = (float)Math.Atan2(-1, -1); // Calculate the target orientation
+            if (position.orientation != targetOrientation)
+            {
+                position.orientation = targetOrientation;
+                return true;
+            }
+            return false;
+        }
+        public static bool rotateBottomLeft(Entity entity, TimeSpan elapsedTime)
+        {
+            var position = entity.get<Position>();
+
+
+            float targetOrientation = (float)Math.Atan2(1, -1); // Calculate the target orientation
+            if (position.orientation != targetOrientation)
+            {
+                position.orientation = targetOrientation;
+                return true;
+            }
+            return false;
+        }
+
+        public static bool rotateBottomRight(Entity entity, TimeSpan elapsedTime)
+        {
+            var position = entity.get<Position>();
+
+
+            float targetOrientation = (float)Math.Atan2(1,1); // Calculate the target orientation
+            if (position.orientation != targetOrientation)
+            {
+                position.orientation = targetOrientation;
+                return true;
+            }
+            return false;
+        }
         public static void thrust(Entity entity, TimeSpan elapsedTime)
         {
             var position = entity.get<Position>();

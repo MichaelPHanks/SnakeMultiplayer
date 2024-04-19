@@ -242,19 +242,7 @@ namespace Client.Systems
             if (m_entities.ContainsKey(message.id))
             {
                 var entity = m_entities[message.id];
-                if (entity.contains<Components.Goal>() && message.hasPosition)
-                {
-                    var position = entity.get<Position>();
-                    var goal = entity.get<Components.Goal>();
-
-                    goal.updateWindow = message.updateWindow;
-                    goal.updatedTime = TimeSpan.Zero;
-                    goal.goalPosition = new Vector2(message.position.X, message.position.Y);
-                    goal.goalOrientation = message.orientation;
-
-                    goal.startPosition = position.position;
-                    goal.startOrientation = position.orientation;
-                }
+              
                 if (entity.contains<Position>() && message.hasPosition)
                 {
                     entity.get<Position>().position = message.position;

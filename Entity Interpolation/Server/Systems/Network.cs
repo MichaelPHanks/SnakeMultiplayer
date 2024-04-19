@@ -106,6 +106,8 @@ namespace Server.Systems
 
                         if (Shared.Entities.Utility.rotateUp(entity, message.elapsedTime))
                         {
+                            m_reportThese.Add(message.entityId);
+
                             bool canSend = false;
                             Vector2 position1 = new Vector2();
                             foreach (Entity entity1 in m_entities.Values)
@@ -122,7 +124,7 @@ namespace Server.Systems
                                         canSend = true;
                                         var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
                                         turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
-                                        m_reportThese.Add(entity1.id);
+                                        //m_reportThese.Add(entity1.id);
 
                                         // m_reportThese.Add(entity1.id);
 
@@ -141,7 +143,6 @@ namespace Server.Systems
 
 
 
-                        m_reportThese.Add(message.entityId);
                         break;
                     case Shared.Components.Input.Type.RotateLeft:
 
@@ -149,6 +150,8 @@ namespace Server.Systems
 
                         if (Shared.Entities.Utility.rotateLeft(entity, message.elapsedTime))
                         {
+                            m_reportThese.Add(message.entityId);
+
                             bool canSend = false;
                             Vector2 position1 = new Vector2();
                             foreach (Entity entity1 in m_entities.Values)
@@ -165,7 +168,7 @@ namespace Server.Systems
                                         canSend = true;
                                         var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
                                         turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
-                                        m_reportThese.Add(entity1.id);
+                                        //m_reportThese.Add(entity1.id);
 
                                         // m_reportThese.Add(entity1.id);
 
@@ -181,11 +184,12 @@ namespace Server.Systems
                             }
                         }
 
-                        m_reportThese.Add(message.entityId);
                         break;
                     case Shared.Components.Input.Type.RotateRight:
                         if (Shared.Entities.Utility.rotateRight(entity, message.elapsedTime))
                         {
+                            m_reportThese.Add(message.entityId);
+
                             bool canSend = false;
                             Vector2 position1 = new Vector2();
                             foreach (Entity entity1 in m_entities.Values)
@@ -202,7 +206,7 @@ namespace Server.Systems
                                         canSend = true;
                                         var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
                                         turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
-                                        m_reportThese.Add(entity1.id);
+                                        //m_reportThese.Add(entity1.id);
 
                                         // m_reportThese.Add(entity1.id);
 
@@ -217,11 +221,12 @@ namespace Server.Systems
 
                             }
                         }
-                        m_reportThese.Add(message.entityId);
                         break;
                     case Shared.Components.Input.Type.RotateDown:
                         if (Shared.Entities.Utility.rotateDown(entity, message.elapsedTime))
                         {
+                            m_reportThese.Add(message.entityId);
+
                             bool canSend = false;
                             Vector2 position1 = new Vector2();
                             foreach (Entity entity1 in m_entities.Values)
@@ -238,7 +243,7 @@ namespace Server.Systems
                                         canSend = true;
                                         var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
                                         turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
-                                        m_reportThese.Add(entity1.id);
+                                        //m_reportThese.Add(entity1.id);
 
                                         // m_reportThese.Add(entity1.id);
 
@@ -254,7 +259,6 @@ namespace Server.Systems
                             }
                         }
 
-                        m_reportThese.Add(message.entityId);
                         break;
                     
 

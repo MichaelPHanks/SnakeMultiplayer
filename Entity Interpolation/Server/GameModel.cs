@@ -18,7 +18,7 @@ namespace Server
         Systems.Network m_systemNetwork = new Server.Systems.Network();
         private const int GameWorldWidth = 5000;
         private const int GameWorldHeight = 5000;
-        TimeSpan updateClientClock = TimeSpan.FromSeconds(1);
+        TimeSpan updateClientClock = TimeSpan.FromSeconds(0.5);
 
         private const int GameWorldViewPortWidth = 1920;
         private const int GameWorldViewPortHeight = 1080;
@@ -56,7 +56,26 @@ namespace Server
             snakeSimulator(elapsedTime);
 
 
-            
+            // Update clients on head and segments and tail
+
+            updateClientClock -= elapsedTime;
+            if (updateClientClock.TotalMilliseconds < 0 )
+            {
+                updateClientClock = TimeSpan.FromSeconds(0.5);
+
+                foreach (List<Entity> entities in m_perPlayerEntities.Values)
+                {
+                    foreach (Entity entity in entities)
+                    {
+                        Message updateEntity = new Shared.Messages.UpdateEntity(entity, elapsedTime);
+                        MessageQueueServer.instance.broadcastMessage(updateEntity);
+
+                    }
+                }
+            }
+
+
+
 
         }
 

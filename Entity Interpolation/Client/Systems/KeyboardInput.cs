@@ -20,6 +20,7 @@ namespace Client.Systems
         private Dictionary<uint, KeyToType> m_keyToFunction = new Dictionary<uint, KeyToType>();
 
         private HashSet<Keys> m_keysPressed = new HashSet<Keys>();
+        private List<Keys> m_keyList = new List<Keys>();
         private bool m_mouseEnabled = true;
         private List<Shared.Components.Input.Type> m_inputEvents = new List<Shared.Components.Input.Type>();
         
@@ -41,33 +42,132 @@ namespace Client.Systems
                 if (item.Value.isAlive)
                 {
 
-                    foreach (var key in m_keysPressed)
+
+
+                    if (m_keyList.Count > 1)
                     {
-                        if (m_keyToFunction[item.Key].m_keyToType.ContainsKey(key))
+                        // Collect the top 2 and if one of them are not an existing key, do not do anything.
+
+                        if (m_keyToFunction[item.Key].m_keyToType.ContainsKey(m_keyList[0]) && m_keyToFunction[item.Key].m_keyToType.ContainsKey(m_keyList[1]))
                         {
-                            var type = m_keyToFunction[item.Key].m_keyToType[key];
-                            inputs.Add(type);
+
+
+                            var firstType = m_keyToFunction[item.Key].m_keyToType[m_keyList[0]];
+                            var secondType = m_keyToFunction[item.Key].m_keyToType[m_keyList[1]];
+
+                            // NOTE: If there is some lag with inputs, modify this to handle if opposite directions are pressed. Should be an issue though.
+                            if (firstType == Shared.Components.Input.Type.RotateUp && secondType == Shared.Components.Input.Type.RotateRight)
+                            {
+                                if (Shared.Entities.Utility.rotateTopRight(item.Value, elapsedTime))
+                                {
+                                    inputs.Add(Shared.Components.Input.Type.RotateTopRight);
+                                }
+                                break;
+                            }
+                            if (firstType == Shared.Components.Input.Type.RotateUp && secondType == Shared.Components.Input.Type.RotateLeft)
+                            {
+                                if (Shared.Entities.Utility.rotateTopLeft(item.Value, elapsedTime))
+                                {
+                                    inputs.Add(Shared.Components.Input.Type.RotateTopLeft);
+                                }
+                                break;
+                            }
+                            if (firstType == Shared.Components.Input.Type.RotateDown && secondType == Shared.Components.Input.Type.RotateRight)
+                            {
+                                if (Shared.Entities.Utility.rotateBottomRight(item.Value, elapsedTime))
+                                {
+                                    inputs.Add(Shared.Components.Input.Type.RotateBottomRight);
+                                }
+                                break;
+                            }
+                            if (firstType == Shared.Components.Input.Type.RotateDown && secondType == Shared.Components.Input.Type.RotateLeft)
+                            {
+                                if (Shared.Entities.Utility.rotateBottomLeft(item.Value, elapsedTime))
+                                {
+                                    inputs.Add(Shared.Components.Input.Type.RotateBottomLeft);
+                                }
+                                break;
+                            }
+
+
+
+
+                            if (firstType == Shared.Components.Input.Type.RotateRight && secondType == Shared.Components.Input.Type.RotateUp)
+                            {
+                                if (Shared.Entities.Utility.rotateTopRight(item.Value, elapsedTime))
+                                {
+                                    inputs.Add(Shared.Components.Input.Type.RotateTopRight);
+                                }
+                                break;
+                            }
+                            if (firstType == Shared.Components.Input.Type.RotateLeft && secondType == Shared.Components.Input.Type.RotateUp)
+                            {
+                                if (Shared.Entities.Utility.rotateTopLeft(item.Value, elapsedTime))
+                                {
+                                    inputs.Add(Shared.Components.Input.Type.RotateTopLeft);
+                                }
+                                break;
+                            }
+                            if (firstType == Shared.Components.Input.Type.RotateRight && secondType == Shared.Components.Input.Type.RotateDown)
+                            {
+                                if (Shared.Entities.Utility.rotateBottomRight(item.Value, elapsedTime))
+                                {
+                                    inputs.Add(Shared.Components.Input.Type.RotateBottomRight);
+                                }
+                                break;
+                            }
+                            if (firstType == Shared.Components.Input.Type.RotateLeft && secondType == Shared.Components.Input.Type.RotateDown)
+                            {
+                                if (Shared.Entities.Utility.rotateBottomLeft(item.Value, elapsedTime))
+                                {
+                                    inputs.Add(Shared.Components.Input.Type.RotateBottomLeft);
+                                }
+                                break;
+                            }
+
+
+                        }
+                    }
+                    else if (m_keyList.Count == 1)
+                    {
+
+                        if (m_keyToFunction[item.Key].m_keyToType.ContainsKey(m_keyList[0]))
+                        {
+                            var type = m_keyToFunction[item.Key].m_keyToType[m_keyList[0]];
 
                             // Client-side prediction of the input
                             switch (type)
                             {
                                 case Shared.Components.Input.Type.RotateUp:
-                                    Shared.Entities.Utility.rotateUp(item.Value, elapsedTime);
+                                    if (Shared.Entities.Utility.rotateUp(item.Value, elapsedTime))
+                                    {
+                                        inputs.Add(type);
+                                    }
                                     break;
                                 case Shared.Components.Input.Type.RotateLeft:
-                                    Shared.Entities.Utility.rotateLeft(item.Value, elapsedTime);
+                                    if (Shared.Entities.Utility.rotateLeft(item.Value, elapsedTime))
+                                    {
+                                        inputs.Add(type);
+                                    }
                                     break;
                                 case Shared.Components.Input.Type.RotateRight:
-                                    Shared.Entities.Utility.rotateRight(item.Value, elapsedTime);
+                                    if (Shared.Entities.Utility.rotateRight(item.Value, elapsedTime))
+                                    {
+                                        inputs.Add(type);
+                                    }
+
                                     break;
                                 case Shared.Components.Input.Type.RotateDown:
-                                    Shared.Entities.Utility.rotateDown(item.Value, elapsedTime);
+                                    if (Shared.Entities.Utility.rotateDown(item.Value, elapsedTime))
+                                    {
+                                        inputs.Add(type);
+                                    }
                                     break;
                             }
                         }
 
-                    }
 
+                    }
                     m_keysPressed.Clear();
 
 
@@ -149,12 +249,14 @@ namespace Client.Systems
         public void keyPressed(Keys key)
         {
             m_keysPressed.Add(key);
+            m_keyList.Add(key);
 
         }
 
         public void keyReleased(Keys key)
         {
             m_keysPressed.Remove(key);
+            m_keyList.Remove(key);
         }
     }
 }
