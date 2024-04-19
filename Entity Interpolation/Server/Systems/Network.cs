@@ -91,340 +91,343 @@ namespace Server.Systems
         /// <param name="message"></param>
         private void handleInput(Shared.Messages.Input message)
         {
-            var entity = m_entities[message.entityId];
-
-
-
-            foreach (var input in message.inputs)
+            if (m_entities.ContainsKey(message.entityId))
             {
-                switch (input)
+                var entity = m_entities[message.entityId];
+
+
+
+                foreach (var input in message.inputs)
                 {
-                    case Shared.Components.Input.Type.RotateUp:
+                    switch (input)
+                    {
+                        case Shared.Components.Input.Type.RotateUp:
 
 
 
 
-                        if (Shared.Entities.Utility.rotateUp(entity, message.elapsedTime))
-                        {
-                            m_reportThese.Add(message.entityId);
-
-                            bool canSend = false;
-                            Vector2 position1 = new Vector2();
-                            foreach (Entity entity1 in m_entities.Values)
+                            if (Shared.Entities.Utility.rotateUp(entity, message.elapsedTime))
                             {
-                                if (entity1.contains<Shared.Components.Segment>())
+                                m_reportThese.Add(message.entityId);
+
+                                bool canSend = false;
+                                Vector2 position1 = new Vector2();
+                                foreach (Entity entity1 in m_entities.Values)
                                 {
-                                    var headId = entity1.get<Shared.Components.Segment>().headId;
-                                    position1 = entity.get<Shared.Components.Position>().position;
-
-                                    if (headId == message.entityId)
+                                    if (entity1.contains<Shared.Components.Segment>())
                                     {
+                                        var headId = entity1.get<Shared.Components.Segment>().headId;
+                                        position1 = entity.get<Shared.Components.Position>().position;
 
-                                        // Add a turn point to the segment.
-                                        canSend = true;
-                                        var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
-                                        turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
-                                        //m_reportThese.Add(entity1.id);
+                                        if (headId == message.entityId)
+                                        {
 
-                                        // m_reportThese.Add(entity1.id);
+                                            // Add a turn point to the segment.
+                                            canSend = true;
+                                            var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
+                                            turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
+                                            //m_reportThese.Add(entity1.id);
+
+                                            // m_reportThese.Add(entity1.id);
+
+                                        }
 
                                     }
+                                }
+                                if (canSend)
+                                {
+                                    Message newMessage = new Shared.Messages.TurnPoint(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation), entity.id);
+                                    MessageQueueServer.instance.broadcastMessage(newMessage);
 
                                 }
                             }
-                            if (canSend)
+
+
+
+
+                            break;
+                        case Shared.Components.Input.Type.RotateLeft:
+
+
+
+                            if (Shared.Entities.Utility.rotateLeft(entity, message.elapsedTime))
                             {
-                                Message newMessage = new Shared.Messages.TurnPoint(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation), entity.id);
-                                MessageQueueServer.instance.broadcastMessage(newMessage);
+                                m_reportThese.Add(message.entityId);
 
-                            }
-                        }
-
-
-
-
-                        break;
-                    case Shared.Components.Input.Type.RotateLeft:
-
-
-
-                        if (Shared.Entities.Utility.rotateLeft(entity, message.elapsedTime))
-                        {
-                            m_reportThese.Add(message.entityId);
-
-                            bool canSend = false;
-                            Vector2 position1 = new Vector2();
-                            foreach (Entity entity1 in m_entities.Values)
-                            {
-                                if (entity1.contains<Shared.Components.Segment>())
+                                bool canSend = false;
+                                Vector2 position1 = new Vector2();
+                                foreach (Entity entity1 in m_entities.Values)
                                 {
-                                    var headId = entity1.get<Shared.Components.Segment>().headId;
-                                    position1 = entity.get<Shared.Components.Position>().position;
-
-                                    if (headId == message.entityId)
+                                    if (entity1.contains<Shared.Components.Segment>())
                                     {
+                                        var headId = entity1.get<Shared.Components.Segment>().headId;
+                                        position1 = entity.get<Shared.Components.Position>().position;
 
-                                        // Add a turn point to the segment.
-                                        canSend = true;
-                                        var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
-                                        turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
-                                        //m_reportThese.Add(entity1.id);
+                                        if (headId == message.entityId)
+                                        {
 
-                                        // m_reportThese.Add(entity1.id);
+                                            // Add a turn point to the segment.
+                                            canSend = true;
+                                            var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
+                                            turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
+                                            //m_reportThese.Add(entity1.id);
+
+                                            // m_reportThese.Add(entity1.id);
+
+                                        }
 
                                     }
+                                }
+                                if (canSend)
+                                {
+                                    Message newMessage = new Shared.Messages.TurnPoint(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation), entity.id);
+                                    MessageQueueServer.instance.broadcastMessage(newMessage);
 
                                 }
                             }
-                            if (canSend)
+
+                            break;
+                        case Shared.Components.Input.Type.RotateRight:
+                            if (Shared.Entities.Utility.rotateRight(entity, message.elapsedTime))
                             {
-                                Message newMessage = new Shared.Messages.TurnPoint(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation), entity.id);
-                                MessageQueueServer.instance.broadcastMessage(newMessage);
+                                m_reportThese.Add(message.entityId);
 
-                            }
-                        }
-
-                        break;
-                    case Shared.Components.Input.Type.RotateRight:
-                        if (Shared.Entities.Utility.rotateRight(entity, message.elapsedTime))
-                        {
-                            m_reportThese.Add(message.entityId);
-
-                            bool canSend = false;
-                            Vector2 position1 = new Vector2();
-                            foreach (Entity entity1 in m_entities.Values)
-                            {
-                                if (entity1.contains<Shared.Components.Segment>())
+                                bool canSend = false;
+                                Vector2 position1 = new Vector2();
+                                foreach (Entity entity1 in m_entities.Values)
                                 {
-                                    var headId = entity1.get<Shared.Components.Segment>().headId;
-                                    position1 = entity.get<Shared.Components.Position>().position;
-
-                                    if (headId == message.entityId)
+                                    if (entity1.contains<Shared.Components.Segment>())
                                     {
+                                        var headId = entity1.get<Shared.Components.Segment>().headId;
+                                        position1 = entity.get<Shared.Components.Position>().position;
 
-                                        // Add a turn point to the segment.
-                                        canSend = true;
-                                        var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
-                                        turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
-                                        //m_reportThese.Add(entity1.id);
+                                        if (headId == message.entityId)
+                                        {
 
-                                        // m_reportThese.Add(entity1.id);
+                                            // Add a turn point to the segment.
+                                            canSend = true;
+                                            var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
+                                            turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
+                                            //m_reportThese.Add(entity1.id);
+
+                                            // m_reportThese.Add(entity1.id);
+
+                                        }
 
                                     }
+                                }
+                                if (canSend)
+                                {
+                                    Message newMessage = new Shared.Messages.TurnPoint(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation), entity.id);
+                                    MessageQueueServer.instance.broadcastMessage(newMessage);
 
                                 }
                             }
-                            if (canSend)
+                            break;
+                        case Shared.Components.Input.Type.RotateDown:
+                            if (Shared.Entities.Utility.rotateDown(entity, message.elapsedTime))
                             {
-                                Message newMessage = new Shared.Messages.TurnPoint(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation), entity.id);
-                                MessageQueueServer.instance.broadcastMessage(newMessage);
+                                m_reportThese.Add(message.entityId);
 
-                            }
-                        }
-                        break;
-                    case Shared.Components.Input.Type.RotateDown:
-                        if (Shared.Entities.Utility.rotateDown(entity, message.elapsedTime))
-                        {
-                            m_reportThese.Add(message.entityId);
-
-                            bool canSend = false;
-                            Vector2 position1 = new Vector2();
-                            foreach (Entity entity1 in m_entities.Values)
-                            {
-                                if (entity1.contains<Shared.Components.Segment>())
+                                bool canSend = false;
+                                Vector2 position1 = new Vector2();
+                                foreach (Entity entity1 in m_entities.Values)
                                 {
-                                    var headId = entity1.get<Shared.Components.Segment>().headId;
-                                    position1 = entity.get<Shared.Components.Position>().position;
-
-                                    if (headId == message.entityId)
+                                    if (entity1.contains<Shared.Components.Segment>())
                                     {
+                                        var headId = entity1.get<Shared.Components.Segment>().headId;
+                                        position1 = entity.get<Shared.Components.Position>().position;
 
-                                        // Add a turn point to the segment.
-                                        canSend = true;
-                                        var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
-                                        turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
-                                        //m_reportThese.Add(entity1.id);
+                                        if (headId == message.entityId)
+                                        {
 
-                                        // m_reportThese.Add(entity1.id);
+                                            // Add a turn point to the segment.
+                                            canSend = true;
+                                            var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
+                                            turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
+                                            //m_reportThese.Add(entity1.id);
+
+                                            // m_reportThese.Add(entity1.id);
+
+                                        }
 
                                     }
+                                }
+                                if (canSend)
+                                {
+                                    Message newMessage = new Shared.Messages.TurnPoint(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation), entity.id);
+                                    MessageQueueServer.instance.broadcastMessage(newMessage);
 
                                 }
                             }
-                            if (canSend)
+
+                            break;
+
+                        case Shared.Components.Input.Type.RotateTopLeft:
+
+
+
+                            if (Shared.Entities.Utility.rotateTopLeft(entity, message.elapsedTime))
                             {
-                                Message newMessage = new Shared.Messages.TurnPoint(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation), entity.id);
-                                MessageQueueServer.instance.broadcastMessage(newMessage);
+                                m_reportThese.Add(message.entityId);
 
-                            }
-                        }
-
-                        break;
-
-                    case Shared.Components.Input.Type.RotateTopLeft:
-
-
-
-                        if (Shared.Entities.Utility.rotateTopLeft(entity, message.elapsedTime))
-                        {
-                            m_reportThese.Add(message.entityId);
-
-                            bool canSend = false;
-                            Vector2 position1 = new Vector2();
-                            foreach (Entity entity1 in m_entities.Values)
-                            {
-                                if (entity1.contains<Shared.Components.Segment>())
+                                bool canSend = false;
+                                Vector2 position1 = new Vector2();
+                                foreach (Entity entity1 in m_entities.Values)
                                 {
-                                    var headId = entity1.get<Shared.Components.Segment>().headId;
-                                    position1 = entity.get<Shared.Components.Position>().position;
-
-                                    if (headId == message.entityId)
+                                    if (entity1.contains<Shared.Components.Segment>())
                                     {
+                                        var headId = entity1.get<Shared.Components.Segment>().headId;
+                                        position1 = entity.get<Shared.Components.Position>().position;
 
-                                        // Add a turn point to the segment.
-                                        canSend = true;
-                                        var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
-                                        turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
-                                        //m_reportThese.Add(entity1.id);
+                                        if (headId == message.entityId)
+                                        {
 
-                                        // m_reportThese.Add(entity1.id);
+                                            // Add a turn point to the segment.
+                                            canSend = true;
+                                            var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
+                                            turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
+                                            //m_reportThese.Add(entity1.id);
+
+                                            // m_reportThese.Add(entity1.id);
+
+                                        }
 
                                     }
+                                }
+                                if (canSend)
+                                {
+                                    Message newMessage = new Shared.Messages.TurnPoint(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation), entity.id);
+                                    MessageQueueServer.instance.broadcastMessage(newMessage);
 
                                 }
                             }
-                            if (canSend)
+                            break;
+
+                        case Shared.Components.Input.Type.RotateTopRight:
+
+
+
+                            if (Shared.Entities.Utility.rotateTopRight(entity, message.elapsedTime))
                             {
-                                Message newMessage = new Shared.Messages.TurnPoint(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation), entity.id);
-                                MessageQueueServer.instance.broadcastMessage(newMessage);
+                                m_reportThese.Add(message.entityId);
 
-                            }
-                        }
-                        break;
-
-                    case Shared.Components.Input.Type.RotateTopRight:
-
-
-
-                        if (Shared.Entities.Utility.rotateTopRight(entity, message.elapsedTime))
-                        {
-                            m_reportThese.Add(message.entityId);
-
-                            bool canSend = false;
-                            Vector2 position1 = new Vector2();
-                            foreach (Entity entity1 in m_entities.Values)
-                            {
-                                if (entity1.contains<Shared.Components.Segment>())
+                                bool canSend = false;
+                                Vector2 position1 = new Vector2();
+                                foreach (Entity entity1 in m_entities.Values)
                                 {
-                                    var headId = entity1.get<Shared.Components.Segment>().headId;
-                                    position1 = entity.get<Shared.Components.Position>().position;
-
-                                    if (headId == message.entityId)
+                                    if (entity1.contains<Shared.Components.Segment>())
                                     {
+                                        var headId = entity1.get<Shared.Components.Segment>().headId;
+                                        position1 = entity.get<Shared.Components.Position>().position;
 
-                                        // Add a turn point to the segment.
-                                        canSend = true;
-                                        var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
-                                        turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
-                                        //m_reportThese.Add(entity1.id);
+                                        if (headId == message.entityId)
+                                        {
 
-                                        // m_reportThese.Add(entity1.id);
+                                            // Add a turn point to the segment.
+                                            canSend = true;
+                                            var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
+                                            turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
+                                            //m_reportThese.Add(entity1.id);
+
+                                            // m_reportThese.Add(entity1.id);
+
+                                        }
 
                                     }
+                                }
+                                if (canSend)
+                                {
+                                    Message newMessage = new Shared.Messages.TurnPoint(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation), entity.id);
+                                    MessageQueueServer.instance.broadcastMessage(newMessage);
 
                                 }
                             }
-                            if (canSend)
+                            break;
+
+                        case Shared.Components.Input.Type.RotateBottomLeft:
+
+
+
+                            if (Shared.Entities.Utility.rotateBottomLeft(entity, message.elapsedTime))
                             {
-                                Message newMessage = new Shared.Messages.TurnPoint(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation), entity.id);
-                                MessageQueueServer.instance.broadcastMessage(newMessage);
+                                m_reportThese.Add(message.entityId);
 
-                            }
-                        }
-                        break;
-
-                    case Shared.Components.Input.Type.RotateBottomLeft:
-
-
-
-                        if (Shared.Entities.Utility.rotateBottomLeft(entity, message.elapsedTime))
-                        {
-                            m_reportThese.Add(message.entityId);
-
-                            bool canSend = false;
-                            Vector2 position1 = new Vector2();
-                            foreach (Entity entity1 in m_entities.Values)
-                            {
-                                if (entity1.contains<Shared.Components.Segment>())
+                                bool canSend = false;
+                                Vector2 position1 = new Vector2();
+                                foreach (Entity entity1 in m_entities.Values)
                                 {
-                                    var headId = entity1.get<Shared.Components.Segment>().headId;
-                                    position1 = entity.get<Shared.Components.Position>().position;
-
-                                    if (headId == message.entityId)
+                                    if (entity1.contains<Shared.Components.Segment>())
                                     {
+                                        var headId = entity1.get<Shared.Components.Segment>().headId;
+                                        position1 = entity.get<Shared.Components.Position>().position;
 
-                                        // Add a turn point to the segment.
-                                        canSend = true;
-                                        var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
-                                        turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
-                                        //m_reportThese.Add(entity1.id);
+                                        if (headId == message.entityId)
+                                        {
 
-                                        // m_reportThese.Add(entity1.id);
+                                            // Add a turn point to the segment.
+                                            canSend = true;
+                                            var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
+                                            turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
+                                            //m_reportThese.Add(entity1.id);
+
+                                            // m_reportThese.Add(entity1.id);
+
+                                        }
 
                                     }
+                                }
+                                if (canSend)
+                                {
+                                    Message newMessage = new Shared.Messages.TurnPoint(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation), entity.id);
+                                    MessageQueueServer.instance.broadcastMessage(newMessage);
 
                                 }
                             }
-                            if (canSend)
+                            break;
+
+
+                        case Shared.Components.Input.Type.RotateBottomRight:
+
+
+
+                            if (Shared.Entities.Utility.rotateBottomRight(entity, message.elapsedTime))
                             {
-                                Message newMessage = new Shared.Messages.TurnPoint(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation), entity.id);
-                                MessageQueueServer.instance.broadcastMessage(newMessage);
+                                m_reportThese.Add(message.entityId);
 
-                            }
-                        }
-                        break;
-
-
-                    case Shared.Components.Input.Type.RotateBottomRight:
-
-
-
-                        if (Shared.Entities.Utility.rotateBottomRight(entity, message.elapsedTime))
-                        {
-                            m_reportThese.Add(message.entityId);
-
-                            bool canSend = false;
-                            Vector2 position1 = new Vector2();
-                            foreach (Entity entity1 in m_entities.Values)
-                            {
-                                if (entity1.contains<Shared.Components.Segment>())
+                                bool canSend = false;
+                                Vector2 position1 = new Vector2();
+                                foreach (Entity entity1 in m_entities.Values)
                                 {
-                                    var headId = entity1.get<Shared.Components.Segment>().headId;
-                                    position1 = entity.get<Shared.Components.Position>().position;
-
-                                    if (headId == message.entityId)
+                                    if (entity1.contains<Shared.Components.Segment>())
                                     {
+                                        var headId = entity1.get<Shared.Components.Segment>().headId;
+                                        position1 = entity.get<Shared.Components.Position>().position;
 
-                                        // Add a turn point to the segment.
-                                        canSend = true;
-                                        var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
-                                        turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
-                                        //m_reportThese.Add(entity1.id);
+                                        if (headId == message.entityId)
+                                        {
 
-                                        // m_reportThese.Add(entity1.id);
+                                            // Add a turn point to the segment.
+                                            canSend = true;
+                                            var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
+                                            turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
+                                            //m_reportThese.Add(entity1.id);
+
+                                            // m_reportThese.Add(entity1.id);
+
+                                        }
 
                                     }
+                                }
+                                if (canSend)
+                                {
+                                    Message newMessage = new Shared.Messages.TurnPoint(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation), entity.id);
+                                    MessageQueueServer.instance.broadcastMessage(newMessage);
 
                                 }
                             }
-                            if (canSend)
-                            {
-                                Message newMessage = new Shared.Messages.TurnPoint(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation), entity.id);
-                                MessageQueueServer.instance.broadcastMessage(newMessage);
-
-                            }
-                        }
-                        break;
+                            break;
+                    }
                 }
             }
         }

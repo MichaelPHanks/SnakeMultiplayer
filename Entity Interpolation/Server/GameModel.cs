@@ -146,14 +146,20 @@ namespace Server
                         float secondDistanceToTurnPoint = Vector2.Distance(position.position + tempVector, top.Item1);
 
 
-                       /* if (distanceToTurnPoint < 20)
+                        if (distanceToTurnPoint < 3)
 
                         {
-
+                            if (distanceToTurnPoint > 4)
+                            {
+                                Console.WriteLine();
+                            }
 
 
                             Tuple<Vector2, float> turnPoint = turnPoints.Dequeue();
                             Vector2 newOrientation = new Vector2((float)Math.Cos(turnPoint.Item2), (float)Math.Sin(turnPoint.Item2));
+
+                            newOrientation.X = (int)newOrientation.X;
+                            newOrientation.Y = (int)newOrientation.Y;
 
                             Vector2 difference = (position.position - top.Item1) * tempVector * newOrientation;
                             
@@ -178,16 +184,21 @@ namespace Server
                             // Going from x = 15 to 14.5, y = 15 to 15.5
 
                         }
-*/
+
                         // Make sure we did not pass the position
 
-                        if (secondDistanceToTurnPoint > distanceToTurnPoint)
+                        else if (secondDistanceToTurnPoint > distanceToTurnPoint)
                         {
 
                             Tuple<Vector2, float> turnPoint = turnPoints.Dequeue();
                             Vector2 newOrientation = new Vector2((float)Math.Cos(turnPoint.Item2), (float)Math.Sin(turnPoint.Item2));
 
+                            newOrientation.X = (int)newOrientation.X;
+                            newOrientation.Y = (int)newOrientation.Y;
+
                             Vector2 difference = (position.position - top.Item1) * tempVector * newOrientation;
+
+
                             if (difference.X == 0 && difference.Y == 0)
                             {
                                 difference = new Vector2((position.position.Y - top.Item1.Y), (position.position.X - top.Item1.X)) * new Vector2(tempVector.Y, tempVector.X) * newOrientation;
@@ -398,11 +409,11 @@ namespace Server
         private void foodUpdate()
         {
             // Food Count Checker
-            if (foodCount.Count < 150)
+            if (foodCount.Count < 1000)
             {
                 Random rand = new Random();
 
-                for (int i = foodCount.Count; i < 150; i++)
+                for (int i = foodCount.Count; i < 1000; i++)
                 {
                     int randomPositionX = rand.Next(0, 5001);
                     int randomPositionY = rand.Next(0, 5001);

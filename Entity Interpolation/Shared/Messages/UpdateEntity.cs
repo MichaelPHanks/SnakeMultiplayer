@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Shared.Components;
 using Shared.Entities;
+using System.Collections.Generic;
 
 namespace Shared.Messages
 {
@@ -21,7 +22,8 @@ namespace Shared.Messages
             if (entity.contains<Shared.Components.Segment>() || entity.contains<Shared.Components.Tail>())
             {
                 this.hasTurnPoints = true;
-                this.turnPoints = entity.get<Shared.Components.TurnPoints>().turnPoints;
+                Queue < Tuple<Vector2, float> > tempPoints = new Queue<Tuple<Vector2, float>> (entity.get<Shared.Components.TurnPoints>().turnPoints);
+                this.turnPoints = tempPoints;
             }
             else
             {

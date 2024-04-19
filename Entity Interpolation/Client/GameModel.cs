@@ -92,6 +92,7 @@ namespace Client
                 {
                     var turnPoints = entity.get<Shared.Components.TurnPoints>().turnPoints;
                     var position = entity.get<Shared.Components.Position>();
+
                     if (turnPoints.Count > 0)
                     {
                         var top = turnPoints.Peek();
@@ -101,29 +102,33 @@ namespace Client
 
 
                         Vector2 tempVector = new Vector2((float)x, (float)y);
-
                         tempVector.X = (int)tempVector.X;
                         tempVector.Y = (int)tempVector.Y;
+
                         // If we are within 3 points of the turnpoint, then turn
 
                         float distanceToTurnPoint = Vector2.Distance(position.position, top.Item1);
                         float secondDistanceToTurnPoint = Vector2.Distance(position.position + tempVector, top.Item1);
 
-/*
-                        if (distanceToTurnPoint < 20)
+
+                        if (distanceToTurnPoint < 3)
 
                         {
-
+                            if (distanceToTurnPoint > 4)
+                            {
+                                Console.WriteLine();
+                            }
 
 
                             Tuple<Vector2, float> turnPoint = turnPoints.Dequeue();
                             Vector2 newOrientation = new Vector2((float)Math.Cos(turnPoint.Item2), (float)Math.Sin(turnPoint.Item2));
 
+                            newOrientation.X = (int)newOrientation.X;
+                            newOrientation.Y = (int)newOrientation.Y;
+
                             Vector2 difference = (position.position - top.Item1) * tempVector * newOrientation;
-                            if (difference.X > 0 && difference.Y > 0)
-                            {
-                                Console.WriteLine();
-                            }
+
+
                             if (difference.X == 0 && difference.Y == 0)
                             {
                                 difference = new Vector2((position.position.Y - top.Item1.Y), (position.position.X - top.Item1.X)) * new Vector2(tempVector.Y, tempVector.X) * newOrientation;
@@ -143,17 +148,22 @@ namespace Client
 
                             // Going from x = 15 to 14.5, y = 15 to 15.5
 
-                        }*/
+                        }
 
                         // Make sure we did not pass the position
 
-                        if (secondDistanceToTurnPoint > distanceToTurnPoint)
+                        else if (secondDistanceToTurnPoint > distanceToTurnPoint)
                         {
 
                             Tuple<Vector2, float> turnPoint = turnPoints.Dequeue();
                             Vector2 newOrientation = new Vector2((float)Math.Cos(turnPoint.Item2), (float)Math.Sin(turnPoint.Item2));
 
+                            newOrientation.X = (int)newOrientation.X;
+                            newOrientation.Y = (int)newOrientation.Y;
+
                             Vector2 difference = (position.position - top.Item1) * tempVector * newOrientation;
+
+
                             if (difference.X == 0 && difference.Y == 0)
                             {
                                 difference = new Vector2((position.position.Y - top.Item1.Y), (position.position.X - top.Item1.X)) * new Vector2(tempVector.Y, tempVector.X) * newOrientation;
