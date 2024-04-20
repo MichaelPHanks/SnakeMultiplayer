@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -41,7 +42,9 @@ namespace Client
 
         private const int GameWorldViewPortWidth = 1920;
         private const int GameWorldViewPortHeight = 1080;
-
+        private SoundEffect gameOver;
+        private SoundEffect foodEaten;
+        private SoundEffectInstance foodInstance;
         private AnimatedSprite bananaRenderer;
 
 
@@ -209,12 +212,15 @@ namespace Client
         public bool initialize(ContentManager contentManager)
         {
             m_contentManager = contentManager;
-
+            gameOver = contentManager.Load<SoundEffect>("game-over-arcade-6435");
+            foodEaten = contentManager.Load<SoundEffect>("eating-sound-effect-36186");
+            foodInstance = foodEaten.CreateInstance();
             m_systemNetwork.registerNewEntityHandler(handleNewEntity);
             m_systemNetwork.registerRemoveEntityHandler(handleRemoveEntity);
             m_systemNetwork.registerTurnPointMessage(handleTurnPointMessage);
             m_systemNetwork.registerScoresUpdateHandler(handleScoresMessage);
             m_systemNetwork.registerPlayerDeathHandler(handlePlayerDeath);
+            m_systemNetwork.registerHandleFoodEatenHandler(handleFoodEaten);
             loadKeyControls();
             // Modify this to load in controls
             m_systemKeyboardInput = new Systems.KeyboardInput(new List<Tuple<Shared.Components.Input.Type, Keys>>
@@ -227,6 +233,14 @@ namespace Client
             });
 
             return true;
+        }
+
+        public void handleFoodEaten(FoodEaten message)
+        {
+            // Play the sound!
+            foodEaten.Play();
+
+
         }
 
         /// <summary>
@@ -359,11 +373,12 @@ namespace Client
         /// <param name="message"></param>
         private void handleScoresMessage(Shared.Messages.ScoresUpdate message)
         {
+
             m_Scores = new List<Tuple<string, int>>();
 
-            foreach (KeyValuePair<string,int> yeah in message.scoresTable)
+            foreach (KeyValuePair<string,int> newScore in message.scoresTable)
             {
-                m_Scores.Add(new Tuple<string, int>(yeah.Key, yeah.Value));
+                m_Scores.Add(new Tuple<string, int>(newScore.Key, newScore.Value));
             }
 
             m_Scores.OrderBy(tuple => tuple.Item2).ToList();
@@ -483,10 +498,13 @@ namespace Client
         }
         private void handlePlayerDeath(PlayerDeath message)
         {
+            
             removeEntity(message.id);
 
             if (message.id == m_playerEntity.id)
             {
+                gameOver.Play();
+
                 isDead = true;
             }
 

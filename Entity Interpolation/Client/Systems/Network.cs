@@ -23,6 +23,8 @@ namespace Client.Systems
         public delegate void NewEntityHandler(NewEntity message);
         public delegate void ScoresUpdateHandler (ScoresUpdate message);
         public delegate void PlayerDeathHandler(PlayerDeath message);
+        public delegate void FoodEatenHandler(FoodEaten message);
+
 
 
         private Dictionary<Shared.Messages.Type, Handler> m_commandMap = new Dictionary<Shared.Messages.Type, Handler>();
@@ -31,6 +33,7 @@ namespace Client.Systems
         private NewEntityHandler m_newEntityHandler;
         private ScoresUpdateHandler m_scoresUpdateHandler;
         private PlayerDeathHandler m_playerDeathHandler;
+        private FoodEatenHandler m_foodEatenHandler;
         private uint m_lastMessageId = 0;
         private HashSet<uint> m_updatedEntities = new HashSet<uint>();
         private bool loading = false;
@@ -78,6 +81,10 @@ namespace Client.Systems
             registerHandler(Shared.Messages.Type.PlayerDeath, (TimeSpan elapsedTime, Message message) =>
             {
                 m_playerDeathHandler((PlayerDeath)message);
+            });
+            registerHandler(Shared.Messages.Type.FoodEaten, (TimeSpan elapsedTime, Message message) =>
+            {
+                m_foodEatenHandler((FoodEaten)message);
             });
 
         }
@@ -176,7 +183,10 @@ namespace Client.Systems
         {
             m_playerDeathHandler = handler;
         }
-
+        public void registerHandleFoodEatenHandler(FoodEatenHandler handler)
+        {
+            m_foodEatenHandler = handler;
+        }
         /// <summary>
         /// Handler for the ConnectAck message.  This records the clientId
         /// assigned to it by the server, it also sends a request to the server
@@ -263,7 +273,6 @@ namespace Client.Systems
             }
         }
 
-        
         
     }
 }

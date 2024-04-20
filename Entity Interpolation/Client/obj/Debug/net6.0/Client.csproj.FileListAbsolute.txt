@@ -88,3 +88,5 @@ C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\bin\Deb
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\bin\Debug\net6.0\Content\mixkit-arcade-game-explosion-2759.ogg
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\bin\Debug\net6.0\Content\smartsound_TRANSPORTATION_SPACE_Spaceshuttle_Rocket_Full_Power_Steady_01.ogg
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\obj\Debug\net6.0\Client.csproj.CopyComplete
+C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\bin\Debug\net6.0\Content\eating-sound-effect-36186.xnb
+C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\bin\Debug\net6.0\Content\game-over-arcade-6435.xnb

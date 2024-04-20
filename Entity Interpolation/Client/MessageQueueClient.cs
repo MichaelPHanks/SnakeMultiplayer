@@ -59,6 +59,7 @@ namespace Client
             m_messageCommand[Shared.Messages.Type.PlayerDeath] = () => { return new PlayerDeath(); };
             m_messageCommand[Shared.Messages.Type.TurnPoint] = () => { return new TurnPoint(); };
             m_messageCommand[Shared.Messages.Type.ScoresUpdate] = () => { return new ScoresUpdate(); };
+            m_messageCommand[Shared.Messages.Type.FoodEaten] = () => { return new  FoodEaten(); };
 
 
 

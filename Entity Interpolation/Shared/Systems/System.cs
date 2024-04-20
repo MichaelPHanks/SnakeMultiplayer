@@ -59,7 +59,10 @@ namespace Shared.Systems
             bool interested = isInterested(entity);
             if (interested)
             {
-                m_entities.Add(entity.id, entity);
+                if (!m_entities.ContainsKey(entity.id))
+                {
+                    m_entities.Add(entity.id, entity);
+                }
             }
             
 

@@ -72,6 +72,12 @@
 /processorParam:TextureFormat=Color
 /build:Cartoon_green_texture_grass_smaller.jpg
 
+#begin eating-sound-effect-36186.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:eating-sound-effect-36186.mp3
+
 #begin EnemyBody.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -131,6 +137,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:flbb_3udr_220615.jpg
+
+#begin game-over-arcade-6435.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:game-over-arcade-6435.mp3
 
 #begin handpaintedwall2.png
 /importer:TextureImporter

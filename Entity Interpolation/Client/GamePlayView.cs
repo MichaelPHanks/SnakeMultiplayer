@@ -108,7 +108,6 @@ namespace Client
             contentManager1 = contentManager;
             
             m_gameModel.initialize(contentManager);
-
             // create 1x1 texture for line drawing
             t = new Texture2D(m_graphics.GraphicsDevice, 1, 1);
             t.SetData<Color>(

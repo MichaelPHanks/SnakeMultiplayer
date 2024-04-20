@@ -4,6 +4,7 @@ using Shared.Components;
 using Shared.Entities;
 using Shared.Messages;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Xml;
 
@@ -14,6 +15,7 @@ namespace Server
         private HashSet<int> m_clients = new HashSet<int>();
         private Dictionary<uint, Entity> m_entities = new Dictionary<uint, Entity>();
         private Dictionary<int, uint> m_clientToEntityId = new Dictionary<int, uint>();
+        private Dictionary<uint, int> m_EntityIdToClient = new Dictionary<uint, int>();
         private Dictionary<uint, List<Entity>> m_perPlayerEntities = new Dictionary<uint, List<Entity>>();
         Systems.Network m_systemNetwork = new Server.Systems.Network();
         private const int GameWorldWidth = 5000;
@@ -258,6 +260,21 @@ namespace Server
                             Message scoreMessage = new Shared.Messages.ScoresUpdate(m_scores);
 
                             MessageQueueServer.instance.broadcastMessage(scoreMessage);
+
+                            // NOTE: Below this, where we send to specified client, I got an error once because (for some reason) 
+                            // the simulation believed there were two players (there was only one) and somehow didn't actually
+                            // grab the correct 'client' to send the message to. In fact, the entity didn't exist, which is why it 
+                            // crashed at key[0]. Maybe we can switch this to checking the per player entities instead, and
+                            // it will probably even run much faster. No idea how this can even happen (most likely scenario is 
+                            // in the handle player death?).
+                            
+
+                            // Send a message, to the specified client, that they ate some food.
+                            var key = m_clientToEntityId.Where(pair => pair.Value == playerEntity.id)
+                             .Select(pair => pair.Key)
+                             .ToList();
+                            Message foodMessage = new Shared.Messages.FoodEaten();
+                            MessageQueueServer.instance.sendMessage(key[0],foodMessage);
                             // Food disappears
                             foodToRemove.Add(entity.id, entity);
                             float offsetDistance = 1.0f; // Adjust this value to control the distance behind the player
@@ -409,16 +426,16 @@ namespace Server
         private void foodUpdate()
         {
             // Food Count Checker
-            if (foodCount.Count < 1000)
-            {
+            
                 Random rand = new Random();
 
-                for (int i = foodCount.Count; i < 1000; i++)
+                for (int i = foodEntities.Count; i < 1000; i++)
                 {
                     int randomPositionX = rand.Next(0, 5001);
                     int randomPositionY = rand.Next(0, 5001);
+                int randomSize = rand.Next(25, 30);
 
-                    Entity newFood = Shared.Entities.Food.create("cake", new System.Numerics.Vector2(randomPositionX, randomPositionY), 25);
+                    Entity newFood = Shared.Entities.Food.create("cake", new System.Numerics.Vector2(randomPositionX, randomPositionY), randomSize);
                     addEntity(newFood);
                     Message message = new NewEntity(newFood);
                     foreach (int otherId in m_clients)
@@ -427,10 +444,9 @@ namespace Server
                         MessageQueueServer.instance.sendMessage(otherId, message);
 
                     }
-                    foodCount.Add(1);
                     foodEntities.Add(newFood.id, newFood);
                 }
-            }
+            
         }
 
         /// <summary>
@@ -482,6 +498,10 @@ namespace Server
                 Message newFoodMessage = new Shared.Messages.NewEntity(newFood);
                 MessageQueueServer.instance.broadcastMessage(newFoodMessage);
             }
+
+            Entity specificEntity = m_entities[(uint)clientId];
+            m_scores.Remove(specificEntity.get<Shared.Components.Name>().name);
+            Message scoreMessage = new Shared.Messages.ScoresUpdate(m_scores);
             m_entities.Remove((uint)clientId);
 
 
@@ -490,13 +510,15 @@ namespace Server
                 m_entities.Remove(entity.id);
 
             }
+
             m_perPlayerEntities.Remove((uint)clientId);
             m_systemNetwork.remove((uint)clientId);
 
             Message message = new Shared.Messages.PlayerDeath((uint)clientId);
             MessageQueueServer.instance.broadcastMessage(message);
-
             
+
+            MessageQueueServer.instance.broadcastMessage(scoreMessage);
 
         }
 
@@ -508,6 +530,21 @@ namespace Server
         /// <param name="clientId"></param>
         private void handleDisconnect(int clientId)
         {
+
+
+            if (m_entities.ContainsKey(m_clientToEntityId[clientId]))
+            {
+                Entity specificEntity = m_entities[m_clientToEntityId[clientId]];
+                if (specificEntity.contains<Shared.Components.Head>())
+                {
+                    m_scores.Remove(specificEntity.get<Shared.Components.Name>().name);
+                    Message scoreMessage = new Shared.Messages.ScoresUpdate(m_scores);
+
+                    MessageQueueServer.instance.broadcastMessage(scoreMessage);
+
+                }
+            }
+            
             m_clients.Remove(clientId);
 
 
@@ -625,6 +662,7 @@ namespace Server
             Entity player = Shared.Entities.Head.create("PlayerHead",messageNew.name, new System.Numerics.Vector2(GameWorldWidth / 2, GameWorldHeight / 2), 50, 0.3f, (float)Math.PI / 1000);
             addEntity(player);
             m_clientToEntityId[clientId] = player.id;
+            m_EntityIdToClient[player.id] = clientId;
             MessageQueueServer.instance.sendMessage(clientId, new NewEntity(player));
 
             // New Step: Make a few different snake segments.
