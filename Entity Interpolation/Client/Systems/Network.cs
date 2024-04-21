@@ -5,6 +5,7 @@ using Shared.Components;
 using Shared.Messages;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.IO.IsolatedStorage;
 using System.Net.Mail;
@@ -24,6 +25,7 @@ namespace Client.Systems
         public delegate void ScoresUpdateHandler (ScoresUpdate message);
         public delegate void PlayerDeathHandler(PlayerDeath message);
         public delegate void FoodEatenHandler(FoodEaten message);
+        public delegate void KillCountHandler(KillCount message);
 
 
 
@@ -34,6 +36,7 @@ namespace Client.Systems
         private ScoresUpdateHandler m_scoresUpdateHandler;
         private PlayerDeathHandler m_playerDeathHandler;
         private FoodEatenHandler m_foodEatenHandler;
+        private KillCountHandler m_killCountHandler;    
         private uint m_lastMessageId = 0;
         private HashSet<uint> m_updatedEntities = new HashSet<uint>();
         private bool loading = false;
@@ -85,6 +88,10 @@ namespace Client.Systems
             registerHandler(Shared.Messages.Type.FoodEaten, (TimeSpan elapsedTime, Message message) =>
             {
                 m_foodEatenHandler((FoodEaten)message);
+            });
+            registerHandler(Shared.Messages.Type.KillCount, (TimeSpan elapsedTime, Message message) =>
+            {
+                m_killCountHandler((KillCount)message);
             });
 
         }
@@ -186,6 +193,10 @@ namespace Client.Systems
         public void registerHandleFoodEatenHandler(FoodEatenHandler handler)
         {
             m_foodEatenHandler = handler;
+        }
+        public void registerKillCountHandler(KillCountHandler handler)
+        {
+            m_killCountHandler = handler;
         }
         /// <summary>
         /// Handler for the ConnectAck message.  This records the clientId

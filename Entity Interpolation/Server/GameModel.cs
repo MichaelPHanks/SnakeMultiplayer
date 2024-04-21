@@ -34,7 +34,6 @@ namespace Server
         private Dictionary<string, int> m_scores = new Dictionary<string, int>();
 
 
-        private List<int> foodCount = new List<int>();
         private Dictionary<uint, Entity> foodEntities = new Dictionary<uint, Entity>(); 
 
 
@@ -67,7 +66,7 @@ namespace Server
             snakeSimulator(elapsedTime);
 
 
-            // Update clients on head and segments and tail
+            // Update clients on head, segments and tail
             // I think we have to do this regardless, despite the fact that it will mess with things  (reset turn points, etc.)
             updateClientClock -= elapsedTime;
             if (updateClientClock.TotalMilliseconds < 0 )
@@ -142,6 +141,14 @@ namespace Server
                                         if (!entitiesToRemove.Contains(entity))
                                         {
                                             entitiesToRemove.Add(entity);
+                                            if (entity1.contains<Shared.Components.Segment>())
+                                            {
+                                                m_killsPerClient[entity1.get<Shared.Components.Segment>().headId]++;
+                                            }
+                                            if (entity1.contains<Shared.Components.Tail>())
+                                            {
+                                                m_killsPerClient[entity1.get<Shared.Components.Tail>().headId]++;
+                                            }
                                         }
                                     }
                                 }
@@ -461,7 +468,7 @@ namespace Server
             
                 Random rand = new Random();
 
-                for (int i = foodEntities.Count; i < 100; i++)
+                for (int i = foodEntities.Count; i < 1000; i++)
                 {
                     int randomPositionX = rand.Next(0, 5001);
                     int randomPositionY = rand.Next(0, 5001);
@@ -525,12 +532,12 @@ namespace Server
             {
                 Entity newFood = Shared.Entities.Food.create("cake", entity.get<Shared.Components.Position>().position, 25);
                 addEntity(newFood);
-                foodCount.Add(1);
                 foodEntities.Add(newFood.id, newFood);
                 Message newFoodMessage = new Shared.Messages.NewEntity(newFood);
                 MessageQueueServer.instance.broadcastMessage(newFoodMessage);
             }
-
+            Message killCount = new Shared.Messages.KillCount(m_killsPerClient[(uint)clientId]);
+            MessageQueueServer.instance.sendMessage(m_EntityIdToClient[(uint)clientId], killCount);
             Entity specificEntity = m_entities[(uint)clientId];
             m_scores.Remove(specificEntity.get<Shared.Components.Name>().name);
             Message scoreMessage = new Shared.Messages.ScoresUpdate(m_scores);
@@ -696,7 +703,7 @@ namespace Server
             m_clientToEntityId[clientId] = player.id;
             m_EntityIdToClient[player.id] = clientId;
             MessageQueueServer.instance.sendMessage(clientId, new NewEntity(player));
-
+            m_killsPerClient[player.id] = 0;
             // New Step: Make a few different snake segments.
 
             m_entitiesNotCollisionable[player.id] = notHittable;

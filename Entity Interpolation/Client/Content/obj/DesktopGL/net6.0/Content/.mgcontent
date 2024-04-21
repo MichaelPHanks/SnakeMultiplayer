@@ -24,6 +24,7 @@
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/MainBackground.jpg</File>
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/mixkit-arcade-game-explosion-2759.mp3</File>
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/NotMainBackground.png</File>
+    <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/panel.png</File>
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/PlayerBody.png</File>
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/PlayerHead.png</File>
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/PlayerTail.png</File>
@@ -43,6 +44,7 @@
     <File>Fonts/menu.spritefont</File>
     <File>Fonts/selectedVoiceActivatedFont.spritefont</File>
     <File>Fonts/voicActivatedFont.spritefont</File>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

@@ -14,6 +14,7 @@ namespace Shared.Messages
         PlayerDeath,
         TurnPoint,
         ScoresUpdate,
-        FoodEaten
+        FoodEaten,
+        KillCount
     }
 }

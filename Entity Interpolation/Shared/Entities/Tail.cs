@@ -10,12 +10,12 @@ namespace Shared.Entities
 {
     public class Tail
     {
-        public static Entity create(string texture, Vector2 position, float size, float moveRate, float rotateRate, Queue<Tuple<Vector2, float>> turnPoints)
+        public static Entity create(string texture, Vector2 position, float size, float moveRate, float rotateRate, Queue<Tuple<Vector2, float>> turnPoints, uint headId)
         {
             Entity entity = new Entity();
 
             entity.add(new Appearance(texture));
-            entity.add(new Shared.Components.Tail());
+            entity.add(new Shared.Components.Tail(headId));
 
             entity.add(new Position(position));
             entity.add(new Size(new Vector2(size, size)));

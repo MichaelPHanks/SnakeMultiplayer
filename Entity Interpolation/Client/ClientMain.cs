@@ -50,7 +50,7 @@ namespace Client
             m_graphics.PreferredBackBufferHeight = 1000;
             m_graphics.ApplyChanges();
             //MessageQueueClient.instance.initialize("localhost", 3000);
-
+             
 
             // TODO: Add your initialization logic here
             m_settings = new SettingsView();
@@ -60,7 +60,7 @@ namespace Client
             m_gameStates.Add(GameStateEnum.About, new AboutView());
             m_gameStates.Add(GameStateEnum.MainMenu, new MainMenuView());
             m_gameStates.Add(GameStateEnum.GamePlay, m_gamePlayView);
-            m_gameStates.Add(GameStateEnum.Paused, new PauseView());
+            //m_gameStates.Add(GameStateEnum.Paused, new PauseView());
             m_gameStates.Add(GameStateEnum.Settings, m_settings);
             m_gameStates.Add(GameStateEnum.HighScores, new HighScoresView());
             m_gameStates.Add(GameStateEnum.Help, m_helpView);
@@ -115,10 +115,10 @@ namespace Client
 
                 }
 
-                if (m_prevState == m_gameStates[GameStateEnum.GamePlay] && nextStateEnum == GameStateEnum.Paused)
+                /*if (m_prevState == m_gameStates[GameStateEnum.GamePlay] && nextStateEnum == GameStateEnum.Paused)
                 {
                     savedGamePlay = m_currentState;
-                }
+                }*/
 
 
 

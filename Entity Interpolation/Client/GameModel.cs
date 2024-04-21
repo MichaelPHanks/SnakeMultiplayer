@@ -28,6 +28,9 @@ namespace Client
         private ParticleSystemRenderer m_renderFoodEaten;
         private ParticleSystemRenderer m_renderDeath;
         private Entity m_playerEntity;
+        int playerScore = 2;
+        int bestPlayerPosition = int.MaxValue;
+        private int killCount = 0;
 
         private Systems.Network m_systemNetwork = new Systems.Network();
         private Dictionary<uint, List<Entity>> m_perPlayerEntities = new Dictionary<uint, List<Entity>>();
@@ -42,7 +45,7 @@ namespace Client
 
         private const int GameWorldWidth = 9600;
         private const int GameWorldHeight = 5400;
-        private bool isDead = false;
+        public bool isDead = false;
 
         private const int GameWorldViewPortWidth = 1920;
         private const int GameWorldViewPortHeight = 1080;
@@ -50,6 +53,7 @@ namespace Client
         private SoundEffect foodEaten;
         private SoundEffectInstance foodInstance;
         private AnimatedSprite bananaRenderer;
+        private Texture2D mainPanel;
 
 
         public List<Tuple<string, int>> getScores()
@@ -81,17 +85,7 @@ namespace Client
 
             }
 
-            //m_systemInterpolation.update(elapsedTime);
-           /* if (m_perPlayerEntities.Count > 0)
-            {
-                for (int i = 2; i < m_perPlayerEntities[m_playerEntity.id].Count; i++)
-                {
-                    if (m_perPlayerEntities[m_playerEntity.id][i].get<Shared.Components.TurnPoints>().turnPoints.Count < m_perPlayerEntities[m_playerEntity.id][i - 1].get<Shared.Components.TurnPoints>().turnPoints.Count)
-                    {
-                        Console.WriteLine();
-                    }
-                }
-            }*/
+           
 
 
             foreach (Entity entity in m_entities.Values)
@@ -206,6 +200,35 @@ namespace Client
             m_systemRenderer.update(elapsedTime, spriteBatch, gameWidth, gameHeight, backgroundImage, wallImage, animatedRender, font, m_perPlayerEntities, m_Scores, playerNames );
             m_renderDeath.draw(spriteBatch, m_particleSystemDeath);
             m_renderFoodEaten.draw(spriteBatch, m_particleSystemEatFood);
+            if (isDead)
+            {
+                // Render the death screen!
+                gameOverRender(spriteBatch, gameWidth, gameHeight, font);
+            }
+
+        }
+
+        public void gameOverRender(SpriteBatch spriteBatch, int gameWidth, int gameHeight, SpriteFont font)
+        {
+            // Get the total kills, total score, and highest position acheived!
+            //string infoText = $"Total Kills: {totalKills}\nTotal Score: {totalScore}\nHigh Score: {highScore}";
+            spriteBatch.Begin();
+
+            string infoText = $"Total Kills: {killCount} \n\nTotal Score: {playerScore} \n\nHighest Position: {bestPlayerPosition} \n\nPress Enter To Exit";
+
+            Vector2 textSize = font.MeasureString(infoText);
+            Rectangle boxRect = new Rectangle(gameWidth/4, gameHeight / 4 , gameWidth / 2, gameHeight / 2);
+
+            // Draw the box
+            spriteBatch.Draw(mainPanel,boxRect, Color.Black);
+
+            // Draw the text inside the box
+            spriteBatch.DrawString(font, infoText, new Vector2(boxRect.X + 50, boxRect.Y + 50), Color.White);
+
+            // Draw some more info, such as how to return to the menu
+
+            spriteBatch.End();
+
         }
 
         /// <summary>
@@ -225,6 +248,8 @@ namespace Client
             m_systemNetwork.registerScoresUpdateHandler(handleScoresMessage);
             m_systemNetwork.registerPlayerDeathHandler(handlePlayerDeath);
             m_systemNetwork.registerHandleFoodEatenHandler(handleFoodEaten);
+            m_systemNetwork.registerKillCountHandler(handleKillCount);
+            mainPanel = contentManager.Load<Texture2D>("panel");
             m_particleSystemEatFood = new ParticleSystem(
                 (int)(1000 / 1920f * 20), (int)(1000 / 1920f * 4),
                 (1000 / 1920f * 0.12f), (1000 / 1920f * 0.03f),
@@ -252,8 +277,14 @@ namespace Client
 
             return true;
         }
-
-        public void handleFoodEaten(FoodEaten message)
+        public void handleKillCount(KillCount message)
+        {
+            if (message != null)
+            {
+                killCount = message.killCount;
+            }
+        }
+            public void handleFoodEaten(FoodEaten message)
         {
 
             // Draw the particle effect for eating food
@@ -374,7 +405,7 @@ namespace Client
 
             if (message.isTail)
             {
-                entity.add(new Shared.Components.Tail());
+                entity.add(new Shared.Components.Tail(message.headId));
 
             }
             if (message.isSegment)
@@ -403,7 +434,25 @@ namespace Client
                 m_Scores.Add(new Tuple<string, int>(newScore.Key, newScore.Value));
             }
 
-            m_Scores.OrderBy(tuple => tuple.Item2).ToList();
+            m_Scores = m_Scores.OrderByDescending(tuple => tuple.Item2).ToList();
+            int bestPosition = 1;
+            foreach (Tuple<string, int> playerScores in m_Scores)
+            {
+                if (m_playerEntity != null)
+                {
+                    if (playerNames[m_playerEntity.id] == playerScores.Item1)
+                    {
+
+                        playerScore = playerScores.Item2;
+                        if (bestPosition < bestPlayerPosition)
+                        {
+                            bestPlayerPosition = bestPosition;
+                        }
+                    }
+                }
+                bestPosition += 1;
+            }
+
 
         }
         /// <summary>
@@ -468,6 +517,9 @@ namespace Client
         /// </summary>
         private void removeEntity(uint id)
         {
+
+            // Get the position of the given piece of food, if it is food.
+
             m_entities.Remove(id);
 
             m_systemKeyboardInput.remove(id);

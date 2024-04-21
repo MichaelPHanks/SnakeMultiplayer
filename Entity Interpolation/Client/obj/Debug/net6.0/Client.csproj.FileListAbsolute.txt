@@ -90,3 +90,4 @@ C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\bin\Deb
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\obj\Debug\net6.0\Client.csproj.CopyComplete
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\bin\Debug\net6.0\Content\eating-sound-effect-36186.xnb
 C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\bin\Debug\net6.0\Content\game-over-arcade-6435.xnb
+C:\Users\mhank\source\repos\SnakeMultiplayer\Entity Interpolation\Client\bin\Debug\net6.0\Content\panel.xnb
