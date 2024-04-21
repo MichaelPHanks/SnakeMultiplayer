@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Shared;
+using Shared.Components;
 using Shared.Entities;
 using Shared.Messages;
 using System;
@@ -22,7 +23,10 @@ namespace Client
         private ContentManager m_contentManager;
         private Dictionary<uint, Entity> m_entities = new Dictionary<uint, Entity>();
         private Dictionary<uint, string> playerNames = new Dictionary<uint, string>();
-
+        private ParticleSystem m_particleSystemEatFood;
+        private ParticleSystem m_particleSystemDeath;
+        private ParticleSystemRenderer m_renderFoodEaten;
+        private ParticleSystemRenderer m_renderDeath;
         private Entity m_playerEntity;
 
         private Systems.Network m_systemNetwork = new Systems.Network();
@@ -66,13 +70,14 @@ namespace Client
     /// <summary>
     /// This is where everything performs its update.
     /// </summary>
-    public void update(TimeSpan elapsedTime)
+    public void update(GameTime elapsedTime)
         {
-            
-            m_systemNetwork.update(elapsedTime, MessageQueueClient.instance.getMessages());
+            m_particleSystemEatFood.update(elapsedTime);
+            m_particleSystemDeath.update(elapsedTime);
+            m_systemNetwork.update(elapsedTime.ElapsedGameTime, MessageQueueClient.instance.getMessages());
             if (!isDead)
             {
-                m_systemKeyboardInput.update(elapsedTime);
+                m_systemKeyboardInput.update(elapsedTime.ElapsedGameTime);
 
             }
 
@@ -117,10 +122,7 @@ namespace Client
                         if (distanceToTurnPoint < 3)
 
                         {
-                            if (distanceToTurnPoint > 4)
-                            {
-                                Console.WriteLine();
-                            }
+                            
 
 
                             Tuple<Vector2, float> turnPoint = turnPoints.Dequeue();
@@ -190,7 +192,7 @@ namespace Client
 
                 foreach (Entity entity in entities)
                 {
-                    Shared.Entities.Utility.thrust(entity, elapsedTime);
+                    Shared.Entities.Utility.thrust(entity, elapsedTime.ElapsedGameTime);
 
                 }
 
@@ -202,6 +204,8 @@ namespace Client
         public void render(TimeSpan elapsedTime, SpriteBatch spriteBatch, int gameWidth, int gameHeight, Texture2D backgroundImage, Texture2D wallImage, AnimatedSprite animatedRender, SpriteFont font)
         {
             m_systemRenderer.update(elapsedTime, spriteBatch, gameWidth, gameHeight, backgroundImage, wallImage, animatedRender, font, m_perPlayerEntities, m_Scores, playerNames );
+            m_renderDeath.draw(spriteBatch, m_particleSystemDeath);
+            m_renderFoodEaten.draw(spriteBatch, m_particleSystemEatFood);
         }
 
         /// <summary>
@@ -221,6 +225,20 @@ namespace Client
             m_systemNetwork.registerScoresUpdateHandler(handleScoresMessage);
             m_systemNetwork.registerPlayerDeathHandler(handlePlayerDeath);
             m_systemNetwork.registerHandleFoodEatenHandler(handleFoodEaten);
+            m_particleSystemEatFood = new ParticleSystem(
+                (int)(1000 / 1920f * 20), (int)(1000 / 1920f * 4),
+                (1000 / 1920f * 0.12f), (1000 / 1920f * 0.03f),
+                650, 100);
+            m_renderFoodEaten = new ParticleSystemRenderer("fire");
+            m_particleSystemDeath = new ParticleSystem(
+                (int)(1000 / 1920f * 20), (int)(1000 / 1920f * 4),
+                (1000 / 1920f * 0.12f), (1000 / 1920f * 0.03f),
+                650, 100);
+            m_renderDeath = new ParticleSystemRenderer("smoke-2");
+
+            m_renderDeath.LoadContent(contentManager);
+            m_renderFoodEaten.LoadContent(contentManager);
+
             loadKeyControls();
             // Modify this to load in controls
             m_systemKeyboardInput = new Systems.KeyboardInput(new List<Tuple<Shared.Components.Input.Type, Keys>>
@@ -237,6 +255,10 @@ namespace Client
 
         public void handleFoodEaten(FoodEaten message)
         {
+
+            // Draw the particle effect for eating food
+            // For now, just do player perspective
+            m_particleSystemEatFood.foodEaten(new Vector2(500,500));
             // Play the sound!
             foodEaten.Play();
 
@@ -498,7 +520,28 @@ namespace Client
         }
         private void handlePlayerDeath(PlayerDeath message)
         {
-            
+            // Get the particle effects ready
+
+            // We need to do the conversion from here to be able to get it in the viewport
+
+            // Render regardless if its in the area!
+            float ScreenX = m_playerEntity.get<Shared.Components.Position>().position.X - 500;
+            float ScreenY = m_playerEntity.get<Shared.Components.Position>().position.Y - 500;
+            Rectangle viewPort = new Rectangle((int)(ScreenX), (int)ScreenY, 1000, 1000);
+            //(int)(position.X - ScreenX), (int)(position.Y - ScreenY), (int)size.X, (int)size.Y
+
+
+
+
+
+            List<Vector2> centers = new List<Vector2>();
+            foreach (Entity player in m_perPlayerEntities[message.id])
+            {
+                var position = player.get<Shared.Components.Position>().position;
+                var size = player.get<Shared.Components.Size>().size;
+                centers.Add(new Vector2((position.X - ScreenX), (position.Y - ScreenY)));
+            }
+            m_particleSystemDeath.playerDeath(centers);
             removeEntity(message.id);
 
             if (message.id == m_playerEntity.id)
@@ -507,6 +550,8 @@ namespace Client
 
                 isDead = true;
             }
+
+           
 
         }
 

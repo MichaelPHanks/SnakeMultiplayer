@@ -431,7 +431,7 @@ namespace Client
 
             //m_gameModel.signalKeyPressed(Keys.W);
 
-            m_gameModel.update(gameTime.ElapsedGameTime);
+            m_gameModel.update(gameTime);
             /* m_particleSystemFire.update(gameTime);
              m_particleSystemSmoke.update(gameTime);*/
 

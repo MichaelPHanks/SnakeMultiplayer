@@ -72,27 +72,18 @@ namespace Client.Systems
             // What to do here: create 'entities' (not actual entities) that are the tiles for the game!
             spriteBatch.Begin();
 
-            // Calculate the viewport:
 
             
 
-            // Render the player entity: 
-
-            // Render to the middle of the screen
-
-            // Our position in the world, need to use this to render other players (and future entities)
-
-            // NOTE: The player and enemy are slightly off in terms of rendering,
-            // so this potentially means that when we use the try catch block for the first time an entity joins the server,
-            // We are skipping sending the first update and position or something of the other players...
 
 
 
-            // ANOTHER NOTE: if we want the edges to line up nicely, we need to relate to everything as 1920 X 1080
+            
+
+
+
             if (m_entity != null)
             {
-                // Screen X = ((World X - ScreenX) / (Screen Size Width)) * (Screen Width in pixels)
-                // Screen Y = ((World Y - ScreenY) / (Screen Size Height)) *(Screen Height in pixels)
                 float ScreenX = m_entity.get<Shared.Components.Position>().position.X - 500;
                 float ScreenY = m_entity.get<Shared.Components.Position>().position.Y - 500;
 

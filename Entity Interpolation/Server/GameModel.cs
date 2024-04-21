@@ -12,11 +12,16 @@ namespace Server
 {
     public class GameModel
     {
+
+        // Need to keep track of entities that are not 'hittable'.
+        private TimeSpan notHittable = TimeSpan.FromSeconds(5);
+        private Dictionary<uint, TimeSpan> m_entitiesNotCollisionable = new Dictionary<uint, TimeSpan>();
         private HashSet<int> m_clients = new HashSet<int>();
         private Dictionary<uint, Entity> m_entities = new Dictionary<uint, Entity>();
         private Dictionary<int, uint> m_clientToEntityId = new Dictionary<int, uint>();
         private Dictionary<uint, int> m_EntityIdToClient = new Dictionary<uint, int>();
         private Dictionary<uint, List<Entity>> m_perPlayerEntities = new Dictionary<uint, List<Entity>>();
+        private Dictionary<uint, int> m_killsPerClient = new Dictionary<uint, int>();
         Systems.Network m_systemNetwork = new Server.Systems.Network();
         private const int GameWorldWidth = 5000;
         private const int GameWorldHeight = 5000;
@@ -44,6 +49,10 @@ namespace Server
 
             
             m_systemNetwork.update(elapsedTime, MessageQueueServer.instance.getMessages());
+
+            // Update not hittable entites
+            updateNonHittable(elapsedTime);
+
 
             outOfBounds();
 
@@ -81,33 +90,59 @@ namespace Server
 
         }
 
+        private void updateNonHittable(TimeSpan elapsedTime)
+        {
+            // There could be many things wrong with this
+            List<uint> removableEntities = new List<uint>();
+            foreach (KeyValuePair<uint, TimeSpan> keyValuePair in m_entitiesNotCollisionable)
+            {
+                TimeSpan timeSpan = keyValuePair.Value - elapsedTime;
+                if (timeSpan.TotalMilliseconds < 0)
+                {
+                    removableEntities.Add(keyValuePair.Key);
+                }
+                m_entitiesNotCollisionable[keyValuePair.Key] = timeSpan;
+
+            }
+
+            foreach (uint playerId in removableEntities)
+            {
+                m_entitiesNotCollisionable.Remove(playerId);
+            }
+        }
+
         private void collisionDetection()
         {
+
+            // Need to account for entities that are still invincible
             List<Entity> entitiesToRemove = new List<Entity>();
 
             // Check every single head entity to see if it collides with 
             foreach (Entity entity in m_entities.Values)
             {
-                if (entity.contains<Shared.Components.Head>())
+                if (entity.contains<Shared.Components.Head>() && !m_entitiesNotCollisionable.ContainsKey(entity.id))
                 {
                     foreach (Entity entity1 in m_entities.Values)
                     {
-                        if (entity1.contains<Shared.Components.Segment>() || entity1.contains<Shared.Components.Tail>())
+                        if ((entity1.contains<Shared.Components.Segment>()) || (entity1.contains<Shared.Components.Tail>()))
                         {
-                            if (entity1.get<Shared.Components.Segment>().headId != entity.id)
+                            if (!m_entitiesNotCollisionable.ContainsKey(entity1.get<Shared.Components.Segment>().headId))
                             {
-                                // Check if they collide
-
-                                Rectangle headRectangle = new Rectangle((int)entity.get<Shared.Components.Position>().position.X, (int)entity.get<Shared.Components.Position>().position.Y, (int)entity.get<Shared.Components.Size>().size.X, (int)entity.get<Shared.Components.Size>().size.Y);
-                                Rectangle otherRectangle = new Rectangle((int)entity1.get<Shared.Components.Position>().position.X, (int)entity1.get<Shared.Components.Position>().position.Y, (int)entity1.get<Shared.Components.Size>().size.X, (int)entity1.get<Shared.Components.Size>().size.Y);
-
-                                if (otherRectangle.Intersects(headRectangle))
+                                if (entity1.get<Shared.Components.Segment>().headId != entity.id)
                                 {
-                                    // Kill the snake
+                                    // Check if they collide
 
-                                    if (!entitiesToRemove.Contains(entity))
+                                    Rectangle headRectangle = new Rectangle((int)entity.get<Shared.Components.Position>().position.X, (int)entity.get<Shared.Components.Position>().position.Y, (int)entity.get<Shared.Components.Size>().size.X, (int)entity.get<Shared.Components.Size>().size.Y);
+                                    Rectangle otherRectangle = new Rectangle((int)entity1.get<Shared.Components.Position>().position.X, (int)entity1.get<Shared.Components.Position>().position.Y, (int)entity1.get<Shared.Components.Size>().size.X, (int)entity1.get<Shared.Components.Size>().size.Y);
+
+                                    if (otherRectangle.Intersects(headRectangle))
                                     {
-                                        entitiesToRemove.Add(entity);
+                                        // Kill the snake
+
+                                        if (!entitiesToRemove.Contains(entity))
+                                        {
+                                            entitiesToRemove.Add(entity);
+                                        }
                                     }
                                 }
                             }
@@ -151,10 +186,7 @@ namespace Server
                         if (distanceToTurnPoint < 3)
 
                         {
-                            if (distanceToTurnPoint > 4)
-                            {
-                                Console.WriteLine();
-                            }
+                            
 
 
                             Tuple<Vector2, float> turnPoint = turnPoints.Dequeue();
@@ -429,7 +461,7 @@ namespace Server
             
                 Random rand = new Random();
 
-                for (int i = foodEntities.Count; i < 1000; i++)
+                for (int i = foodEntities.Count; i < 100; i++)
                 {
                     int randomPositionX = rand.Next(0, 5001);
                     int randomPositionY = rand.Next(0, 5001);
@@ -657,7 +689,7 @@ namespace Server
             // Step 1: Tell the newly connected player about all other entities
             reportAllEntities(clientId);
 
-            // Step 2: Create an entity for the newly joined player and sent it
+            // Step 2: Create an entity for the newly joined player and send it
             //         to the newly joined client
             Entity player = Shared.Entities.Head.create("PlayerHead",messageNew.name, new System.Numerics.Vector2(GameWorldWidth / 2, GameWorldHeight / 2), 50, 0.3f, (float)Math.PI / 1000);
             addEntity(player);
@@ -666,8 +698,8 @@ namespace Server
             MessageQueueServer.instance.sendMessage(clientId, new NewEntity(player));
 
             // New Step: Make a few different snake segments.
-            
 
+            m_entitiesNotCollisionable[player.id] = notHittable;
 
             // Step 4: Let all other clients know about this new player entity
 
