@@ -85,12 +85,9 @@ namespace Client
 
             }
 
-           
-
-
             foreach (Entity entity in m_entities.Values)
             {
-                if (entity.contains<Shared.Components.Segment>())
+                if (entity.contains<Shared.Components.TurnPoints>())
                 {
                     var turnPoints = entity.get<Shared.Components.TurnPoints>().turnPoints;
                     var position = entity.get<Shared.Components.Position>();
@@ -104,40 +101,84 @@ namespace Client
 
 
                         Vector2 tempVector = new Vector2((float)x, (float)y);
-                        tempVector.X = (int)tempVector.X;
-                        tempVector.Y = (int)tempVector.Y;
+                        /* tempVector.X = (int)tempVector.X;
+                         tempVector.Y = (int)tempVector.Y;*/
 
                         // If we are within 3 points of the turnpoint, then turn
 
                         float distanceToTurnPoint = Vector2.Distance(position.position, top.Item1);
                         float secondDistanceToTurnPoint = Vector2.Distance(position.position + tempVector, top.Item1);
-
+                        if (tempVector.Y < 0 && tempVector.Y > -0.001)
+                        {
+                            tempVector.Y = 0;
+                        }
+                        if (tempVector.X < 0 && tempVector.X > -0.001)
+                        {
+                            tempVector.X = 0;
+                        }
 
                         if (distanceToTurnPoint < 3)
 
                         {
-                            
-
-
                             Tuple<Vector2, float> turnPoint = turnPoints.Dequeue();
                             Vector2 newOrientation = new Vector2((float)Math.Cos(turnPoint.Item2), (float)Math.Sin(turnPoint.Item2));
-
-                            newOrientation.X = (int)newOrientation.X;
-                            newOrientation.Y = (int)newOrientation.Y;
+                            if (newOrientation.Y < 0 && newOrientation.Y > -0.001)
+                            {
+                                newOrientation.Y = 0;
+                            }
+                            if (newOrientation.X < 0 && newOrientation.X > -0.001)
+                            {
+                                newOrientation.X = 0;
+                            }
+                            /*newOrientation.X = (int)newOrientation.X;
+                            newOrientation.Y = (int)newOrientation.Y;*/
 
                             Vector2 difference = (position.position - top.Item1) * tempVector * newOrientation;
+                            if (tempVector.X == 0 && tempVector.Y > 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) > 0)
+                            {
+                                difference.Y = (float)((position.position - top.Item1).Y / Math.Sqrt(2) * (Math.Sign(newOrientation.Y)));
+                                difference.X = (float)((position.position - top.Item1).Y / Math.Sqrt(2) * (Math.Sign(newOrientation.X)));
+                            }
+                            if (tempVector.X == 0 && tempVector.Y < 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) > 0)
+                            {
+                                difference.Y = (float)((position.position - top.Item1).Y / Math.Sqrt(2) * -(Math.Sign(newOrientation.Y)));
+                                difference.X = (float)((position.position - top.Item1).Y / Math.Sqrt(2) * -(Math.Sign(newOrientation.X)));
+                            }
+                            else if (tempVector.X > 0 && tempVector.Y == 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) > 0)
+                            {
+                                difference.Y = (float)((position.position - top.Item1).X / Math.Sqrt(2) * (Math.Sign(newOrientation.Y)));
+                                difference.X = (float)((position.position - top.Item1).X / Math.Sqrt(2) * (Math.Sign(newOrientation.X)));
+                            }
+                            else if (tempVector.X < 0 && tempVector.Y == 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) > 0)
+                            {
+                                difference.Y = (float)((position.position - top.Item1).X / Math.Sqrt(2) * -(Math.Sign(newOrientation.Y)));
+                                difference.X = (float)((position.position - top.Item1).X / Math.Sqrt(2) * -(Math.Sign(newOrientation.X)));
+                            }
+                            else if (Math.Abs(tempVector.X) > 0 && Math.Abs(tempVector.Y) > 0 && Math.Abs(newOrientation.X) == 0 && Math.Abs(newOrientation.Y) > 0)
+                            {
+                                difference.Y = (float)((position.position - top.Item1).Y * Math.Sqrt(2));
+
+                            }
+                            else if (Math.Abs(tempVector.X) > 0 && Math.Abs(tempVector.Y) > 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) == 0)
+                            {
+                                difference.X = (float)((position.position - top.Item1).X * Math.Sqrt(2));
+                            }
+
+                            // Angle to angle
+                            else if (Math.Abs(tempVector.X) > 0 && Math.Abs(tempVector.Y) > 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) > 0)
+                            {
+                                difference.X = (position.position - top.Item1).X * (Math.Sign(newOrientation.X));
+                                difference.Y = (position.position - top.Item1).Y * (Math.Sign(newOrientation.Y));
+                            }
 
 
-                            if (difference.X == 0 && difference.Y == 0)
+                            else if (difference.X == 0 && difference.Y == 0)
                             {
                                 difference = new Vector2((position.position.Y - top.Item1.Y), (position.position.X - top.Item1.X)) * new Vector2(tempVector.Y, tempVector.X) * newOrientation;
                             }
 
                             position.orientation = turnPoint.Item2;
-
                             position.position = top.Item1 + difference;
-
-
 
 
 
@@ -156,20 +197,62 @@ namespace Client
 
                             Tuple<Vector2, float> turnPoint = turnPoints.Dequeue();
                             Vector2 newOrientation = new Vector2((float)Math.Cos(turnPoint.Item2), (float)Math.Sin(turnPoint.Item2));
-
-                            newOrientation.X = (int)newOrientation.X;
-                            newOrientation.Y = (int)newOrientation.Y;
+                            if (newOrientation.Y < 0 && newOrientation.Y > -0.001)
+                            {
+                                newOrientation.Y = 0;
+                            }
+                            if (newOrientation.X < 0 && newOrientation.X > -0.001)
+                            {
+                                newOrientation.X = 0;
+                            }
+                            /*newOrientation.X = (int)newOrientation.X;
+                            newOrientation.Y = (int)newOrientation.Y;*/
 
                             Vector2 difference = (position.position - top.Item1) * tempVector * newOrientation;
+                            if (tempVector.X == 0 && tempVector.Y > 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) > 0)
+                            {
+                                difference.Y = (float)((position.position - top.Item1).Y / Math.Sqrt(2) * (Math.Sign(newOrientation.Y)));
+                                difference.X = (float)((position.position - top.Item1).Y / Math.Sqrt(2) * (Math.Sign(newOrientation.X)));
+                            }
+                            if (tempVector.X == 0 && tempVector.Y < 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) > 0)
+                            {
+                                difference.Y = (float)((position.position - top.Item1).Y / Math.Sqrt(2) * -(Math.Sign(newOrientation.Y)));
+                                difference.X = (float)((position.position - top.Item1).Y / Math.Sqrt(2) * -(Math.Sign(newOrientation.X)));
+                            }
+                            else if (tempVector.X > 0 && tempVector.Y == 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) > 0)
+                            {
+                                difference.Y = (float)((position.position - top.Item1).X / Math.Sqrt(2) * (Math.Sign(newOrientation.Y)));
+                                difference.X = (float)((position.position - top.Item1).X / Math.Sqrt(2) * (Math.Sign(newOrientation.X)));
+                            }
+                            else if (tempVector.X < 0 && tempVector.Y == 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) > 0)
+                            {
+                                difference.Y = (float)((position.position - top.Item1).X / Math.Sqrt(2) * -(Math.Sign(newOrientation.Y)));
+                                difference.X = (float)((position.position - top.Item1).X / Math.Sqrt(2) * -(Math.Sign(newOrientation.X)));
+                            }
+                            else if (Math.Abs(tempVector.X) > 0 && Math.Abs(tempVector.Y) > 0 && Math.Abs(newOrientation.X) == 0 && Math.Abs(newOrientation.Y) > 0)
+                            {
+                                difference.Y = (float)((position.position - top.Item1).Y * Math.Sqrt(2));
+
+                            }
+                            else if (Math.Abs(tempVector.X) > 0 && Math.Abs(tempVector.Y) > 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) == 0)
+                            {
+                                difference.X = (float)((position.position - top.Item1).X * Math.Sqrt(2));
+                            }
+
+                            // Angle to angle
+                            else if (Math.Abs(tempVector.X) > 0 && Math.Abs(tempVector.Y) > 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) > 0)
+                            {
+                                difference.X = (position.position - top.Item1).X * (Math.Sign(newOrientation.X));
+                                difference.Y = (position.position - top.Item1).Y * (Math.Sign(newOrientation.Y));
+                            }
 
 
-                            if (difference.X == 0 && difference.Y == 0)
+                            else if (difference.X == 0 && difference.Y == 0)
                             {
                                 difference = new Vector2((position.position.Y - top.Item1.Y), (position.position.X - top.Item1.X)) * new Vector2(tempVector.Y, tempVector.X) * newOrientation;
                             }
 
                             position.orientation = turnPoint.Item2;
-
                             position.position = top.Item1 + difference;
 
                         }
@@ -191,6 +274,10 @@ namespace Client
                 }
 
             }
+
+
+
+
 
 
         }
@@ -491,6 +578,14 @@ namespace Client
                 m_perPlayerEntities[entity.get<Shared.Components.Segment>().headId].Add(entity);
                 /*m_perPlayerEntities[entity.get<Shared.Components.Segment>().headId].Sort();*/
 
+            }
+            else if (entity.contains<Shared.Components.Tail>())
+            {
+                if (!m_perPlayerEntities.ContainsKey(entity.get<Shared.Components.Tail>().headId))
+                {
+                    m_perPlayerEntities[entity.get<Shared.Components.Tail>().headId] = new List<Entity>();
+                }
+                m_perPlayerEntities[entity.get<Shared.Components.Tail>().headId].Add(entity);
             }
 
             // Obtain our own player entity. This is for processing stuff based on us!

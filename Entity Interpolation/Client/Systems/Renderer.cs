@@ -130,7 +130,7 @@ namespace Client.Systems
 
                     foreach (Entity entity in entities)
                     {
-                        if ((entity.contains<Shared.Components.Head>() || entity.contains<Shared.Components.Segment>()) && entity.isAlive)
+                        if ((entity.contains<Shared.Components.Head>() || entity.contains<Shared.Components.Segment>() || entity.contains<Shared.Components.Tail>()) && entity.isAlive)
                         {
 
 
@@ -199,7 +199,7 @@ namespace Client.Systems
 
                 foreach (Entity entity in m_entities.Values)
                 {
-                    if (!entity.contains<Shared.Components.Head>() && !entity.contains<Shared.Components.Segment>())
+                    if (!entity.contains<Shared.Components.Head>() && !entity.contains<Shared.Components.Segment>() && !entity.contains<Shared.Components.Tail>())
                     {
 
                         var position = entity.get<Shared.Components.Position>().position;

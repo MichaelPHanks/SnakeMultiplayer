@@ -73,6 +73,7 @@ namespace Shared.Messages
             if (entity.contains<Components.Tail>())
             {
                 this.isTail = true;
+                this.headId = entity.get<Components.Tail>().headId;
             }
 
             if (entity.contains<Components.TurnPoints>())
@@ -191,6 +192,11 @@ namespace Shared.Messages
             data.AddRange(BitConverter.GetBytes(isHead));
             
             data.AddRange(BitConverter.GetBytes(isTail));
+            if (isTail)
+            {
+                data.AddRange(BitConverter.GetBytes(headId));
+
+            }
             data.AddRange(BitConverter.GetBytes(hasTurnPoints));
 
             if (hasTurnPoints)
@@ -306,7 +312,11 @@ namespace Shared.Messages
             offset += sizeof(bool);
             this.isTail = BitConverter.ToBoolean(data, offset);
             offset += sizeof(bool);
-
+            if (isTail)
+            {
+                this.headId = BitConverter.ToUInt32(data, offset);
+                offset += sizeof(UInt32);
+            }
 
             this.hasTurnPoints = BitConverter.ToBoolean(data, offset);
             offset += sizeof(bool);

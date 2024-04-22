@@ -62,7 +62,6 @@ namespace Client.Systems
                                 {
                                     inputs.Add(Shared.Components.Input.Type.RotateTopRight);
                                 }
-                                break;
                             }
                             if (firstType == Shared.Components.Input.Type.RotateUp && secondType == Shared.Components.Input.Type.RotateLeft)
                             {
@@ -70,7 +69,6 @@ namespace Client.Systems
                                 {
                                     inputs.Add(Shared.Components.Input.Type.RotateTopLeft);
                                 }
-                                break;
                             }
                             if (firstType == Shared.Components.Input.Type.RotateDown && secondType == Shared.Components.Input.Type.RotateRight)
                             {
@@ -78,7 +76,6 @@ namespace Client.Systems
                                 {
                                     inputs.Add(Shared.Components.Input.Type.RotateBottomRight);
                                 }
-                                break;
                             }
                             if (firstType == Shared.Components.Input.Type.RotateDown && secondType == Shared.Components.Input.Type.RotateLeft)
                             {
@@ -86,7 +83,6 @@ namespace Client.Systems
                                 {
                                     inputs.Add(Shared.Components.Input.Type.RotateBottomLeft);
                                 }
-                                break;
                             }
 
 
@@ -98,7 +94,6 @@ namespace Client.Systems
                                 {
                                     inputs.Add(Shared.Components.Input.Type.RotateTopRight);
                                 }
-                                break;
                             }
                             if (firstType == Shared.Components.Input.Type.RotateLeft && secondType == Shared.Components.Input.Type.RotateUp)
                             {
@@ -106,7 +101,6 @@ namespace Client.Systems
                                 {
                                     inputs.Add(Shared.Components.Input.Type.RotateTopLeft);
                                 }
-                                break;
                             }
                             if (firstType == Shared.Components.Input.Type.RotateRight && secondType == Shared.Components.Input.Type.RotateDown)
                             {
@@ -114,7 +108,6 @@ namespace Client.Systems
                                 {
                                     inputs.Add(Shared.Components.Input.Type.RotateBottomRight);
                                 }
-                                break;
                             }
                             if (firstType == Shared.Components.Input.Type.RotateLeft && secondType == Shared.Components.Input.Type.RotateDown)
                             {
@@ -122,7 +115,6 @@ namespace Client.Systems
                                 {
                                     inputs.Add(Shared.Components.Input.Type.RotateBottomLeft);
                                 }
-                                break;
                             }
 
 

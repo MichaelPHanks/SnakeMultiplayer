@@ -133,6 +133,24 @@ namespace Server.Systems
                                         }
 
                                     }
+                                    else if (entity1.contains<Shared.Components.Tail>())
+                                    {
+                                        var headId = entity1.get<Shared.Components.Tail>().headId;
+                                        position1 = entity.get<Shared.Components.Position>().position;
+
+                                        if (headId == message.entityId)
+                                        {
+
+                                            // Add a turn point to the segment.
+                                            canSend = true;
+                                            var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
+                                            turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
+                                            //m_reportThese.Add(entity1.id);
+
+                                            // m_reportThese.Add(entity1.id);
+
+                                        }
+                                    }
                                 }
                                 if (canSend)
                                 {
@@ -177,6 +195,24 @@ namespace Server.Systems
                                         }
 
                                     }
+                                    else if (entity1.contains<Shared.Components.Tail>())
+                                    {
+                                        var headId = entity1.get<Shared.Components.Tail>().headId;
+                                        position1 = entity.get<Shared.Components.Position>().position;
+
+                                        if (headId == message.entityId)
+                                        {
+
+                                            // Add a turn point to the segment.
+                                            canSend = true;
+                                            var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
+                                            turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
+                                            //m_reportThese.Add(entity1.id);
+
+                                            // m_reportThese.Add(entity1.id);
+
+                                        }
+                                    }
                                 }
                                 if (canSend)
                                 {
@@ -215,6 +251,24 @@ namespace Server.Systems
                                         }
 
                                     }
+                                    else if (entity1.contains<Shared.Components.Tail>())
+                                    {
+                                        var headId = entity1.get<Shared.Components.Tail>().headId;
+                                        position1 = entity.get<Shared.Components.Position>().position;
+
+                                        if (headId == message.entityId)
+                                        {
+
+                                            // Add a turn point to the segment.
+                                            canSend = true;
+                                            var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
+                                            turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
+                                            //m_reportThese.Add(entity1.id);
+
+                                            // m_reportThese.Add(entity1.id);
+
+                                        }
+                                    }
                                 }
                                 if (canSend)
                                 {
@@ -251,6 +305,24 @@ namespace Server.Systems
 
                                         }
 
+                                    }
+                                    else if (entity1.contains<Shared.Components.Tail>())
+                                    {
+                                        var headId = entity1.get<Shared.Components.Tail>().headId;
+                                        position1 = entity.get<Shared.Components.Position>().position;
+
+                                        if (headId == message.entityId)
+                                        {
+
+                                            // Add a turn point to the segment.
+                                            canSend = true;
+                                            var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
+                                            turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
+                                            //m_reportThese.Add(entity1.id);
+
+                                            // m_reportThese.Add(entity1.id);
+
+                                        }
                                     }
                                 }
                                 if (canSend)
@@ -294,6 +366,24 @@ namespace Server.Systems
                                         }
 
                                     }
+                                    else if (entity1.contains<Shared.Components.Tail>())
+                                    {
+                                        var headId = entity1.get<Shared.Components.Tail>().headId;
+                                        position1 = entity.get<Shared.Components.Position>().position;
+
+                                        if (headId == message.entityId)
+                                        {
+
+                                            // Add a turn point to the segment.
+                                            canSend = true;
+                                            var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
+                                            turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
+                                            //m_reportThese.Add(entity1.id);
+
+                                            // m_reportThese.Add(entity1.id);
+
+                                        }
+                                    }
                                 }
                                 if (canSend)
                                 {
@@ -334,6 +424,24 @@ namespace Server.Systems
 
                                         }
 
+                                    }
+                                    else if (entity1.contains<Shared.Components.Tail>())
+                                    {
+                                        var headId = entity1.get<Shared.Components.Tail>().headId;
+                                        position1 = entity.get<Shared.Components.Position>().position;
+
+                                        if (headId == message.entityId)
+                                        {
+
+                                            // Add a turn point to the segment.
+                                            canSend = true;
+                                            var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
+                                            turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
+                                            //m_reportThese.Add(entity1.id);
+
+                                            // m_reportThese.Add(entity1.id);
+
+                                        }
                                     }
                                 }
                                 if (canSend)
@@ -376,6 +484,24 @@ namespace Server.Systems
                                         }
 
                                     }
+                                    else if (entity1.contains<Shared.Components.Tail>())
+                                    {
+                                        var headId = entity1.get<Shared.Components.Tail>().headId;
+                                        position1 = entity.get<Shared.Components.Position>().position;
+
+                                        if (headId == message.entityId)
+                                        {
+
+                                            // Add a turn point to the segment.
+                                            canSend = true;
+                                            var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
+                                            turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
+                                            //m_reportThese.Add(entity1.id);
+
+                                            // m_reportThese.Add(entity1.id);
+
+                                        }
+                                    }
                                 }
                                 if (canSend)
                                 {
@@ -417,6 +543,24 @@ namespace Server.Systems
 
                                         }
 
+                                    }
+                                    else if (entity1.contains<Shared.Components.Tail>())
+                                    {
+                                        var headId = entity1.get<Shared.Components.Tail>().headId;
+                                        position1 = entity.get<Shared.Components.Position>().position;
+
+                                        if (headId == message.entityId)
+                                        {
+
+                                            // Add a turn point to the segment.
+                                            canSend = true;
+                                            var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
+                                            turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
+                                            //m_reportThese.Add(entity1.id);
+
+                                            // m_reportThese.Add(entity1.id);
+
+                                        }
                                     }
                                 }
                                 if (canSend)
