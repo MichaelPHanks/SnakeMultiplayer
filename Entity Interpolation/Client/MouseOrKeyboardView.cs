@@ -44,12 +44,12 @@ namespace Client
         private enum MenuState
         {
           
-            Mouse,
+            //Mouse,
             KeyBoard,
             None,
         }
-        private MenuState m_currentSelection = MenuState.Mouse;
-        private MenuState m_prevSelection = MenuState.Mouse;
+        private MenuState m_currentSelection = MenuState.KeyBoard;
+        private MenuState m_prevSelection = MenuState.KeyBoard;
 
 
         public override void loadContent(ContentManager contentManager)
@@ -82,7 +82,7 @@ namespace Client
             }
             if (!m_waitForKeyRelease && isEnterUp)
             {
-                if (Keyboard.GetState().IsKeyDown(Keys.Down))
+               /* if (Keyboard.GetState().IsKeyDown(Keys.Down))
                 {
                     if (m_currentSelection == MenuState.KeyBoard)
                     {
@@ -106,8 +106,8 @@ namespace Client
                     }
                     m_waitForKeyRelease = true;
                 }
-
-               
+*/
+             /*  
                 if (Keyboard.GetState().IsKeyDown(Keys.Enter) && m_currentSelection == MenuState.Mouse)
                 {
                     isESCDown = true;
@@ -115,7 +115,7 @@ namespace Client
                     canUseMouse = false;
                     isMouse = true;
                     return GameStateEnum.Tutorial;
-                }
+                }*/
                 if (Keyboard.GetState().IsKeyDown(Keys.Enter) && m_currentSelection == MenuState.KeyBoard)
                 {
                     isESCDown = true;
@@ -135,7 +135,7 @@ namespace Client
             if (canUseMouse)
             {
                 
-                if (mouse.Contains(Mouse.GetState().Position))
+              /*  if (mouse.Contains(Mouse.GetState().Position))
                 {
                     if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                     {
@@ -148,8 +148,8 @@ namespace Client
                     }
                     m_currentSelection = MenuState.Mouse;
 
-                }
-                else if (keyboard.Contains(Mouse.GetState().Position))
+                }*/
+                 if (keyboard.Contains(Mouse.GetState().Position))
                 {
                     if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                     {

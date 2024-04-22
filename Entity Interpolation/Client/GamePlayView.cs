@@ -16,6 +16,7 @@ using Microsoft.Xna.Framework.Media;
 using System.Diagnostics;
 using Shared.Entities;
 using Shared;
+using System.Xml;
 
 namespace Client
 {
@@ -242,6 +243,38 @@ namespace Client
 
             int totalDone = 0;
             float buffer = 0f;
+         /*   Rectangle panelRectangle = new Rectangle((int)(gameWidth - gameWidth / 6 - 100), 100, (int)gameWidth / 6, (int)gameHeight / 4);
+            spriteBatch.Draw(sidePanel, panelRectangle, Color.White);
+            string playerScoreText = "LEADERBOARD\n\n";
+            int playerPosition = 1;
+            foreach (Tuple<string, int> playerScore in gameScores)
+            {
+                if (playerNames[m_entity.id] == playerScore.Item1)
+                {
+                    // Render the players score
+                    playerScoreText += $"{playerPosition}. {playerScore.Item2.ToString()} \n";
+                    playerPosition += 1;
+                    *//*  float scale = 2;
+                      Vector2 stringSize1 = font.MeasureString(playerScore.Item2.ToString()) * scale;
+                      spriteBatch.DrawString(
+                      font,
+                      playerScore.Item2.ToString(),
+                                new Vector2((float)gameWidth /2f - stringSize1.X / 2,
+                (float)gameHeight / 4f - stringSize1.Y),
+                                Color.White,
+                                0,
+                                Vector2.Zero,
+                                scale,
+                                SpriteEffects.None,
+                                0);
+*//*
+                }
+            }
+            // Render the high scores:
+            spriteBatch.DrawString(font, playerScoreText, new Vector2(panelRectangle.X + 50, panelRectangle.Y + 50), Color.White);
+
+*/
+
             // Draw the top players leaderboard in the top right.
             foreach (Tuple<string, int> score in m_gameModel.getScores())
             {

@@ -24,7 +24,7 @@ namespace Client.Systems
 
         public override void update(TimeSpan elapsedTime) { }
 
-        public void update(TimeSpan elapsedTime, SpriteBatch spriteBatch, double gameWidth, double gameHeight, Texture2D backgroundImage, Texture2D wallImage, AnimatedSprite animatedRenderer, SpriteFont font, Dictionary<uint, List<Entity>> perPlayerEntities, List<Tuple<string, int>> gameScores, Dictionary<uint, string> playerNames)
+        public void update(TimeSpan elapsedTime, SpriteBatch spriteBatch, double gameWidth, double gameHeight, Texture2D backgroundImage, Texture2D wallImage, AnimatedSprite animatedRenderer, SpriteFont font, Dictionary<uint, List<Entity>> perPlayerEntities, List<Tuple<string, int>> gameScores, Dictionary<uint, string> playerNames, Texture2D sidePanel)
         {
 
             // Create all of the rectangles:
@@ -227,8 +227,8 @@ namespace Client.Systems
 
 
                 }
-
-
+                // Render the background deal
+              
                 foreach (Tuple<string, int> playerScore in gameScores)
                 {
                     if (playerNames[m_entity.id] == playerScore.Item1)

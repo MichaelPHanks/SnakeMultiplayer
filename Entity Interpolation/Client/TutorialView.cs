@@ -36,15 +36,15 @@ namespace Client
 
         private enum MenuState
         {
-            Settings,
+            /*Settings,
             Help,
             Resume,
-            Menu,
+            Menu,*/
             GamePlay,
             None,
         }
-        private MenuState m_currentSelection = MenuState.Settings;
-        private MenuState m_prevSelection = MenuState.Settings;
+        private MenuState m_currentSelection = MenuState.GamePlay;
+        private MenuState m_prevSelection = MenuState.GamePlay;
 
 
         public override void loadContent(ContentManager contentManager)
@@ -77,7 +77,7 @@ namespace Client
             }
             if (!m_waitForKeyRelease && isEnterUp)
             {
-                if (Keyboard.GetState().IsKeyDown(Keys.Down))
+               /* if (Keyboard.GetState().IsKeyDown(Keys.Down))
                 {
                     if (m_currentSelection == MenuState.Menu)
                     {
@@ -100,9 +100,9 @@ namespace Client
                         m_currentSelection--;
                     }
                     m_waitForKeyRelease = true;
-                }
+                }*/
 
-                if (Keyboard.GetState().IsKeyDown(Keys.Enter) && m_currentSelection == MenuState.Menu)
+                /*if (Keyboard.GetState().IsKeyDown(Keys.Enter) && m_currentSelection == MenuState.Menu)
                 {
                     isESCDown = true;
                     isEnterUp = false;
@@ -133,7 +133,7 @@ namespace Client
                     canUseMouse = false;
 
                     return GameStateEnum.GamePlay;
-                }
+                }*/
                 if (Keyboard.GetState().IsKeyDown(Keys.Enter) && m_currentSelection == MenuState.GamePlay)
                 {
                     isESCDown = true;
@@ -151,7 +151,7 @@ namespace Client
 
             if (canUseMouse)
             {
-                if (settings.Contains(Mouse.GetState().Position))
+              /*  if (settings.Contains(Mouse.GetState().Position))
                 {
                     if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                     {
@@ -178,8 +178,8 @@ namespace Client
                     }
                     m_currentSelection = MenuState.Help;
 
-                }
-                else if (resume.Contains(Mouse.GetState().Position))
+                }*/
+                /*else if (resume.Contains(Mouse.GetState().Position))
                 {
                     if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                     {
@@ -204,8 +204,8 @@ namespace Client
                     }
                     m_currentSelection = MenuState.Menu;
 
-                }
-                else if (GamePlay.Contains(Mouse.GetState().Position))
+                }*/
+                if (GamePlay.Contains(Mouse.GetState().Position))
                 {
                     if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                     {

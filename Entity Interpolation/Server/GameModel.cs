@@ -231,8 +231,28 @@ namespace Server
                             {
                                 newOrientation.X = 0;
                             }
+                            // Calculate displacement vector from last turn point to current segment
+                            /*     double dx = segmentPosition.x - lastTurnPoint.x;
+                                 double dy = segmentPosition.y - lastTurnPoint.y;
+
+                                 // Calculate angle difference between old and new angle
+                                 double angleDifference = newAngle - oldAngle;
+
+                                 // Calculate distance along path in x and y coordinates using trigonometry
+                                 double distanceX = dx * Math.Cos(angleDifference * (Math.PI / 180)) - dy * Math.Sin(angleDifference * (Math.PI / 180));
+                                 double distanceY = dx * Math.Sin(angleDifference * (Math.PI / 180)) + dy * Math.Cos(angleDifference * (Math.PI / 180));
+
+                                 return new Vector2(distanceX, distanceY);*/
+
+                            double dx = position.position.X - turnPoint.Item1.X;
+                            double dy = position.position.Y - turnPoint.Item1.Y;
+                            double angleDifference = turnPoint.Item2 - position.orientation;
+
+                            double distanceX = dx * Math.Cos(angleDifference) - dy * Math.Sin(angleDifference);
+                            double distanceY = dx * Math.Sin(angleDifference) + dy * Math.Cos(angleDifference);
+                            Vector2 difference = new Vector2((float)distanceX, (float)distanceY);
                             /*newOrientation.X = (int)newOrientation.X;
-                            newOrientation.Y = (int)newOrientation.Y;*/
+                          *//*  newOrientation.Y = (int)newOrientation.Y;*//*
 
                             Vector2 difference = (position.position - top.Item1) * tempVector * newOrientation;
                             if (tempVector.X == 0 && tempVector.Y > 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) > 0)
@@ -276,7 +296,7 @@ namespace Server
                             else if (difference.X == 0 && difference.Y == 0)
                             {
                                 difference = new Vector2((position.position.Y - top.Item1.Y), (position.position.X - top.Item1.X)) * new Vector2(tempVector.Y, tempVector.X) * newOrientation;
-                            }
+                            }*/
 
                             position.orientation = turnPoint.Item2;
                             position.position = top.Item1 + difference;
@@ -308,12 +328,34 @@ namespace Server
                             }
                             /*newOrientation.X = (int)newOrientation.X;
                             newOrientation.Y = (int)newOrientation.Y;*/
+                            // Calculate displacement vector from last turn point to current segment
+                            /*     double dx = segmentPosition.x - lastTurnPoint.x;
+                                 double dy = segmentPosition.y - lastTurnPoint.y;
+
+                                 // Calculate angle difference between old and new angle
+                                 double angleDifference = newAngle - oldAngle;
+
+                                 // Calculate distance along path in x and y coordinates using trigonometry
+                                 double distanceX = dx * Math.Cos(angleDifference * (Math.PI / 180)) - dy * Math.Sin(angleDifference * (Math.PI / 180));
+                                 double distanceY = dx * Math.Sin(angleDifference * (Math.PI / 180)) + dy * Math.Cos(angleDifference * (Math.PI / 180));
+
+                                 return new Vector2(distanceX, distanceY);*/
+
+                            double dx = position.position.X - turnPoint.Item1.X;
+                            double dy = position.position.Y - turnPoint.Item1.Y;
+                            double angleDifference = turnPoint.Item2 - position.orientation;
+
+                            double distanceX = dx * Math.Cos(angleDifference) - dy * Math.Sin(angleDifference);
+                            double distanceY = dx * Math.Sin(angleDifference) + dy * Math.Cos(angleDifference);
+                            Vector2 difference = new Vector2((float)distanceX, (float)distanceY);
+                            /*newOrientation.X = (int)newOrientation.X;
+                          *//*  newOrientation.Y = (int)newOrientation.Y;*//*
 
                             Vector2 difference = (position.position - top.Item1) * tempVector * newOrientation;
                             if (tempVector.X == 0 && tempVector.Y > 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) > 0)
                             {
-                                difference.Y = (float)((position.position - top.Item1).Y / Math.Sqrt(2) * (Math.Sign(newOrientation.Y)));
-                                difference.X = (float)((position.position - top.Item1).Y / Math.Sqrt(2) * (Math.Sign(newOrientation.X)));
+                                difference.Y = (float)((position.position - top.Item1).Y/ Math.Sqrt(2) * (Math.Sign(newOrientation.Y)));
+                                difference.X = (float)((position.position - top.Item1).Y / Math.Sqrt(2) *(Math.Sign(newOrientation.X)));
                             }
                             if (tempVector.X == 0 && tempVector.Y < 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) > 0)
                             {
@@ -351,10 +393,10 @@ namespace Server
                             else if (difference.X == 0 && difference.Y == 0)
                             {
                                 difference = new Vector2((position.position.Y - top.Item1.Y), (position.position.X - top.Item1.X)) * new Vector2(tempVector.Y, tempVector.X) * newOrientation;
-                            }
+                            }*/
 
                             position.orientation = turnPoint.Item2;
-                            position.position = top.Item1 + difference;         
+                            position.position = top.Item1 + difference;
 
                         }
 
@@ -468,11 +510,12 @@ namespace Server
                             }
                             Queue<Tuple<Vector2, float>> turnPointsTemp = new Queue<Tuple<Vector2, float>>(m_perPlayerEntities[playerEntity.id].Last().get<Shared.Components.TurnPoints>().turnPoints);
 
-                            Entity newSegment = Shared.Entities.Segment.create("PlayerBody", prevPosition + direction, playerSize.Y, 0.3f, 1, turnPointsTemp, lastOrientation, playerEntity.id);
+                            Entity newSegment = Shared.Entities.Segment.create("PlayerBody", prevPosition, playerSize.Y, 0.3f, 1, turnPointsTemp, lastOrientation, playerEntity.id);
                             entityToAdd.Add(newSegment.id, newSegment);
 
                             clientsNewSegments.Add(playerEntity.id);
-                            m_perPlayerEntities[playerEntity.id].Add(newSegment);
+                            m_perPlayerEntities[playerEntity.id][m_perPlayerEntities[playerEntity.id].Count - 1].get<Shared.Components.Position>().position += direction;
+                            m_perPlayerEntities[playerEntity.id].Insert(m_perPlayerEntities[playerEntity.id].Count - 1,newSegment);
 
                             // How will we know which entity we are dealing with and what their tail is? Or even their segments?
                             //Entity yeah = Shared.Entities.Segment.create()
