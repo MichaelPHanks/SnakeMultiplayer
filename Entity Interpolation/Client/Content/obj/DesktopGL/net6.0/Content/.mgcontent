@@ -16,20 +16,15 @@
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/EnemyHead.png</File>
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/EnemyTail.png</File>
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/fire.png</File>
-    <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/flbb_3udr_220615.jpg</File>
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/game-over-arcade-6435.mp3</File>
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/handpaintedwall2.png</File>
-    <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/levelClearEffect.mp3</File>
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/little_robot_sound_factory_multimedia_Click_Electronic_14.mp3</File>
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/MainBackground.jpg</File>
-    <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/mixkit-arcade-game-explosion-2759.mp3</File>
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/NotMainBackground.png</File>
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/panel.png</File>
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/PlayerBody.png</File>
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/PlayerHead.png</File>
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/PlayerTail.png</File>
-    <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/rocketShip.png</File>
-    <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/saturnCool.jpg</File>
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/smartsound_TRANSPORTATION_SPACE_Spaceshuttle_Rocket_Full_Power_Steady_01.mp3</File>
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/smoke-2.png</File>
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/smoke.jpg</File>
@@ -44,11 +39,6 @@
     <File>Fonts/menu.spritefont</File>
     <File>Fonts/selectedVoiceActivatedFont.spritefont</File>
     <File>Fonts/voicActivatedFont.spritefont</File>
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

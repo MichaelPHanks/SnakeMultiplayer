@@ -126,18 +126,6 @@
 /processorParam:TextureFormat=Color
 /build:fire.png
 
-#begin flbb_3udr_220615.jpg
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:flbb_3udr_220615.jpg
-
 #begin game-over-arcade-6435.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
@@ -156,12 +144,6 @@
 /processorParam:TextureFormat=Color
 /build:handpaintedwall2.png
 
-#begin levelClearEffect.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:levelClearEffect.mp3
-
 #begin little_robot_sound_factory_multimedia_Click_Electronic_14.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
@@ -179,12 +161,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:MainBackground.jpg
-
-#begin mixkit-arcade-game-explosion-2759.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:mixkit-arcade-game-explosion-2759.mp3
 
 #begin NotMainBackground.png
 /importer:TextureImporter
@@ -245,30 +221,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:PlayerTail.png
-
-#begin rocketShip.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:rocketShip.png
-
-#begin saturnCool.jpg
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:saturnCool.jpg
 
 #begin smartsound_TRANSPORTATION_SPACE_Spaceshuttle_Rocket_Full_Power_Steady_01.mp3
 /importer:Mp3Importer
