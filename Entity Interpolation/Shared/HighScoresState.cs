@@ -36,7 +36,7 @@ namespace Shared
         public void addHighScore(Tuple<int, DateTime> score)
         {
             HighScores.Add(score);
-            HighScores = HighScores.OrderBy(tuple => tuple.Item1).ToList();
+            HighScores = HighScores.OrderByDescending(tuple => tuple.Item1).ToList();
 
             if (HighScores.Count > 5)
             {

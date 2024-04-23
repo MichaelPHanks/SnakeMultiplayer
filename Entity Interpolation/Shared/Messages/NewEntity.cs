@@ -79,7 +79,8 @@ namespace Shared.Messages
             if (entity.contains<Components.TurnPoints>())
             {
                 this.hasTurnPoints = true;
-                this.turnPoints = entity.get<Components.TurnPoints>().turnPoints;
+                Queue<Tuple<Vector2, float>> tempPoints = new Queue<Tuple<Vector2, float>>(entity.get<Shared.Components.TurnPoints>().turnPoints);
+                this.turnPoints = tempPoints;
             }
 
             else 

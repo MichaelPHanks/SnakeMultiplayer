@@ -77,20 +77,16 @@ namespace Client
 
             // How to play : Top of screen
             float bottom = drawMenuItem(m_font, "How To Play", m_graphics.PreferredBackBufferHeight / 1080f * 100f,  Color.Black);
-            bottom = drawMenuItem(m_font, "Safely Land Under These Conditions: ", bottom + stringSize.Y, Color.Black);
-            bottom = drawMenuItem(m_font, " -- Angle Between 355 And 5 Degrees -- ", bottom, Color.Black);
+            bottom = drawMenuItem(m_font, "Control the snake with settings defined keys!", bottom + stringSize.Y, Color.Black);
+            bottom = drawMenuItem(m_font, "Collect food to grow in size!", bottom, Color.Black);
 
-            bottom = drawMenuItem(m_font, " -- Velocity: 2 Or Less m/s -- ", bottom, Color.Black);
-            bottom = drawMenuItem(m_font, " -- Land On Specified Flat Surface(s) (In Blue!) -- ", bottom, Color.Black);
+            bottom = drawMenuItem(m_font, "Knock out other players by getting them to", bottom, Color.Black);
+            bottom = drawMenuItem(m_font, "run into your body!", bottom, Color.Black);
 
 
             // Show control usage
 
-            bottom = drawMenuItem(m_font, "Controls", m_graphics.PreferredBackBufferHeight / 2, Color.Black);
-            bottom = drawMenuItem(m_font, "Thrust: Thrust The Rocket In Tilted Direction", bottom, Color.Black);
-            bottom = drawMenuItem(m_font, "Left: Tilt Rocket In Left Direction", bottom, Color.Black);
-            bottom = drawMenuItem(m_font, "Right: Tilt Rocket In Right Direction", bottom, Color.Black);
-            bottom = drawMenuItem(m_font, "See Settings Page For Key Bindings", bottom + stringSize.Y, Color.Black);
+           
 
 
 

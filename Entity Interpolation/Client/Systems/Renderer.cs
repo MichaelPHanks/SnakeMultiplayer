@@ -229,29 +229,7 @@ namespace Client.Systems
                 }
                 // Render the background deal
               
-                foreach (Tuple<string, int> playerScore in gameScores)
-                {
-                    if (playerNames[m_entity.id] == playerScore.Item1)
-                    {
-                        // Render the players score
-
-                        float scale = 2;
-                        Vector2 stringSize1 = font.MeasureString(playerScore.Item2.ToString()) * scale;
-                        spriteBatch.DrawString(
-                        font,
-                        playerScore.Item2.ToString(),
-                                  new Vector2((float)gameWidth /2f - stringSize1.X / 2,
-                  (float)gameHeight / 4f - stringSize1.Y),
-                                  Color.White,
-                                  0,
-                                  Vector2.Zero,
-                                  scale,
-                                  SpriteEffects.None,
-                                  0);
-
-                    }
-                }
-               
+                
 
 
                

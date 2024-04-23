@@ -15,7 +15,6 @@ namespace Client
         Help,
         About,
         Exit,
-        Paused,
         EnterName,
         Tutorial,
         Controls,

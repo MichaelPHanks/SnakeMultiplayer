@@ -202,10 +202,7 @@ namespace Server
 
 
                         Vector2 tempVector = new Vector2((float)x, (float)y);
-                       /* tempVector.X = (int)tempVector.X;
-                        tempVector.Y = (int)tempVector.Y;*/
-
-                        // If we are within 3 points of the turnpoint, then turn
+                      
 
                         float distanceToTurnPoint = Vector2.Distance(position.position, top.Item1);
                         float secondDistanceToTurnPoint = Vector2.Distance(position.position + tempVector, top.Item1);
@@ -232,17 +229,7 @@ namespace Server
                                 newOrientation.X = 0;
                             }
                             // Calculate displacement vector from last turn point to current segment
-                            /*     double dx = segmentPosition.x - lastTurnPoint.x;
-                                 double dy = segmentPosition.y - lastTurnPoint.y;
-
-                                 // Calculate angle difference between old and new angle
-                                 double angleDifference = newAngle - oldAngle;
-
-                                 // Calculate distance along path in x and y coordinates using trigonometry
-                                 double distanceX = dx * Math.Cos(angleDifference * (Math.PI / 180)) - dy * Math.Sin(angleDifference * (Math.PI / 180));
-                                 double distanceY = dx * Math.Sin(angleDifference * (Math.PI / 180)) + dy * Math.Cos(angleDifference * (Math.PI / 180));
-
-                                 return new Vector2(distanceX, distanceY);*/
+                         
 
                             double dx = position.position.X - turnPoint.Item1.X;
                             double dy = position.position.Y - turnPoint.Item1.Y;
@@ -251,63 +238,13 @@ namespace Server
                             double distanceX = dx * Math.Cos(angleDifference) - dy * Math.Sin(angleDifference);
                             double distanceY = dx * Math.Sin(angleDifference) + dy * Math.Cos(angleDifference);
                             Vector2 difference = new Vector2((float)distanceX, (float)distanceY);
-                            /*newOrientation.X = (int)newOrientation.X;
-                          *//*  newOrientation.Y = (int)newOrientation.Y;*//*
-
-                            Vector2 difference = (position.position - top.Item1) * tempVector * newOrientation;
-                            if (tempVector.X == 0 && tempVector.Y > 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) > 0)
-                            {
-                                difference.Y = (float)((position.position - top.Item1).Y/ Math.Sqrt(2) * (Math.Sign(newOrientation.Y)));
-                                difference.X = (float)((position.position - top.Item1).Y / Math.Sqrt(2) *(Math.Sign(newOrientation.X)));
-                            }
-                            if (tempVector.X == 0 && tempVector.Y < 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) > 0)
-                            {
-                                difference.Y = (float)((position.position - top.Item1).Y / Math.Sqrt(2) * -(Math.Sign(newOrientation.Y)));
-                                difference.X = (float)((position.position - top.Item1).Y / Math.Sqrt(2) * -(Math.Sign(newOrientation.X)));
-                            }
-                            else if (tempVector.X > 0 && tempVector.Y == 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) > 0)
-                            {
-                                difference.Y = (float)((position.position - top.Item1).X / Math.Sqrt(2) * (Math.Sign(newOrientation.Y)));
-                                difference.X = (float)((position.position - top.Item1).X / Math.Sqrt(2) * (Math.Sign(newOrientation.X)));
-                            }
-                            else if (tempVector.X < 0 && tempVector.Y == 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) > 0)
-                            {
-                                difference.Y = (float)((position.position - top.Item1).X / Math.Sqrt(2) * -(Math.Sign(newOrientation.Y)));
-                                difference.X = (float)((position.position - top.Item1).X / Math.Sqrt(2) * -(Math.Sign(newOrientation.X)));
-                            }
-                            else if (Math.Abs(tempVector.X) > 0 && Math.Abs(tempVector.Y) > 0 && Math.Abs(newOrientation.X) == 0 && Math.Abs(newOrientation.Y) > 0)
-                            {
-                                difference.Y = (float)((position.position - top.Item1).Y * Math.Sqrt(2));
-
-                            }
-                            else if (Math.Abs(tempVector.X) > 0 && Math.Abs(tempVector.Y) > 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) == 0)
-                            {
-                                difference.X = (float)((position.position - top.Item1).X * Math.Sqrt(2));
-                            }
-
-                            // Angle to angle
-                            else if (Math.Abs(tempVector.X) > 0 && Math.Abs(tempVector.Y) > 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) > 0)
-                            {
-                                difference.X = (position.position - top.Item1).X * (Math.Sign(newOrientation.X));
-                                difference.Y = (position.position - top.Item1).Y * (Math.Sign(newOrientation.Y));
-                            }
-
-
-                            else if (difference.X == 0 && difference.Y == 0)
-                            {
-                                difference = new Vector2((position.position.Y - top.Item1.Y), (position.position.X - top.Item1.X)) * new Vector2(tempVector.Y, tempVector.X) * newOrientation;
-                            }*/
+                          
 
                             position.orientation = turnPoint.Item2;
                             position.position = top.Item1 + difference;
 
 
 
-
-
-                            // Lets say x = -0.5 and y = 0.5
-
-                            // Going from x = 15 to 14.5, y = 15 to 15.5
 
                         }
 
@@ -326,20 +263,7 @@ namespace Server
                             {
                                 newOrientation.X = 0;
                             }
-                            /*newOrientation.X = (int)newOrientation.X;
-                            newOrientation.Y = (int)newOrientation.Y;*/
-                            // Calculate displacement vector from last turn point to current segment
-                            /*     double dx = segmentPosition.x - lastTurnPoint.x;
-                                 double dy = segmentPosition.y - lastTurnPoint.y;
-
-                                 // Calculate angle difference between old and new angle
-                                 double angleDifference = newAngle - oldAngle;
-
-                                 // Calculate distance along path in x and y coordinates using trigonometry
-                                 double distanceX = dx * Math.Cos(angleDifference * (Math.PI / 180)) - dy * Math.Sin(angleDifference * (Math.PI / 180));
-                                 double distanceY = dx * Math.Sin(angleDifference * (Math.PI / 180)) + dy * Math.Cos(angleDifference * (Math.PI / 180));
-
-                                 return new Vector2(distanceX, distanceY);*/
+                          
 
                             double dx = position.position.X - turnPoint.Item1.X;
                             double dy = position.position.Y - turnPoint.Item1.Y;
@@ -348,52 +272,7 @@ namespace Server
                             double distanceX = dx * Math.Cos(angleDifference) - dy * Math.Sin(angleDifference);
                             double distanceY = dx * Math.Sin(angleDifference) + dy * Math.Cos(angleDifference);
                             Vector2 difference = new Vector2((float)distanceX, (float)distanceY);
-                            /*newOrientation.X = (int)newOrientation.X;
-                          *//*  newOrientation.Y = (int)newOrientation.Y;*//*
-
-                            Vector2 difference = (position.position - top.Item1) * tempVector * newOrientation;
-                            if (tempVector.X == 0 && tempVector.Y > 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) > 0)
-                            {
-                                difference.Y = (float)((position.position - top.Item1).Y/ Math.Sqrt(2) * (Math.Sign(newOrientation.Y)));
-                                difference.X = (float)((position.position - top.Item1).Y / Math.Sqrt(2) *(Math.Sign(newOrientation.X)));
-                            }
-                            if (tempVector.X == 0 && tempVector.Y < 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) > 0)
-                            {
-                                difference.Y = (float)((position.position - top.Item1).Y / Math.Sqrt(2) * -(Math.Sign(newOrientation.Y)));
-                                difference.X = (float)((position.position - top.Item1).Y / Math.Sqrt(2) * -(Math.Sign(newOrientation.X)));
-                            }
-                            else if (tempVector.X > 0 && tempVector.Y == 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) > 0)
-                            {
-                                difference.Y = (float)((position.position - top.Item1).X / Math.Sqrt(2) * (Math.Sign(newOrientation.Y)));
-                                difference.X = (float)((position.position - top.Item1).X / Math.Sqrt(2) * (Math.Sign(newOrientation.X)));
-                            }
-                            else if (tempVector.X < 0 && tempVector.Y == 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) > 0)
-                            {
-                                difference.Y = (float)((position.position - top.Item1).X / Math.Sqrt(2) * -(Math.Sign(newOrientation.Y)));
-                                difference.X = (float)((position.position - top.Item1).X / Math.Sqrt(2) * -(Math.Sign(newOrientation.X)));
-                            }
-                            else if (Math.Abs(tempVector.X) > 0 && Math.Abs(tempVector.Y) > 0 && Math.Abs(newOrientation.X) == 0 && Math.Abs(newOrientation.Y) > 0)
-                            {
-                                difference.Y = (float)((position.position - top.Item1).Y * Math.Sqrt(2));
-
-                            }
-                            else if (Math.Abs(tempVector.X) > 0 && Math.Abs(tempVector.Y) > 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) == 0)
-                            {
-                                difference.X = (float)((position.position - top.Item1).X * Math.Sqrt(2));
-                            }
-
-                            // Angle to angle
-                            else if (Math.Abs(tempVector.X) > 0 && Math.Abs(tempVector.Y) > 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) > 0)
-                            {
-                                difference.X = (position.position - top.Item1).X * (Math.Sign(newOrientation.X));
-                                difference.Y = (position.position - top.Item1).Y * (Math.Sign(newOrientation.Y));
-                            }
-
-
-                            else if (difference.X == 0 && difference.Y == 0)
-                            {
-                                difference = new Vector2((position.position.Y - top.Item1.Y), (position.position.X - top.Item1.X)) * new Vector2(tempVector.Y, tempVector.X) * newOrientation;
-                            }*/
+                          
 
                             position.orientation = turnPoint.Item2;
                             position.position = top.Item1 + difference;
@@ -465,7 +344,7 @@ namespace Server
                             MessageQueueServer.instance.sendMessage(key[0],foodMessage);
                             // Food disappears
                             foodToRemove.Add(entity.id, entity);
-                            float offsetDistance = 1.0f; // Adjust this value to control the distance behind the player
+                             float offsetDistance = 1.0f; // Adjust this value to control the distance behind the player
                             float offsetX = (float)(offsetDistance * Math.Cos(playerEntity.get<Shared.Components.Position>().orientation));
                             float offsetY = (float)(offsetDistance * Math.Sin(playerEntity.get<Shared.Components.Position>().orientation));
 
@@ -626,11 +505,11 @@ namespace Server
             
                 Random rand = new Random();
 
-                for (int i = foodEntities.Count; i < 1000; i++)
+                for (int i = foodEntities.Count; i < 250; i++)
                 {
                     int randomPositionX = rand.Next(0, 5001);
                     int randomPositionY = rand.Next(0, 5001);
-                int randomSize = rand.Next(25, 30);
+                int randomSize = rand.Next(20, 35);
 
                     Entity newFood = Shared.Entities.Food.create("cake", new System.Numerics.Vector2(randomPositionX, randomPositionY), randomSize);
                     addEntity(newFood);
@@ -829,6 +708,7 @@ namespace Server
         /// </summary>
         private void handleJoin(int clientId, TimeSpan elapsedTime, Shared.Messages.Message messageJoin)
         {
+            Random random = new Random();
             Shared.Messages.Join messageNew = (Shared.Messages.Join) messageJoin;
 
 
@@ -846,6 +726,9 @@ namespace Server
                 }
             }
 
+
+            int startX = random.Next(500,4500);
+            int startY = random.Next(500, 4500);
             m_scores.Add(messageNew.name, 2);
             Message scoreMessage = new Shared.Messages.ScoresUpdate(m_scores);
 
@@ -856,7 +739,7 @@ namespace Server
 
             // Step 2: Create an entity for the newly joined player and send it
             //         to the newly joined client
-            Entity player = Shared.Entities.Head.create("PlayerHead",messageNew.name, new System.Numerics.Vector2(GameWorldWidth / 2, GameWorldHeight / 2), 50, 0.3f, (float)Math.PI / 1000);
+            Entity player = Shared.Entities.Head.create("PlayerHead",messageNew.name, new System.Numerics.Vector2(startX, startY), 50, 0.3f, (float)Math.PI / 1000);
             addEntity(player);
             m_clientToEntityId[clientId] = player.id;
             m_EntityIdToClient[player.id] = clientId;
@@ -885,7 +768,7 @@ namespace Server
             }
 
 
-            Vector2 position = new Vector2(GameWorldWidth / 2 - 25, GameWorldWidth / 2);
+            Vector2 position = new Vector2(startX - 25, startY);
             for (int i = 0; i < 2; i++)
             {
 

@@ -62,9 +62,9 @@ namespace Client
             float bottom = drawMenuItem(m_font, "Credits", m_graphics.PreferredBackBufferHeight / 1080f * 100f, Color.Black);
 
             bottom = drawMenuItem(m_font, "Programming - Michael Hanks", bottom + stringSize2.Y, Color.Black);
-            bottom = drawMenuItem(m_font, "Sound Effects - Michael Hanks (Also the Internet)", bottom + stringSize2.Y, Color.Black);
-            bottom = drawMenuItem(m_font, "Images - The Internet", bottom + stringSize2.Y, Color.Black);
-            bottom = drawMenuItem(m_font, "Rocket Ship - Michael Hanks (Internet Inspired)", bottom + stringSize2.Y, Color.Black);
+            bottom = drawMenuItem(m_font, "Sound Effects - Internet", bottom + stringSize2.Y, Color.Black);
+            bottom = drawMenuItem(m_font, "Images - Internet", bottom + stringSize2.Y, Color.Black);
+            bottom = drawMenuItem(m_font, "Snake Graphics - Michael Hanks (I know...)", bottom + stringSize2.Y, Color.Black);
 
 
 

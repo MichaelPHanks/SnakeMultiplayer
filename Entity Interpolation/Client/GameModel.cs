@@ -15,6 +15,7 @@ using System.Linq;
 using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
 using System.Xml;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace Client
 {
@@ -54,6 +55,7 @@ namespace Client
         private SoundEffectInstance foodInstance;
         private AnimatedSprite bananaRenderer;
         private Texture2D mainPanel;
+        private HighScoresState m_highScoresState = null;
 
 
         public List<Tuple<string, int>> getScores()
@@ -64,13 +66,7 @@ namespace Client
         {
             return playerNames;
         }
-        /*public void resetGameModel()
-        {
-        m_entities = new Dictionary<uint, Entity>();
-            m_systemInterpolation = new Systems.Interpolation();
-            m_systemRenderer = new Systems.Renderer();
-
-        }*/
+        
     /// <summary>
     /// This is where everything performs its update.
     /// </summary>
@@ -100,10 +96,7 @@ namespace Client
 
 
                         Vector2 tempVector = new Vector2((float)x, (float)y);
-                        /* tempVector.X = (int)tempVector.X;
-                         tempVector.Y = (int)tempVector.Y;*/
-
-                        // If we are within 3 points of the turnpoint, then turn
+                        
 
                         float distanceToTurnPoint = Vector2.Distance(position.position, top.Item1);
                         float secondDistanceToTurnPoint = Vector2.Distance(position.position + tempVector, top.Item1);
@@ -129,18 +122,7 @@ namespace Client
                             {
                                 newOrientation.X = 0;
                             }
-                            // Calculate displacement vector from last turn point to current segment
-                            /*     double dx = segmentPosition.x - lastTurnPoint.x;
-                                 double dy = segmentPosition.y - lastTurnPoint.y;
-
-                                 // Calculate angle difference between old and new angle
-                                 double angleDifference = newAngle - oldAngle;
-
-                                 // Calculate distance along path in x and y coordinates using trigonometry
-                                 double distanceX = dx * Math.Cos(angleDifference * (Math.PI / 180)) - dy * Math.Sin(angleDifference * (Math.PI / 180));
-                                 double distanceY = dx * Math.Sin(angleDifference * (Math.PI / 180)) + dy * Math.Cos(angleDifference * (Math.PI / 180));
-
-                                 return new Vector2(distanceX, distanceY);*/
+                            
 
                             double dx = position.position.X - turnPoint.Item1.X; 
                             double dy = position.position.Y - turnPoint.Item1.Y;
@@ -149,52 +131,7 @@ namespace Client
                             double distanceX = dx * Math.Cos(angleDifference) - dy * Math.Sin(angleDifference);
                             double distanceY = dx * Math.Sin(angleDifference) + dy * Math.Cos(angleDifference);
                             Vector2 difference = new Vector2((float)distanceX, (float)distanceY);
-                            /*newOrientation.X = (int)newOrientation.X;
-                          *//*  newOrientation.Y = (int)newOrientation.Y;*//*
-
-                            Vector2 difference = (position.position - top.Item1) * tempVector * newOrientation;
-                            if (tempVector.X == 0 && tempVector.Y > 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) > 0)
-                            {
-                                difference.Y = (float)((position.position - top.Item1).Y/ Math.Sqrt(2) * (Math.Sign(newOrientation.Y)));
-                                difference.X = (float)((position.position - top.Item1).Y / Math.Sqrt(2) *(Math.Sign(newOrientation.X)));
-                            }
-                            if (tempVector.X == 0 && tempVector.Y < 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) > 0)
-                            {
-                                difference.Y = (float)((position.position - top.Item1).Y / Math.Sqrt(2) * -(Math.Sign(newOrientation.Y)));
-                                difference.X = (float)((position.position - top.Item1).Y / Math.Sqrt(2) * -(Math.Sign(newOrientation.X)));
-                            }
-                            else if (tempVector.X > 0 && tempVector.Y == 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) > 0)
-                            {
-                                difference.Y = (float)((position.position - top.Item1).X / Math.Sqrt(2) * (Math.Sign(newOrientation.Y)));
-                                difference.X = (float)((position.position - top.Item1).X / Math.Sqrt(2) * (Math.Sign(newOrientation.X)));
-                            }
-                            else if (tempVector.X < 0 && tempVector.Y == 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) > 0)
-                            {
-                                difference.Y = (float)((position.position - top.Item1).X / Math.Sqrt(2) * -(Math.Sign(newOrientation.Y)));
-                                difference.X = (float)((position.position - top.Item1).X / Math.Sqrt(2) * -(Math.Sign(newOrientation.X)));
-                            }
-                            else if (Math.Abs(tempVector.X) > 0 && Math.Abs(tempVector.Y) > 0 && Math.Abs(newOrientation.X) == 0 && Math.Abs(newOrientation.Y) > 0)
-                            {
-                                difference.Y = (float)((position.position - top.Item1).Y * Math.Sqrt(2));
-
-                            }
-                            else if (Math.Abs(tempVector.X) > 0 && Math.Abs(tempVector.Y) > 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) == 0)
-                            {
-                                difference.X = (float)((position.position - top.Item1).X * Math.Sqrt(2));
-                            }
-
-                            // Angle to angle
-                            else if (Math.Abs(tempVector.X) > 0 && Math.Abs(tempVector.Y) > 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) > 0)
-                            {
-                                difference.X = (position.position - top.Item1).X * (Math.Sign(newOrientation.X));
-                                difference.Y = (position.position - top.Item1).Y * (Math.Sign(newOrientation.Y));
-                            }
-
-
-                            else if (difference.X == 0 && difference.Y == 0)
-                            {
-                                difference = new Vector2((position.position.Y - top.Item1.Y), (position.position.X - top.Item1.X)) * new Vector2(tempVector.Y, tempVector.X) * newOrientation;
-                            }*/
+                            
 
                             position.orientation = turnPoint.Item2;
                             position.position = top.Item1 + difference;
@@ -202,10 +139,6 @@ namespace Client
 
 
 
-
-                            // Lets say x = -0.5 and y = 0.5
-
-                            // Going from x = 15 to 14.5, y = 15 to 15.5
 
                         }
 
@@ -224,20 +157,7 @@ namespace Client
                             {
                                 newOrientation.X = 0;
                             }
-                            /*newOrientation.X = (int)newOrientation.X;
-                            newOrientation.Y = (int)newOrientation.Y;*/
-                            // Calculate displacement vector from last turn point to current segment
-                            /*     double dx = segmentPosition.x - lastTurnPoint.x;
-                                 double dy = segmentPosition.y - lastTurnPoint.y;
-
-                                 // Calculate angle difference between old and new angle
-                                 double angleDifference = newAngle - oldAngle;
-
-                                 // Calculate distance along path in x and y coordinates using trigonometry
-                                 double distanceX = dx * Math.Cos(angleDifference * (Math.PI / 180)) - dy * Math.Sin(angleDifference * (Math.PI / 180));
-                                 double distanceY = dx * Math.Sin(angleDifference * (Math.PI / 180)) + dy * Math.Cos(angleDifference * (Math.PI / 180));
-
-                                 return new Vector2(distanceX, distanceY);*/
+                          
 
                             double dx = position.position.X - turnPoint.Item1.X;
                             double dy = position.position.Y - turnPoint.Item1.Y;
@@ -246,52 +166,7 @@ namespace Client
                             double distanceX = dx * Math.Cos(angleDifference) - dy * Math.Sin(angleDifference);
                             double distanceY = dx * Math.Sin(angleDifference) + dy * Math.Cos(angleDifference);
                             Vector2 difference = new Vector2((float)distanceX, (float)distanceY);
-                            /*newOrientation.X = (int)newOrientation.X;
-                          *//*  newOrientation.Y = (int)newOrientation.Y;*//*
-
-                            Vector2 difference = (position.position - top.Item1) * tempVector * newOrientation;
-                            if (tempVector.X == 0 && tempVector.Y > 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) > 0)
-                            {
-                                difference.Y = (float)((position.position - top.Item1).Y/ Math.Sqrt(2) * (Math.Sign(newOrientation.Y)));
-                                difference.X = (float)((position.position - top.Item1).Y / Math.Sqrt(2) *(Math.Sign(newOrientation.X)));
-                            }
-                            if (tempVector.X == 0 && tempVector.Y < 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) > 0)
-                            {
-                                difference.Y = (float)((position.position - top.Item1).Y / Math.Sqrt(2) * -(Math.Sign(newOrientation.Y)));
-                                difference.X = (float)((position.position - top.Item1).Y / Math.Sqrt(2) * -(Math.Sign(newOrientation.X)));
-                            }
-                            else if (tempVector.X > 0 && tempVector.Y == 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) > 0)
-                            {
-                                difference.Y = (float)((position.position - top.Item1).X / Math.Sqrt(2) * (Math.Sign(newOrientation.Y)));
-                                difference.X = (float)((position.position - top.Item1).X / Math.Sqrt(2) * (Math.Sign(newOrientation.X)));
-                            }
-                            else if (tempVector.X < 0 && tempVector.Y == 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) > 0)
-                            {
-                                difference.Y = (float)((position.position - top.Item1).X / Math.Sqrt(2) * -(Math.Sign(newOrientation.Y)));
-                                difference.X = (float)((position.position - top.Item1).X / Math.Sqrt(2) * -(Math.Sign(newOrientation.X)));
-                            }
-                            else if (Math.Abs(tempVector.X) > 0 && Math.Abs(tempVector.Y) > 0 && Math.Abs(newOrientation.X) == 0 && Math.Abs(newOrientation.Y) > 0)
-                            {
-                                difference.Y = (float)((position.position - top.Item1).Y * Math.Sqrt(2));
-
-                            }
-                            else if (Math.Abs(tempVector.X) > 0 && Math.Abs(tempVector.Y) > 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) == 0)
-                            {
-                                difference.X = (float)((position.position - top.Item1).X * Math.Sqrt(2));
-                            }
-
-                            // Angle to angle
-                            else if (Math.Abs(tempVector.X) > 0 && Math.Abs(tempVector.Y) > 0 && Math.Abs(newOrientation.X) > 0 && Math.Abs(newOrientation.Y) > 0)
-                            {
-                                difference.X = (position.position - top.Item1).X * (Math.Sign(newOrientation.X));
-                                difference.Y = (position.position - top.Item1).Y * (Math.Sign(newOrientation.Y));
-                            }
-
-
-                            else if (difference.X == 0 && difference.Y == 0)
-                            {
-                                difference = new Vector2((position.position.Y - top.Item1.Y), (position.position.X - top.Item1.X)) * new Vector2(tempVector.Y, tempVector.X) * newOrientation;
-                            }*/
+                        
 
                             position.orientation = turnPoint.Item2;
                             position.position = top.Item1 + difference;
@@ -332,6 +207,58 @@ namespace Client
                 // Render the death screen!
                 gameOverRender(spriteBatch, gameWidth, gameHeight, font);
             }
+            spriteBatch.Begin();
+
+            foreach (Tuple<string, int> playerScore in m_Scores)
+            {
+                if (m_playerEntity != null)
+                {
+                    if (playerNames[m_playerEntity.id] == playerScore.Item1)
+                    {
+                        // Render the players score
+
+                        float scale = 2;
+                        Vector2 stringSize1 = font.MeasureString(playerScore.Item2.ToString()) * scale;
+                        spriteBatch.DrawString(
+                        font,
+                        playerScore.Item2.ToString(),
+                                  new Vector2((float)gameWidth / 2f - stringSize1.X / 2,
+                  (float)gameHeight / 4f - stringSize1.Y),
+                                  Color.White,
+                                  0,
+                                  Vector2.Zero,
+                                  scale,
+                                  SpriteEffects.None,
+                                  0);
+
+                    }
+                }
+            }
+            // Render all of the current scores
+            Rectangle panelRectangle = new Rectangle((int)(gameWidth - gameWidth / 6 - 100), 100, (int)gameWidth / 6, (int)gameHeight / 4);
+            spriteBatch.Draw(mainPanel, panelRectangle, Color.Black);
+            string playerScoreText = "LEADERBOARD\n\n";
+            int totalDone = 1;
+            // Draw the top players leaderboard in the top right.
+            
+            int playerPosition = 1;
+            foreach (Tuple<string, int> playerScore in m_Scores)
+            {
+                totalDone++;
+                if (totalDone > 5)
+                {
+                    break;
+                }
+                
+                    // Render the players score
+                    playerScoreText += $"{playerPosition}. {playerScore.Item1} : {playerScore.Item2} \n";
+                    playerPosition += 1;
+                      
+                   
+            }
+            // Render the high scores:
+            spriteBatch.DrawString(font, playerScoreText, new Vector2(panelRectangle.X + 20, panelRectangle.Y + 20), Color.White, 0, Vector2.Zero, 0.40f, SpriteEffects.None,0);
+            spriteBatch.End();
 
         }
 
@@ -390,7 +317,7 @@ namespace Client
 
             m_renderDeath.LoadContent(contentManager);
             m_renderFoodEaten.LoadContent(contentManager);
-
+            loadHighScores();
             loadKeyControls();
             // Modify this to load in controls
             m_systemKeyboardInput = new Systems.KeyboardInput(new List<Tuple<Shared.Components.Input.Type, Keys>>
@@ -457,6 +384,51 @@ namespace Client
                                 {
                                     DataContractJsonSerializer mySerializer = new DataContractJsonSerializer(typeof(KeyControlsSnake));
                                     m_loadedState = (KeyControlsSnake)mySerializer.ReadObject(fs);
+                                }
+
+
+                            }
+                        }
+                    }
+                    catch (IsolatedStorageException)
+                    {
+                    }
+                }
+
+                this.loading = false;
+            });
+        }
+        private void loadHighScores()
+        {
+            lock (this)
+            {
+                if (!this.loading)
+                {
+                    this.loading = true;
+                    // Yes, I know the result is not being saved, I dont' need it
+                    var result = finalizeLoadHighScoresAsync();
+                    result.Wait();
+
+                }
+            }
+        }
+
+        private async Task finalizeLoadHighScoresAsync()
+        {
+            await Task.Run(() =>
+            {
+                using (IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication())
+                {
+                    try
+                    {
+                        if (storage.FileExists("HighScores.json"))
+                        {
+                            using (IsolatedStorageFileStream fs = storage.OpenFile("HighScores.json", FileMode.Open))
+                            {
+                                if (fs != null)
+                                {
+                                    DataContractJsonSerializer mySerializer = new DataContractJsonSerializer(typeof(HighScoresState));
+                                    m_highScoresState = (HighScoresState)mySerializer.ReadObject(fs);
                                 }
 
 
@@ -736,11 +708,47 @@ namespace Client
                 gameOver.Play();
 
                 isDead = true;
+                // Save our score!
+                m_highScoresState.addHighScore(new Tuple<int, DateTime>(playerScore,DateTime.Now));
+                saveHighScore(m_highScoresState);
             }
 
            
 
         }
+        private void saveHighScore(HighScoresState highScore)
+        {
+            lock (this)
+            {
+                finalizeSaveAsyncHighScores(highScore);
+            }
+        }
+
+        private async Task finalizeSaveAsyncHighScores(HighScoresState state)
+        {
+            await Task.Run(() =>
+            {
+                using (IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication())
+                {
+                    try
+                    {
+                        using (IsolatedStorageFileStream fs = storage.OpenFile("HighScores.json", FileMode.Open))
+                        {
+                            if (fs != null)
+                            {
+                                DataContractJsonSerializer mySerializer = new DataContractJsonSerializer(typeof(HighScoresState));
+                                mySerializer.WriteObject(fs, state);
+                            }
+                        }
+                    }
+                    catch (IsolatedStorageException)
+                    {
+                    }
+                }
+
+            });
+        }
+
 
     }
 }

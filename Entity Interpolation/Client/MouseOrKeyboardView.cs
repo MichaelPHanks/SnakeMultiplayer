@@ -82,40 +82,7 @@ namespace Client
             }
             if (!m_waitForKeyRelease && isEnterUp)
             {
-               /* if (Keyboard.GetState().IsKeyDown(Keys.Down))
-                {
-                    if (m_currentSelection == MenuState.KeyBoard)
-                    {
-                        m_currentSelection = MenuState.Mouse;
-                    }
-                    else
-                    {
-                        m_currentSelection++;
-                    }
-                    m_waitForKeyRelease = true;
-                }
-                if (Keyboard.GetState().IsKeyDown(Keys.Up))
-                {
-                    if (m_currentSelection == MenuState.Mouse)
-                    {
-                        m_currentSelection = MenuState.KeyBoard;
-                    }
-                    else
-                    {
-                        m_currentSelection--;
-                    }
-                    m_waitForKeyRelease = true;
-                }
-*/
-             /*  
-                if (Keyboard.GetState().IsKeyDown(Keys.Enter) && m_currentSelection == MenuState.Mouse)
-                {
-                    isESCDown = true;
-                    isEnterUp = false;
-                    canUseMouse = false;
-                    isMouse = true;
-                    return GameStateEnum.Tutorial;
-                }*/
+               
                 if (Keyboard.GetState().IsKeyDown(Keys.Enter) && m_currentSelection == MenuState.KeyBoard)
                 {
                     isESCDown = true;
@@ -135,20 +102,7 @@ namespace Client
             if (canUseMouse)
             {
                 
-              /*  if (mouse.Contains(Mouse.GetState().Position))
-                {
-                    if (Mouse.GetState().LeftButton == ButtonState.Pressed)
-                    {
-                        isESCDown = true;
-                        isEnterUp = false;
-                        canUseMouse = false;
-                        isMouse = true;
-
-                        return GameStateEnum.Tutorial;
-                    }
-                    m_currentSelection = MenuState.Mouse;
-
-                }*/
+             
                  if (keyboard.Contains(Mouse.GetState().Position))
                 {
                     if (Mouse.GetState().LeftButton == ButtonState.Pressed)
@@ -167,10 +121,7 @@ namespace Client
 
 
 
-            /*else 
-            {
-                m_currentSelection = MenuState.None;
-            }*/
+            
 
             if (m_prevSelection != m_currentSelection && m_currentSelection != MenuState.None)
             {
@@ -198,14 +149,7 @@ namespace Client
         {
             m_spriteBatch.Begin();
             m_spriteBatch.Draw(backgroundImage, new Rectangle(0, 0, m_graphics.PreferredBackBufferWidth, m_graphics.PreferredBackBufferHeight), Color.Gray);
-            float bottom = drawMenuItem(m_fontMenu, "Choose mouse or keyboard!", 100, Color.OrangeRed);
-            /*bottom = drawMenuItem(m_currentSelection == MenuState.Settings ? m_fontMenuSelect : m_fontMenu, "Settings", bottom, m_currentSelection == MenuState.Settings ? Color.White : Color.LightGray);
-
-            bottom = drawMenuItem(m_currentSelection == MenuState.Help ? m_fontMenuSelect : m_fontMenu, "Help", bottom, m_currentSelection == MenuState.Help ? Color.White : Color.LightGray);
-            bottom = drawMenuItem(m_currentSelection == MenuState.Resume ? m_fontMenuSelect : m_fontMenu, "Resume", bottom, m_currentSelection == MenuState.Resume ? Color.White : Color.LightGray);
-            bottom = drawMenuItem(m_currentSelection == MenuState.Menu ? m_fontMenuSelect : m_fontMenu, "Main Menu", bottom, m_currentSelection == MenuState.Menu ? Color.White : Color.LightGray);*/
-            
-            //bottom = drawMenuItem(m_currentSelection == MenuState.Mouse ? m_fontMenuSelect : m_fontMenu, "Mouse", bottom, m_currentSelection == MenuState.Mouse ? Color.White : Color.LightGray);
+            float bottom = drawMenuItem(m_fontMenu, "Choose mouse or keyboard!", 100, Color.Black);
             drawMenuItem(m_currentSelection == MenuState.KeyBoard ? m_fontMenuSelect : m_fontMenu, "Keyboard", bottom, m_currentSelection == MenuState.KeyBoard ? Color.White : Color.LightGray);
 
             m_spriteBatch.End();
@@ -215,7 +159,7 @@ namespace Client
         private float drawMenuItem(SpriteFont font, string text, float y, Color color)
         {
 
-            float scale = m_graphics.PreferredBackBufferWidth / 1920f;
+            float scale = m_graphics.PreferredBackBufferHeight / 1080f;
             Vector2 stringSize = font.MeasureString(text) * scale;
             m_spriteBatch.DrawString(
                            font,

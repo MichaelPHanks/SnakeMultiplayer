@@ -126,9 +126,7 @@ namespace Server.Systems
                                             canSend = true;
                                             var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
                                             turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
-                                            //m_reportThese.Add(entity1.id);
 
-                                            // m_reportThese.Add(entity1.id);
 
                                         }
 
@@ -145,9 +143,7 @@ namespace Server.Systems
                                             canSend = true;
                                             var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
                                             turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
-                                            //m_reportThese.Add(entity1.id);
 
-                                            // m_reportThese.Add(entity1.id);
 
                                         }
                                     }
@@ -188,9 +184,7 @@ namespace Server.Systems
                                             canSend = true;
                                             var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
                                             turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
-                                            //m_reportThese.Add(entity1.id);
 
-                                            // m_reportThese.Add(entity1.id);
 
                                         }
 
@@ -207,9 +201,7 @@ namespace Server.Systems
                                             canSend = true;
                                             var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
                                             turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
-                                            //m_reportThese.Add(entity1.id);
 
-                                            // m_reportThese.Add(entity1.id);
 
                                         }
                                     }
@@ -244,9 +236,7 @@ namespace Server.Systems
                                             canSend = true;
                                             var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
                                             turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
-                                            //m_reportThese.Add(entity1.id);
 
-                                            // m_reportThese.Add(entity1.id);
 
                                         }
 
@@ -263,9 +253,7 @@ namespace Server.Systems
                                             canSend = true;
                                             var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
                                             turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
-                                            //m_reportThese.Add(entity1.id);
 
-                                            // m_reportThese.Add(entity1.id);
 
                                         }
                                     }
@@ -299,9 +287,7 @@ namespace Server.Systems
                                             canSend = true;
                                             var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
                                             turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
-                                            //m_reportThese.Add(entity1.id);
 
-                                            // m_reportThese.Add(entity1.id);
 
                                         }
 
@@ -318,9 +304,7 @@ namespace Server.Systems
                                             canSend = true;
                                             var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
                                             turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
-                                            //m_reportThese.Add(entity1.id);
 
-                                            // m_reportThese.Add(entity1.id);
 
                                         }
                                     }
@@ -359,9 +343,7 @@ namespace Server.Systems
                                             canSend = true;
                                             var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
                                             turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
-                                            //m_reportThese.Add(entity1.id);
 
-                                            // m_reportThese.Add(entity1.id);
 
                                         }
 
@@ -378,9 +360,7 @@ namespace Server.Systems
                                             canSend = true;
                                             var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
                                             turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
-                                            //m_reportThese.Add(entity1.id);
 
-                                            // m_reportThese.Add(entity1.id);
 
                                         }
                                     }
@@ -418,9 +398,7 @@ namespace Server.Systems
                                             canSend = true;
                                             var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
                                             turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
-                                            //m_reportThese.Add(entity1.id);
 
-                                            // m_reportThese.Add(entity1.id);
 
                                         }
 
@@ -437,9 +415,7 @@ namespace Server.Systems
                                             canSend = true;
                                             var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
                                             turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
-                                            //m_reportThese.Add(entity1.id);
 
-                                            // m_reportThese.Add(entity1.id);
 
                                         }
                                     }
@@ -477,9 +453,7 @@ namespace Server.Systems
                                             canSend = true;
                                             var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
                                             turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
-                                            //m_reportThese.Add(entity1.id);
 
-                                            // m_reportThese.Add(entity1.id);
 
                                         }
 
@@ -496,9 +470,7 @@ namespace Server.Systems
                                             canSend = true;
                                             var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
                                             turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
-                                            //m_reportThese.Add(entity1.id);
 
-                                            // m_reportThese.Add(entity1.id);
 
                                         }
                                     }
@@ -537,9 +509,7 @@ namespace Server.Systems
                                             canSend = true;
                                             var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
                                             turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
-                                            //m_reportThese.Add(entity1.id);
 
-                                            // m_reportThese.Add(entity1.id);
 
                                         }
 
@@ -556,9 +526,7 @@ namespace Server.Systems
                                             canSend = true;
                                             var turnPoints = entity1.get<Shared.Components.TurnPoints>().turnPoints;
                                             turnPoints.Enqueue(new Tuple<Vector2, float>(position1, entity.get<Shared.Components.Position>().orientation));
-                                            //m_reportThese.Add(entity1.id);
 
-                                            // m_reportThese.Add(entity1.id);
 
                                         }
                                     }

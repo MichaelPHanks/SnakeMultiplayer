@@ -30,45 +30,30 @@ namespace Client
         private Texture2D wallImage;
         //LunarLanderLevel m_level;
         private HashSet<Keys> m_previouslyDown = new HashSet<Keys>();
-        private double playerAngle;
-        private Vector2 playerPosition = new Vector2(100, 100);
         private Texture2D playerTexture;
-        private Rectangle playerRectangle;
         float playerX;
         float playerY;
-        double playerFuel = 20d;
         private bool isESCDown = true;
         //private KeyboardInput keyboardInput;
-        private bool isUpPressed = false;
-        private Keys up;
-        private Keys left;
-        private Keys right;
+        
         private SoundEffect thrustSound;
-        private SoundEffect explosionEffect;
-        private BasicEffect m_effect;
-        private SoundEffect levelClear;
+  
         Texture2D t; //base for the line texture
         //private KeyControls m_loadedState = null;
         private HighScoresState m_highScoresState = null;
         private bool loading = false;
 
-        private bool loadKeys = false;
-        private bool firstUpdate = false;
         //private Circle playerCircle;
         
-        private bool isCrashed = false;
         
         private SoundEffectInstance thrustInstance;
 
-        TimeSpan timePlayed = TimeSpan.Zero;
 
-        TimeSpan intervalBetweenLevels = TimeSpan.Zero;
 
         /*private ParticleSystem m_particleSystemFire;
         private ParticleSystem m_particleSystemSmoke;
         private ParticleSystemRenderer m_renderFire;
         private ParticleSystemRenderer m_renderSmoke;*/
-        private bool isThrustUsed = false;
         GameModel m_gameModel = new GameModel();
         ContentManager contentManager1;
 
@@ -102,8 +87,6 @@ namespace Client
             backgroundImage = contentManager.Load<Texture2D>("Cartoon_green_texture_grass_smaller");
             wallImage = contentManager.Load<Texture2D>("handpaintedwall2");
             thrustSound = contentManager.Load<SoundEffect>("smartsound_TRANSPORTATION_SPACE_Spaceshuttle_Rocket_Full_Power_Steady_01");
-            levelClear = contentManager.Load<SoundEffect>("levelClearEffect");
-            explosionEffect = contentManager.Load<SoundEffect>("mixkit-arcade-game-explosion-2759");
             thrustInstance = thrustSound.CreateInstance();
             thrustInstance.Volume = 0.25f;
             bananaRenderer = new AnimatedSprite(
@@ -114,7 +97,6 @@ namespace Client
 
             playerX = m_graphics.PreferredBackBufferWidth / 6;
             playerY = m_graphics.PreferredBackBufferHeight / 8;
-            playerRectangle = new Rectangle((int)playerX, (int)playerY, (int)(m_graphics.PreferredBackBufferWidth / 1920f * playerTexture.Width * 1.5f), (int)(m_graphics.PreferredBackBufferHeight / 1080f * playerTexture.Height * 1.5f));
 
             
 
@@ -190,8 +172,6 @@ namespace Client
             {
                 isPaused = true;
                 isESCDown = true;
-                loadKeys = true;
-                firstUpdate = true;
                 MessageQueueClient.instance.sendMessage(new Shared.Messages.Disconnect());
 
                 return GameStateEnum.MainMenu;
@@ -238,70 +218,8 @@ namespace Client
 
         
             m_spriteBatch.Begin();
-            //m_spriteBatch.Draw(backgroundImage, new Rectangle(0, 0, m_graphics.PreferredBackBufferWidth, m_graphics.PreferredBackBufferHeight), Color.White);
-            float scale = m_graphics.PreferredBackBufferWidth / 1920f;
-
-            int totalDone = 0;
-            float buffer = 0f;
-         /*   Rectangle panelRectangle = new Rectangle((int)(gameWidth - gameWidth / 6 - 100), 100, (int)gameWidth / 6, (int)gameHeight / 4);
-            spriteBatch.Draw(sidePanel, panelRectangle, Color.White);
-            string playerScoreText = "LEADERBOARD\n\n";
-            int playerPosition = 1;
-            foreach (Tuple<string, int> playerScore in gameScores)
-            {
-                if (playerNames[m_entity.id] == playerScore.Item1)
-                {
-                    // Render the players score
-                    playerScoreText += $"{playerPosition}. {playerScore.Item2.ToString()} \n";
-                    playerPosition += 1;
-                    *//*  float scale = 2;
-                      Vector2 stringSize1 = font.MeasureString(playerScore.Item2.ToString()) * scale;
-                      spriteBatch.DrawString(
-                      font,
-                      playerScore.Item2.ToString(),
-                                new Vector2((float)gameWidth /2f - stringSize1.X / 2,
-                (float)gameHeight / 4f - stringSize1.Y),
-                                Color.White,
-                                0,
-                                Vector2.Zero,
-                                scale,
-                                SpriteEffects.None,
-                                0);
-*//*
-                }
-            }
-            // Render the high scores:
-            spriteBatch.DrawString(font, playerScoreText, new Vector2(panelRectangle.X + 50, panelRectangle.Y + 50), Color.White);
-
-*/
-
-            // Draw the top players leaderboard in the top right.
-            foreach (Tuple<string, int> score in m_gameModel.getScores())
-            {
-                // Render the top 5 in the top right of the screen.
-                if (totalDone == 5)
-                {
-                    break;
-                }
-                totalDone ++;
-                Vector2 stringSize1 = m_font.MeasureString((score.Item1+": "+ score.Item2.ToString())) * scale;
-                m_spriteBatch.DrawString(
-                          m_font,
-                          (score.Item1 + ": " + score.Item2.ToString()),
-                          new Vector2(m_graphics.PreferredBackBufferWidth * 0.75f - stringSize1.X / 2,
-           m_graphics.PreferredBackBufferHeight / 4f - stringSize1.Y + buffer),
-                          playerFuel > 0 ? Color.Green : Color.White,
-                          0,
-                          Vector2.Zero,
-                          scale,
-                          SpriteEffects.None,
-                          0);
-                buffer += stringSize1.Y;
-
-
-
-                
-            }
+       
+            
 
 
 
@@ -312,8 +230,7 @@ namespace Client
 
             Vector2 stringSize2 = m_font.MeasureString("Press ESC To Return To Main Menu") * scale1;
 
-           /* m_spriteBatch.Draw(whiteBackground, new Rectangle((int)(m_graphics.PreferredBackBufferWidth / 5 - stringSize2.X / 2),
-            (int)(m_graphics.PreferredBackBufferHeight / 10f - stringSize2.Y), (int)stringSize2.X, (int)stringSize2.Y), Color.White);*/
+       
 
             m_spriteBatch.DrawString(
                            m_font,
@@ -327,10 +244,7 @@ namespace Client
                            SpriteEffects.None,
                            0);
 
-            if (this.m_gameModel.isDead)
-            {
-                // Render button to rerturn to menu
-            }
+          
 
 
             m_spriteBatch.End();
@@ -379,39 +293,7 @@ namespace Client
 
       
 
-        private void saveHighScore(HighScoresState highScore)
-        {
-            lock (this)
-            {
-                finalizeSaveAsyncHighScores(highScore);
-            }
-        }
-
-        private async Task finalizeSaveAsyncHighScores(HighScoresState state)
-        {
-            await Task.Run(() =>
-            {
-                using (IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication())
-                {
-                    try
-                    {
-                        using (IsolatedStorageFileStream fs = storage.OpenFile("HighScores.json", FileMode.Open))
-                        {
-                            if (fs != null)
-                            {
-                                DataContractJsonSerializer mySerializer = new DataContractJsonSerializer(typeof(HighScoresState));
-                                mySerializer.WriteObject(fs, state);
-                            }
-                        }
-                    }
-                    catch (IsolatedStorageException)
-                    {
-                    }
-                }
-
-            });
-        }
-
+      
 
 
     }

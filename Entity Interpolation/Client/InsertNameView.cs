@@ -13,6 +13,7 @@ using Shared;
 using System.IO.IsolatedStorage;
 using System.IO;
 using System.Runtime.Serialization.Json;
+using Shared.Components;
 
 namespace Client
 {
@@ -406,25 +407,26 @@ namespace Client
         {
             m_spriteBatch.Begin();
             m_spriteBatch.Draw(backgroundImage, new Rectangle(0, 0, m_graphics.PreferredBackBufferWidth, m_graphics.PreferredBackBufferHeight), Color.Gray);
-            float bottom = drawMenuItem(m_fontMenu, "Insert Your Preferred Name", 100, Color.OrangeRed);
-           /* bottom = drawMenuItem(m_currentSelection == MenuState.Settings ? m_fontMenuSelect : m_fontMenu, "Settings", bottom, m_currentSelection == MenuState.Settings ? Color.White : Color.LightGray);
-
-            bottom = drawMenuItem(m_currentSelection == MenuState.Help ? m_fontMenuSelect : m_fontMenu, "Help", bottom, m_currentSelection == MenuState.Help ? Color.White : Color.LightGray);
-            bottom = drawMenuItem(m_currentSelection == MenuState.Resume ? m_fontMenuSelect : m_fontMenu, "Resume", bottom, m_currentSelection == MenuState.Resume ? Color.White : Color.LightGray);*/
+            float bottom = drawMenuItem(m_fontMenu, "Insert Your Preferred Name", 100, Color.Black);
             bottom = drawMenuItem(m_currentSelection == MenuState.Menu ? m_fontMenuSelect : m_fontMenu, "Main Menu", bottom, m_currentSelection == MenuState.Menu ? Color.White : Color.LightGray);
             bottom = drawMenuItem(m_currentSelection == MenuState.Controls ? m_fontMenuSelect : m_fontMenu, "Continue", bottom, m_currentSelection == MenuState.Controls ? Color.White : Color.LightGray);
+            m_spriteBatch.Draw(whiteImage, TextBox, isKeySelected ? Color.Red : Color.White);
+            bottom = drawMenuItem(m_currentSelection == MenuState.Name ? m_fontMenuSelect : m_fontMenu, playerName, bottom, Color.Black);
+            bottom=  drawMenuItem(m_fontMenu, "\n\nSelect the text box above", bottom, Color.Black);
+            bottom = drawMenuItem(m_fontMenu, " to insert name\n\n", bottom, Color.Black);
+            bottom = drawMenuItem(m_fontMenu, "Unselect text box with ESC", bottom, Color.Black);
+            bottom = drawMenuItem(m_fontMenu, "Press Continue when done", bottom, Color.Black);
 
-            drawMenuItem(m_currentSelection == MenuState.Name ? m_fontMenuSelect : m_fontMenu, playerName, bottom, Color.Black);
-            
+
+
             m_spriteBatch.End();
         }
 
 
         private float drawMenuItem(SpriteFont font, string text, float y, Color color)
         {
-            m_spriteBatch.Draw(whiteImage, TextBox, isKeySelected ? Color.Red : Color.White);
 
-            float scale = m_graphics.PreferredBackBufferWidth / 1920f;
+            float scale = m_graphics.PreferredBackBufferHeight / 1080f;
             Vector2 stringSize = font.MeasureString(text) * scale;
             m_spriteBatch.DrawString(
                            font,
@@ -455,7 +457,7 @@ namespace Client
                 TextBox = new Rectangle((int)m_graphics.PreferredBackBufferWidth / 2 - (int)stringSize.X / 2, (int)y, (int)stringSize.X, (int)stringSize.Y);
                 if (TextBox.Width == 0)
                 {
-                    TextBox = new Rectangle((int)m_graphics.PreferredBackBufferWidth / 2 - (int)stringSize.X / 2, (int)y, 10, 10);
+                    TextBox = new Rectangle((int)m_graphics.PreferredBackBufferWidth / 2 - (int)stringSize.X / 2, (int)y, 30, 30);
                 }
 
             }

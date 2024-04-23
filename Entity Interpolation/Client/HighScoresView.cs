@@ -117,12 +117,13 @@ namespace Client
                            SpriteEffects.None,
                            0);
             float bottom = drawMenuItem(m_fontMenu, "High Scores!", m_graphics.PreferredBackBufferHeight / 1080f * 100f, Color.Black);
-
-            foreach (var state in m_loadedState.getHighScores())
+            if (m_loadedState != null)
             {
-                bottom = drawMenuItem(m_fontMenu, state.Item1.ToString() + " --- " + state.Item2.ToString(), bottom + stringSize2.Y, Color.LightGray);
+                foreach (var state in m_loadedState.getHighScores())
+                {
+                    bottom = drawMenuItem(m_fontMenu, state.Item1.ToString() + " --- " + state.Item2.ToString(), bottom + stringSize2.Y, Color.Black);
+                }
             }
-            
             m_spriteBatch.End();
 
 
