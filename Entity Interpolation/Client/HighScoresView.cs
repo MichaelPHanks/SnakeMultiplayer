@@ -58,7 +58,7 @@ namespace Client
                 {
                     try
                     {
-                        if (storage.FileExists("KeyControls.json"))
+                        if (storage.FileExists("HighScores.json"))
                         {
                             using (IsolatedStorageFileStream fs = storage.OpenFile("HighScores.json", FileMode.Open))
                             {
