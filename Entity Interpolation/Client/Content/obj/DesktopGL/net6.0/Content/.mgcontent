@@ -29,8 +29,6 @@
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/smoke-2.png</File>
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/smoke.jpg</File>
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/spinning_banana.png</File>
-    <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/Textures/playerShip1_blue.png</File>
-    <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/Textures/playerShip1_red.png</File>
     <File>C:/Users/mhank/source/repos/SnakeMultiplayer/Entity Interpolation/Client/Content/whiteImage.png</File>
   </SourceFiles>
   <DestFiles>
@@ -39,8 +37,6 @@
     <File>Fonts/menu.spritefont</File>
     <File>Fonts/selectedVoiceActivatedFont.spritefont</File>
     <File>Fonts/voicActivatedFont.spritefont</File>
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

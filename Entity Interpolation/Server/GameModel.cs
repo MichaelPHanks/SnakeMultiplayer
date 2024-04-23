@@ -27,9 +27,6 @@ namespace Server
         private const int GameWorldHeight = 5000;
         TimeSpan updateClientClock = TimeSpan.FromSeconds(0.5);
 
-        private const int GameWorldViewPortWidth = 1920;
-        private const int GameWorldViewPortHeight = 1080;
-        //private List<Tuple<string, int>> m_scores = new List<Tuple<string, int>>();
 
         private Dictionary<string, int> m_scores = new Dictionary<string, int>();
 
